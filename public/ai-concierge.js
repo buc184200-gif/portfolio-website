@@ -478,7 +478,9 @@ const AICierge = (() => {
             if (!response.ok) throw new Error('Network error');
             const data = await response.json();
             
-            if (data.text) {
+            const text = data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : null;
+            if (text) {
+                data.text = text;
                 addMessage(data.text, 'agent');
                 chatHistory.push({ role: 'assistant', content: data.text });
             } else {
