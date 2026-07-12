@@ -10,7 +10,7 @@
 #ai-concierge-orb-wrapper {
     position: absolute;
     top: 0; left: 0;
-    width: 64px; height: 64px;
+    width: 72px; height: 72px;
     border-radius: 50%;
     background: rgba(10, 15, 10, 0.4);
     backdrop-filter: blur(12px);
@@ -48,15 +48,16 @@
 }
 
 #ai-concierge-orb {
-    width: 24px; height: 24px;
+    width: 44px; height: 44px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #fff, rgba(196, 168, 130, 0.8));
+    background: #c4a882; display: flex; align-items: center; justify-content: center;
     box-shadow: 0 0 20px rgba(196, 168, 130, 0.6), 0 0 40px rgba(196, 168, 130, 0.2);
     position: relative; overflow: hidden;
     will-change: transform;
 }
 
 #ai-concierge-orb::after {
+    z-index: 1;
     content: ''; position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: radial-gradient(circle at 70% 70%, rgba(0,0,0,0.5), transparent);
@@ -147,7 +148,10 @@
 
 @media (max-width: 768px) {
     #ai-chat-panel { width: calc(100vw - 40px); height: 450px; }
-    #ai-concierge-orb-wrapper { width: 50px; height: 50px; }
-    #ai-concierge-orb { width: 18px; height: 18px; }
+    #ai-concierge-orb-wrapper { width: 56px; height: 56px; }
+    #ai-concierge-orb { width: 36px; height: 36px; }
     #ai-suggestion { font-size: 0.75rem; padding: 8px 12px; }
 }
+
+
+#ai-concierge-orb svg { position: relative; z-index: 2; width: 50%; height: 50%; }
