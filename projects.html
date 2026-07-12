@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Web Design Portfolio & Case Studies — Crestiva Web Studio</title>
+    <meta name="description" content="View Crestiva Web Studio's showcase of modern, mobile-friendly, and high-converting website designs. See real case studies for coaching centers, clinics, gyms, and shops in India." />
+    <meta name="keywords" content="web design portfolio, local business website showcase, creative agency work, coaching institute website design, dental clinic layout template, gym transformation design portfolio" />
+    <meta name="author" content="Khsuwant Singh & Sarthak Sengar" />
+    <link rel="canonical" href="https://crestiva.in/projects" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://crestiva.in/projects" />
+    <meta property="og:title" content="Our Web Design Portfolio & Case Studies — Crestiva Web Studio" />
+    <meta property="og:description" content="See Crestiva Web Studio's premium web design portfolio. High-converting, lightning-fast digital solutions built for coaching centers, clinics, gyms, and local shops in India." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" />
+    <meta property="og:site_name" content="Crestiva Web Studio" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://crestiva.in/projects" />
+    <meta property="twitter:title" content="Our Web Design Portfolio & Case Studies — Crestiva Web Studio" />
+    <meta property="twitter:description" content="See Crestiva Web Studio's premium web design portfolio. High-converting, lightning-fast digital solutions built for coaching centers, clinics, gyms, and local shops in India." />
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://crestiva.in"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Portfolio",
+                "item": "https://crestiva.in/projects"
+            }
+        ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --c-bg: #030303;
+            --c-text: #e8e4de;
+            --c-text-dim: #7a756d;
+            --c-accent: #c4a882;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Space Grotesk', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none;
+        }
+
+        ::selection { background: var(--c-accent); color: #000; }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot, .cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-dot {
+            width: 6px; height: 6px;
+            background: var(--c-accent);
+            transition: width 0.3s, height 0.3s;
+        }
+        .cursor-ring {
+            width: 32px; height: 32px;
+            border: 1px solid rgba(196, 168, 130, 0.4);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+        
+        /* --- Navigation --- */
+        .desktop-nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 2.5rem 3.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; pointer-events: none; mix-blend-mode: difference;
+        }
+        .desktop-nav * { pointer-events: auto; }
+        .desktop-nav .brand {
+            color: var(--c-text); text-decoration: none; font-family: var(--font-serif);
+            font-size: 1.5rem; cursor: none;
+        }
+        .desktop-nav .nav-links {
+            display: flex; gap: 3rem;
+        }
+        .desktop-nav .nav-links a {
+            color: var(--c-text); text-decoration: none; font-family: var(--font-mono);
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            transition: color 0.3s; cursor: none;
+        }
+        .desktop-nav .nav-links a:hover { color: var(--c-accent); }
+
+        .mobile-nav { display: none; }
+        .mobile-menu { display: none; }
+
+        .contact-links {
+            display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .contact-email, .social-link {
+            padding: 1.2rem 2.5rem; border: 1px solid rgba(196,168,130,0.3); border-radius: 3rem;
+            color: var(--c-text); text-decoration: none; font-family: var(--font-mono); font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s ease; cursor: none;
+            min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .contact-email:hover, .social-link:hover {
+            border-color: var(--c-accent); color: var(--c-accent);
+        }
+
+        @media (max-width: 1024px) {
+            .desktop-nav { padding: 2rem; }
+            .desktop-nav .nav-links { gap: 2rem; }
+            .desktop-nav .nav-links a { font-size: 0.75rem; }
+            .work-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+            .stats-grid { gap: 2rem; }
+        }
+
+        @media (max-width: 767px) {
+            .desktop-nav { display: none; }
+            .nav-back { display: none; }
+            
+            .mobile-nav {
+                display: flex; position: fixed; top: 1rem; left: 1rem; right: 1rem;
+                background: rgba(10, 10, 10, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255,255,255,0.05); border-radius: 100px;
+                padding: 0.8rem 1.5rem; justify-content: space-between; align-items: center;
+                z-index: 101; pointer-events: auto;
+            }
+            .mobile-nav .brand-compact {
+                color: #fff; font-family: var(--font-serif); text-decoration: none; font-size: 1.2rem;
+            }
+            .hamburger {
+                width: 30px; height: 20px; position: relative; background: transparent; border: none; outline: none;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+            .hamburger span {
+                width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: 0.3s;
+            }
+            
+            .mobile-menu {
+                display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                background: rgba(3,3,3,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+                z-index: 100; flex-direction: column; justify-content: center; align-items: center;
+                opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            }
+            .mobile-menu.active { opacity: 1; pointer-events: auto; }
+            .mobile-menu-links { display: flex; flex-direction: column; gap: 2rem; text-align: center; }
+            .mobile-link {
+                color: #fff; font-family: var(--font-serif); font-size: 2rem; text-decoration: none;
+                transform: translateY(20px); opacity: 0; transition: all 0.4s ease;
+                min-height: 48px; display: flex; align-items: center; justify-content: center;
+            }
+            .mobile-menu.active .mobile-link { transform: translateY(0); opacity: 1; }
+            .mobile-menu.active .mobile-link:nth-child(1) { transition-delay: 0.1s; }
+            .mobile-menu.active .mobile-link:nth-child(2) { transition-delay: 0.2s; }
+            .mobile-menu.active .mobile-link:nth-child(3) { transition-delay: 0.3s; }
+            .mobile-menu.active .mobile-link:nth-child(4) { transition-delay: 0.4s; }
+            .mobile-menu.active .mobile-link:nth-child(5) { transition-delay: 0.5s; }
+
+            .hero { padding: 0 1rem; }
+            .hero-title { flex-direction: column; align-items: center; gap: 0.2rem; font-size: clamp(2.5rem, 10vw, 4rem); }
+            .hero-subtitle { font-size: clamp(0.9rem, 3vw, 1.1rem); margin-top: 1rem; text-align: center; }
+            
+            .section { padding: 6rem 1.5rem; }
+            .section-header h2 { font-size: clamp(2rem, 8vw, 2.5rem); }
+            .discovery-text { font-size: clamp(1.1rem, 5vw, 1.5rem); }
+            
+            .work-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .work-image-container { height: 65vw; max-height: 400px; }
+            .work-title { font-size: 1.5rem; }
+            
+            .stats-grid { flex-direction: column; gap: 3.5rem; }
+            .stat-item { width: 100%; }
+            .energy-ring { width: 130px; height: 130px; }
+            .stat-number { font-size: 3.5rem; }
+
+            .contact-links { flex-direction: column; gap: 1rem; width: 100%; }
+            .contact-email, .social-link, .cta-button { 
+                width: 100%; text-align: center; margin: 0; padding: 1.2rem; border-radius: 3rem;
+                font-size: 0.9rem; justify-content: center;
+            }
+            .cta-button { margin-top: 2rem; }
+        }
+        @media (max-width: 768px) { body { cursor: auto; } .cursor-dot, .cursor-ring { display: none; } }
+
+        /* --- Page Transition Overlay --- */
+        .page-transition {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            transform-origin: center;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.2s ease;
+        }
+
+        /* --- Background Canvas --- */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0; background: #000; pointer-events: none;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; z-index: 1; perspective: 1000px;
+            will-change: transform, opacity, filter;
+        }
+        .hero-title-container {
+            text-align: center; mix-blend-mode: screen;
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.05; letter-spacing: -0.02em;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 1vw;
+            color: #fff; font-family: var(--font-serif);
+        }
+        .char {
+            opacity: 0; transform: translateY(40px) scale(0.9) rotateX(-20deg);
+            display: inline-block; will-change: transform, opacity;
+        }
+        .hero-subtitle {
+            margin-top: 2rem; opacity: 0; transform: translateY(20px);
+            color: var(--c-text-dim); font-weight: 300; letter-spacing: 0.15em;
+            text-transform: uppercase; font-family: var(--font-mono); font-size: 0.85rem;
+        }
+
+        /* --- Content Layout --- */
+        .content-wrap {
+            position: relative; margin-top: 100vh; z-index: 10;
+            background: transparent;
+        }
+        /* Gradient top mask to smoothly blend sections over hero */
+        .content-wrap::before {
+            content: ''; position: absolute; top: -150px; left: 0; width: 100%; height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--c-bg)); pointer-events: none;
+        }
+
+        .section {
+            min-height: 100vh; padding: 8rem 2rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; background: var(--c-bg);
+        }
+
+        .section-content {
+            max-width: 1200px; width: 100%; position: relative; z-index: 1;
+        }
+
+        .section-header { text-align: center; margin-bottom: 6rem; }
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 4rem); font-family: var(--font-serif);
+            margin-top: 1rem; opacity: 0; transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .section-header .mono {
+            opacity: 0; transform: translateY(20px); display: inline-block;
+            transition: opacity 0.8s ease, transform 0.8s ease; font-family: var(--font-mono);
+            color: var(--c-accent); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+        }
+        .is-visible .section-header h2, .is-visible .section-header .mono {
+            opacity: 1; transform: translateY(0);
+        }
+
+        /* --- Section 1: Discovery --- */
+        .discovery-text {
+            font-size: clamp(1.2rem, 4vw, 2.5rem); color: var(--c-text-dim);
+            text-align: center; max-width: 800px; margin: 0 auto; line-height: 1.5;
+        }
+        .discovery-text span { color: #fff; }
+
+        /* --- Section 2: Creativity (Work) --- */
+        .work-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem;
+        }
+        .work-card {
+            position: relative; border-radius: 1rem; background: rgba(20, 20, 20, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05); padding: 1.5rem;
+            transform-style: preserve-3d; perspective: 1000px; opacity: 0; transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .is-visible .work-card { opacity: 1; transform: translateY(0); }
+        
+        .work-image-container {
+            width: 100%; height: 420px; border-radius: 0.5rem; overflow: hidden;
+            position: relative; background: #111;
+        }
+        .work-image {
+            width: 100%; height: 100%; object-fit: cover; transform: scale(1.1);
+            filter: grayscale(80%); transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.8s ease;
+        }
+        .work-mask {
+            position: absolute; inset: 0; background: var(--c-bg);
+            transform-origin: top; transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 2;
+        }
+        .work-card.revealed .work-mask { transform: scaleY(0); }
+        .work-card.revealed .work-image { transform: scale(1); }
+        
+        .work-card:hover .work-image { filter: grayscale(0%); transform: scale(1.05); }
+
+        .work-info { margin-top: 2rem; transform: translateZ(30px); pointer-events: none; }
+        .work-title { font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff; font-family: var(--font-serif); }
+        .work-category {
+            color: var(--c-accent); font-size: 0.8rem; font-family: var(--font-mono);
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+
+        .work-reflection {
+            position: absolute; inset: 0; background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.06) 25%, transparent 30%);
+            z-index: 10; pointer-events: none; opacity: 0; transition: opacity 0.3s; mix-blend-mode: overlay;
+        }
+
+        /* --- Section 3: Technology (Stats) --- */
+        .stats-grid { display: flex; justify-content: center; gap: clamp(3rem, 6vw, 8rem); flex-wrap: wrap; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; position: relative; }
+        
+        .energy-ring {
+            width: 180px; height: 180px; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -60%); border-radius: 50%;
+            border: 1px solid rgba(196, 168, 130, 0.08); pointer-events: none;
+        }
+        .energy-ring::before {
+            content: ''; position: absolute; inset: -2px; border-radius: 50%;
+            border: 2px solid transparent; border-top-color: var(--c-accent); opacity: 0;
+            transform: rotate(0deg); transition: opacity 0.5s ease;
+        }
+        .stat-item.counting .energy-ring::before { opacity: 1; animation: spinRing 1.5s linear infinite; }
+        .stat-item.done .energy-ring {
+            border-color: rgba(196, 168, 130, 0.3);
+            box-shadow: 0 0 40px rgba(196, 168, 130, 0.15); animation: pulseRing 2.5s ease-out infinite;
+        }
+        .stat-item.done .energy-ring::before { opacity: 0; }
+        
+        @keyframes spinRing { 100% { transform: rotate(360deg); } }
+        @keyframes pulseRing {
+            0% { box-shadow: 0 0 0 0 rgba(196, 168, 130, 0.3); }
+            70% { box-shadow: 0 0 0 30px rgba(196, 168, 130, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(196, 168, 130, 0); }
+        }
+
+        .stat-number { font-size: 5rem; font-family: var(--font-serif); color: #fff; margin-bottom: 1rem; position: relative; z-index: 2; }
+        .stat-label {
+            font-size: 0.9rem; color: var(--c-text-dim); text-transform: uppercase;
+            letter-spacing: 0.15em; font-family: var(--font-mono); position: relative; z-index: 2; text-align: center;
+        }
+
+        /* --- Section 4: Results --- */
+        .results-section { min-height: 80vh; text-align: center; }
+        .cta-button {
+            display: inline-block; margin-top: 4rem; padding: 1.5rem 4rem; border: 1px solid var(--c-accent);
+            border-radius: 3rem; color: var(--c-accent); text-decoration: none; font-size: 1.1rem;
+            letter-spacing: 0.1em; text-transform: uppercase; position: relative; overflow: hidden;
+            transition: color 0.4s ease; cursor: none;
+        }
+        .cta-button::before {
+            content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+            background: var(--c-accent); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: -1;
+        }
+        .cta-button:hover { color: #000; }
+        .cta-button:hover::before { transform: translateY(-100%); }
+
+        .nav-back {
+            position: fixed; top: 2.5rem; left: 3.5rem; color: var(--c-text); text-decoration: none;
+            font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em;
+            text-transform: uppercase; z-index: 100; mix-blend-mode: difference;
+            display: flex; align-items: center; gap: 1rem; cursor: none;
+        }
+        .nav-back::before { content: '←'; transition: transform 0.3s; }
+        .nav-back:hover::before { transform: translateX(-5px); }
+
+        @media (max-width: 768px) {
+            .nav-back, .cta-button { cursor: auto; }
+            .nav-back { top: 1.5rem; left: 1.5rem; }
+            .hero-title { font-size: 3rem; }
+            .section { padding: 6rem 1.5rem; }
+            .work-image-container { height: 320px; }
+            .stats-grid { gap: 4rem; }
+            .energy-ring { width: 140px; height: 140px; }
+            .stat-number { font-size: 4rem; }
+        }
+    
+/* --- Premium Auth Styles --- */
+.auth-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: auto;
+    margin-left: 16px;
+}
+
+.auth-btn {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-body, rgba(215, 230, 190, 0.7));
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    transform: skewX(-20deg);
+    transition: all 0.6s ease;
+}
+
+.auth-btn:hover {
+    color: #fff;
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(212, 175, 55, 0.05);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
+.auth-btn:hover::before { left: 150%; }
+
+.auth-btn.primary {
+    color: #000;
+    background: linear-gradient(135deg, #d4af37, #c5a059);
+    border: none;
+}
+.auth-btn.primary:hover {
+    color: #000;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    transform: translateY(-1px);
+}
+
+.profile-dropdown-wrapper {
+    position: relative;
+    display: none;
+    pointer-events: auto;
+    margin-left: 16px;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 40px;
+    padding: 4px 12px 4px 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+.profile-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4af37, #c5a059);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.profile-name {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.profile-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: rgba(10, 10, 10, 0.85);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.profile-dropdown-wrapper.active .profile-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.profile-menu a:hover {
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.05);
+    padding-left: 24px;
+}
+
+.auth-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.auth-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.auth-modal {
+    background: rgba(15, 15, 15, 0.9);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.auth-modal-overlay.active .auth-modal {
+    transform: translateY(0) scale(1);
+}
+
+.auth-modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: transparent; border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px; cursor: pointer;
+    transition: color 0.2s;
+}
+.auth-modal-close:hover { color: #fff; }
+
+.auth-modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #d4af37;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.auth-modal p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 24px;
+}
+
+.auth-form-group {
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.auth-form-group input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 16px;
+    border-radius: 6px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.auth-form-group input:focus {
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(212, 175, 55, 0.02);
+}
+
+.auth-form-group label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.auth-form-group input:focus + label,
+.auth-form-group input:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 12px;
+    font-size: 11px;
+    background: #0f0f0f;
+    padding: 0 4px;
+    color: #d4af37;
+}
+
+.auth-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.auth-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-checkbox input {
+    appearance: none;
+    width: 16px; height: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.auth-checkbox input:checked {
+    background: #d4af37;
+    border-color: #d4af37;
+}
+
+.auth-checkbox input:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.auth-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #d4af37, #c5a059);
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.auth-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.auth-switch span {
+    color: #d4af37;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.auth-switch span:hover { color: #fff; }
+
+.success-message {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 15, 15, 0.95);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    z-index: 10;
+}
+
+.success-message.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.success-icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid #d4af37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    font-size: 24px;
+    margin-bottom: 16px;
+    transform: scale(0.5);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-message.active .success-icon {
+    transform: scale(1);
+}
+
+
+@media (max-width: 768px) {
+    .nav-mobile-overlay .auth-container,
+    .mobile-nav .auth-container,
+    .nav-links .auth-container {
+        margin-left: 0;
+        justify-content: center;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .nav-mobile-overlay .profile-dropdown-wrapper,
+    .mobile-nav .profile-dropdown-wrapper,
+    .nav-links .profile-dropdown-wrapper {
+        margin-left: 0;
+        /* display flex handled by js */
+        justify-content: center;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .mobile-nav {
+        flex-wrap: wrap;
+    }
+    .mobile-nav .auth-container, .mobile-nav .profile-dropdown-wrapper {
+        order: 3;
+        flex-basis: 100%;
+    }
+}
+
+</style>
+</head>
+<body>
+
+    <div class="page-transition" id="transition-overlay"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    
+    <!-- Desktop Nav -->
+    <nav class="desktop-nav">
+        <a href="/" class="brand magnetic" data-magnetic-strength="10">Crestiva</a>
+        <div class="nav-links">
+            <a href="#discovery" class="magnetic" data-magnetic-strength="15">Discovery</a>
+            <a href="#creativity" class="magnetic" data-magnetic-strength="15">Work</a>
+            <a href="#technology" class="magnetic" data-magnetic-strength="15">Stats</a>
+            <a href="#results" class="magnetic" data-magnetic-strength="15">Contact</a>
+        </div>
+
+<div class="auth-container" id="authContainer">
+    <button class="auth-btn magnetic" data-magnetic-strength="10" onclick="openAuthModal('signin')">Sign In</button>
+    <button class="auth-btn primary magnetic" data-magnetic-strength="10" onclick="openAuthModal('signup')">Sign Up</button>
+</div>
+<div class="profile-dropdown-wrapper" id="profileDropdown">
+    <button class="profile-btn magnetic" data-magnetic-strength="10" onclick="toggleProfileMenu(event)">
+        <div class="profile-avatar" id="profileAvatar">C</div>
+        <span class="profile-name" id="profileName">User</span>
+    </button>
+    <div class="profile-menu">
+        <a href="#">Dashboard</a>
+        <a href="#">Saved Quotes</a>
+        <a href="#">Settings</a>
+        <a href="#" onclick="handleLogout(event)">Logout</a>
+    </div>
+</div>
+
+    </nav>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav">
+        <a href="/" class="brand-compact">Crestiva</a>
+        
+<div class="auth-container">
+    <button class="auth-btn magnetic" data-magnetic-strength="10" onclick="openAuthModal('signin')">Sign In</button>
+    <button class="auth-btn primary magnetic" data-magnetic-strength="10" onclick="openAuthModal('signup')">Sign Up</button>
+</div>
+<div class="profile-dropdown-wrapper">
+    <button class="profile-btn magnetic" data-magnetic-strength="10" onclick="toggleProfileMenu(event)">
+        <div class="profile-avatar">C</div>
+        <span class="profile-name">User</span>
+    </button>
+    <div class="profile-menu">
+        <a href="#">Dashboard</a>
+        <a href="#">Saved Quotes</a>
+        <a href="#">Settings</a>
+        <a href="#" onclick="handleLogout(event)">Logout</a>
+    </div>
+</div>
+
+        <button class="hamburger" id="mobile-menu-btn" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#discovery" class="mobile-link">Discovery</a>
+            <a href="#creativity" class="mobile-link">Work</a>
+            <a href="#technology" class="mobile-link">Stats</a>
+            <a href="#results" class="mobile-link">Contact</a>
+            <a href="/see-more" class="mobile-link back-link" style="font-family: var(--font-mono); font-size: 1rem; color: var(--c-accent); margin-top: 2rem;">← Return</a>
+        </div>
+    </div>
+
+
+    <section class="hero" id="hero">
+        <div class="hero-title-container">
+            <h1 class="hero-title" id="hero-title"></h1>
+            <div class="hero-subtitle mono">Awwwards Level Experience</div>
+        </div>
+    </section>
+
+    <div class="content-wrap">
+        
+        <section class="section" id="discovery">
+            <div class="section-content">
+                <div class="section-header">
+                    <span class="mono">01. Discovery</span>
+                    <h2>The Art of Observation</h2>
+                </div>
+                <p class="discovery-text">
+                    Every masterpiece begins with a profound understanding of the void. We do not just build websites; we craft <span>cinematic digital experiences</span> that leave a lasting imprint on the human mind.
+                </p>
+            </div>
+        </section>
+
+        <section class="section" id="creativity">
+            <div class="section-content">
+                <div class="section-header">
+                    <span class="mono">02. Creativity</span>
+                    <h2>Selected Works</h2>
+                </div>
+                
+                <div class="work-grid">
+                    <div class="work-card magnetic-card">
+                        <div class="work-reflection"></div>
+                        <div class="work-image-container">
+                            <div class="work-mask"></div>
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Abstract Art" class="work-image">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-title">Aethelgard</h3>
+                            <span class="work-category">Immersive E-Commerce</span>
+                        </div>
+                    </div>
+
+                    <div class="work-card magnetic-card" style="transition-delay: 0.2s;">
+                        <div class="work-reflection"></div>
+                        <div class="work-image-container">
+                            <div class="work-mask"></div>
+                            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" alt="Architecture" class="work-image">
+                        </div>
+                        <div class="work-info">
+                            <h3 class="work-title">Lumina</h3>
+                            <span class="work-category">Digital Architecture</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="technology">
+            <div class="section-content">
+                <div class="section-header">
+                    <span class="mono">03. Technology</span>
+                    <h2>Metrics of Impact</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item" data-target="99">
+                        <div class="energy-ring"></div>
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Performance</div>
+                    </div>
+                    <div class="stat-item" data-target="14">
+                        <div class="energy-ring"></div>
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Awards Won</div>
+                    </div>
+                    <div class="stat-item" data-target="100">
+                        <div class="energy-ring"></div>
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section results-section" id="results">
+            <div class="section-content">
+                <div class="section-header">
+                    <span class="mono">04. Results</span>
+                    <h2>The Final Form</h2>
+                </div>
+                <p class="discovery-text" style="font-size: 1.2rem; max-width: 600px;">
+                    Step into a new era of digital luxury. Let your brand become an experience.
+                </p>
+                <a href="https://wa.me/917037311050" target="_blank" class="cta-button magnetic" data-magnetic-strength="40">Start a Project</a>
+                <div class="contact-links">
+                    <a href="mailto:hello@crestiva.com" class="contact-email magnetic" data-magnetic-strength="20">hello@crestiva.com</a>
+                    <a href="https://www.instagram.com/crestiva_web_studio" target="_blank" class="social-link magnetic" data-magnetic-strength="20">Instagram</a>
+                    <a href="#" class="social-link magnetic" data-magnetic-strength="20">LinkedIn</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- 1. Custom Cursor & Magnetic Elements ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let dotX = mouseX, dotY = mouseY;
+        let ringX = mouseX, ringY = mouseY;
+
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        if (window.innerWidth > 768) {
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX; mouseY = e.clientY;
+            });
+
+            document.querySelectorAll('.magnetic, .magnetic-card').forEach(el => {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const strength = el.dataset.magneticStrength || 20;
+                    const x = e.clientX - rect.left - rect.width/2;
+                    const y = e.clientY - rect.top - rect.height/2;
+                    
+                    if (el.classList.contains('magnetic-card')) {
+                        cursorRing.style.width = '80px'; cursorRing.style.height = '80px';
+                        cursorRing.style.background = 'rgba(196, 168, 130, 0.1)';
+                    } else {
+                        el.style.transform = `translate(${x * (strength/100)}px, ${y * (strength/100)}px)`;
+                        cursorRing.style.width = '60px'; cursorRing.style.height = '60px';
+                        cursorRing.style.background = 'rgba(196, 168, 130, 0.1)';
+                    }
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (!el.classList.contains('magnetic-card')) {
+                        el.style.transform = `translate(0px, 0px)`;
+                    }
+                    cursorRing.style.width = '32px'; cursorRing.style.height = '32px';
+                    cursorRing.style.background = 'transparent';
+                });
+            });
+        }
+
+        
+        // --- Mobile Menu ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                const spans = mobileMenuBtn.querySelectorAll('span');
+                if (mobileMenu.classList.contains('active')) {
+                    spans[0].style.transform = 'translateY(9px) rotate(45deg)';
+                    spans[1].style.opacity = '0';
+                    spans[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+                } else {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            });
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuBtn.click();
+                });
+            });
+        }
+
+        // --- 2. Canvas Background ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        let width, height;
+        const stars = [];
+
+        
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            stars.length = 0;
+            const isMobile = window.innerWidth < 768;
+            const numStars = isMobile ? 15 : 50; // Reduce stars on mobile
+            for (let i = 0; i < numStars; i++) {
+
+                stars.push({
+                    x: Math.random() * width, y: Math.random() * height,
+                    radius: Math.random() * 1.2 + 0.5, alpha: Math.random(),
+                    speed: Math.random() * 0.2 + 0.05
+                });
+            }
+        }
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+
+        let time = 0;
+        let scrollY = 0;
+        let targetScrollY = 0;
+
+        window.addEventListener('scroll', () => { targetScrollY = window.scrollY; }, { passive: true });
+
+        function drawCanvas() {
+            time += 0.008;
+            scrollY = lerp(scrollY, targetScrollY, 0.08);
+
+            // Motion Blur background
+            ctx.fillStyle = 'rgba(3, 3, 3, 0.4)';
+            ctx.fillRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2 + scrollY * 0.15;
+
+            
+            // Vortex Rings
+            ctx.save();
+            ctx.translate(cx, cy);
+            const maxRadius = Math.max(width, height) * 0.8;
+            const isMobile = window.innerWidth < 768;
+            const numRings = isMobile ? 4 : 7; // Reduce rings on mobile
+            for (let i = 0; i < numRings; i++) {
+
+                const prog = (i / numRings + time * 0.15) % 1;
+                const r = prog * maxRadius;
+                
+                // Opacity pulses
+                const alpha = Math.sin(prog * Math.PI) * 0.2 * (1 - Math.min(scrollY / window.innerHeight, 0.8));
+                ctx.beginPath();
+                // Adding scrollY to rotation pulls it dynamically
+                ctx.ellipse(0, 0, r, r * 0.5, time * 0.3 + scrollY * 0.002, 0, Math.PI * 2);
+                
+                ctx.strokeStyle = `rgba(196, 168, 130, ${Math.max(0, alpha)})`;
+                ctx.lineWidth = 1 + prog * 4;
+                if (i % 2 === 0) ctx.setLineDash([15, 25]);
+                else ctx.setLineDash([]);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            // Stars
+            ctx.fillStyle = '#fff';
+            stars.forEach(star => {
+                star.y -= (star.speed + scrollY * 0.0003);
+                if (star.y < 0) { star.y = height; star.x = Math.random() * width; }
+                star.alpha += Math.sin(time * star.speed * 20) * 0.02;
+                star.alpha = Math.max(0.1, Math.min(0.6, star.alpha));
+                ctx.globalAlpha = star.alpha;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+        }
+
+        // --- 3. Main Loop (Hero Parallax + Cursor + Canvas) ---
+        const hero = document.getElementById('hero');
+        function animate() {
+            if (window.innerWidth > 768) {
+                dotX = lerp(dotX, mouseX, 0.2); dotY = lerp(dotY, mouseY, 0.2);
+                ringX = lerp(ringX, mouseX, 0.1); ringY = lerp(ringY, mouseY, 0.1);
+                cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
+                cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+            }
+
+            // Hero parallax (pulled into vortex)
+            if (scrollY < window.innerHeight * 1.5) {
+                const progress = scrollY / window.innerHeight;
+                const scale = Math.max(0.5, 1 - progress * 0.4);
+                const opacity = Math.max(0, 1 - progress * 1.5);
+                const blur = Math.min(10, progress * 15);
+                hero.style.transform = `scale(${scale}) translateZ(0)`;
+                hero.style.opacity = opacity;
+                hero.style.filter = `blur(${blur}px)`;
+            }
+
+            drawCanvas();
+            requestAnimationFrame(animate);
+        }
+
+        // --- 4. Entrance & Intersections ---
+        const titleText = "Crestiva Web Studio";
+        const titleContainer = document.getElementById('hero-title');
+        titleText.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            span.style.transitionDelay = `${0.6 + i * 0.06}s`;
+            span.style.transitionDuration = '1.2s';
+            titleContainer.appendChild(span);
+        });
+
+        window.addEventListener('load', () => {
+            requestAnimationFrame(animate);
+            const overlay = document.getElementById('transition-overlay');
+            overlay.style.transform = 'scale(0)';
+            overlay.style.opacity = '0';
+            
+            setTimeout(() => {
+                document.querySelectorAll('.char').forEach(c => {
+                    c.style.opacity = '1'; c.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+                });
+                const sub = document.querySelector('.hero-subtitle');
+                sub.style.opacity = '1'; sub.style.transform = 'translateY(0)';
+                sub.style.transition = 'opacity 1.2s ease 1.8s, transform 1.2s ease 1.8s';
+            }, 600);
+        });
+
+        const sectionObserver = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    
+                    if (entry.target.id === 'creativity') {
+                        entry.target.querySelectorAll('.work-card').forEach((card, i) => {
+                            setTimeout(() => card.classList.add('revealed'), 400 + i * 250);
+                        });
+                    }
+                    
+                    if (entry.target.id === 'technology') {
+                        entry.target.querySelectorAll('.stat-item').forEach((stat, i) => {
+                            setTimeout(() => startCounter(stat), i * 200);
+                        });
+                    }
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '0px', threshold: 0.15 });
+
+        document.querySelectorAll('.section').forEach(sec => sectionObserver.observe(sec));
+
+        function startCounter(el) {
+            el.classList.add('counting');
+            const target = parseInt(el.dataset.target);
+            const numEl = el.querySelector('.stat-number');
+            let current = 0; const duration = 2000, fps = 60;
+            const inc = target / (duration / (1000/fps));
+            
+            const timer = setInterval(() => {
+                current += inc;
+                if (current >= target) {
+                    current = target; clearInterval(timer);
+                    el.classList.remove('counting'); el.classList.add('done');
+                }
+                numEl.textContent = Math.floor(current) + (target === 100 ? '%' : '');
+            }, 1000/fps);
+        }
+
+        // 3D Magnetic Cards
+        if (window.innerWidth > 768) {
+            document.querySelectorAll('.magnetic-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                    const cx = rect.width / 2, cy = rect.height / 2;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${((y - cy)/cy)*-8}deg) rotateY(${((x - cx)/cx)*8}deg) scale3d(1.02, 1.02, 1.02)`;
+                    const ref = card.querySelector('.work-reflection');
+                    if(ref) {
+                        ref.style.opacity = '1';
+                        ref.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.12) 0%, transparent 60%)`;
+                    }
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    const ref = card.querySelector('.work-reflection');
+                    if(ref) ref.style.opacity = '0';
+                });
+            });
+        }
+    </script>
+
+    <!-- AI Concierge -->
+    <link rel="stylesheet" href="/ai-concierge.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/ai-concierge.js"></script>
+
+
+<div class="auth-modal-overlay" id="authModalOverlay" onclick="closeAuthModal(event)">
+    <div class="auth-modal" onclick="event.stopPropagation()">
+        <button class="auth-modal-close" onclick="closeAuthModal(event)">&times;</button>
+        <h2 id="authModalTitle">Sign In</h2>
+        <p id="authModalDesc">Enter your details to access your premium account.</p>
+        
+        <div id="authErrorMsg" style="color: #ff6b6b; background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.2); padding: 10px 12px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; display: none;"></div>
+        
+        <div id="authNameField" class="auth-form-group" style="display: none;">
+            <input type="text" id="authName" placeholder=" ">
+            <label for="authName">Full Name</label>
+        </div>
+        
+        <div class="auth-form-group" id="authEmailField">
+            <input type="email" id="authEmail" placeholder=" ">
+            <label for="authEmail">Email Address</label>
+        </div>
+        
+        <div class="auth-form-group" id="authPasswordField">
+            <input type="password" id="authPassword" placeholder=" ">
+            <label for="authPassword">Password</label>
+        </div>
+        
+        <div class="auth-options" id="authOptions">
+            <label class="auth-checkbox" id="authRememberWrapper">
+                <input type="checkbox" id="authRemember" checked>
+                Remember me
+            </label>
+            <a href="javascript:void(0)" onclick="switchAuthMode('forgot')" id="authForgotLink" style="color: rgba(255,255,255,0.5); font-size: 12px; text-decoration: none;">Forgot password?</a>
+        </div>
+        
+        <button class="auth-submit magnetic" data-magnetic-strength="5" onclick="handleAuthSubmit()">Continue</button>
+        
+        <div class="auth-switch" id="authSwitchText">
+            Don't have an account? <span onclick="switchAuthMode('signup')">Sign Up</span>
+        </div>
+        
+        <div class="success-message" id="authSuccessMessage">
+            <div class="success-icon">✓</div>
+            <h3 id="authSuccessTitle" style="font-family: 'Playfair Display', serif; color: #d4af37; font-weight: 400; font-size: 24px; margin-bottom: 8px;">Welcome Back</h3>
+            <p id="authSuccessDesc" style="color: rgba(255,255,255,0.6); font-size: 13px;">Authenticating your credentials...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentAuthMode = 'signin';
+let resetEmailContext = '';
+
+function getUsers() {
+    try {
+        return JSON.parse(localStorage.getItem('crestiva_users')) || {};
+    } catch(e) { return {}; }
+}
+
+function saveUsers(users) {
+    localStorage.setItem('crestiva_users', JSON.stringify(users));
+}
+
+function openAuthModal(mode) {
+    currentAuthMode = mode;
+    updateAuthModalUI();
+    document.getElementById('authModalOverlay').classList.add('active');
+}
+
+function closeAuthModal(e) {
+    if (e) {
+        e.preventDefault();
+        if (e.target.id === 'authModalOverlay' || e.target.classList.contains('auth-modal-close')) {
+            document.getElementById('authModalOverlay').classList.remove('active');
+        }
+    } else {
+        document.getElementById('authModalOverlay').classList.remove('active');
+    }
+}
+
+function switchAuthMode(mode) {
+    currentAuthMode = mode;
+    updateAuthModalUI();
+}
+
+function showError(msg) {
+    const errorEl = document.getElementById('authErrorMsg');
+    if (msg) {
+        errorEl.innerText = msg;
+        errorEl.style.display = 'block';
+    } else {
+        errorEl.style.display = 'none';
+    }
+}
+
+function updateAuthModalUI() {
+    showError('');
+    const title = document.getElementById('authModalTitle');
+    const desc = document.getElementById('authModalDesc');
+    const nameField = document.getElementById('authNameField');
+    const passwordField = document.getElementById('authPasswordField');
+    const options = document.getElementById('authOptions');
+    const switchText = document.getElementById('authSwitchText');
+    const nameInput = document.getElementById('authName');
+    const passInput = document.getElementById('authPassword');
+    const forgotLink = document.getElementById('authForgotLink');
+    const rememberWrapper = document.getElementById('authRememberWrapper');
+    
+    if (currentAuthMode === 'signup') {
+        title.innerText = 'Create Account';
+        desc.innerText = 'Join us to experience algorithmic elegance.';
+        nameField.style.display = 'block';
+        passwordField.style.display = 'block';
+        options.style.display = 'flex';
+        forgotLink.style.display = 'none';
+        rememberWrapper.style.display = 'flex';
+        switchText.style.display = 'block';
+        switchText.innerHTML = `Already have an account? <span onclick="switchAuthMode('signin')">Sign In</span>`;
+    } else if (currentAuthMode === 'signin') {
+        title.innerText = 'Sign In';
+        desc.innerText = 'Enter your details to access your premium account.';
+        nameField.style.display = 'none';
+        passwordField.style.display = 'block';
+        options.style.display = 'flex';
+        forgotLink.style.display = 'block';
+        rememberWrapper.style.display = 'flex';
+        switchText.style.display = 'block';
+        switchText.innerHTML = `Don't have an account? <span onclick="switchAuthMode('signup')">Sign Up</span>`;
+        nameInput.value = '';
+    } else if (currentAuthMode === 'forgot') {
+        title.innerText = 'Reset Password';
+        desc.innerText = 'Enter your email to reset your password.';
+        nameField.style.display = 'none';
+        passwordField.style.display = 'none';
+        options.style.display = 'none';
+        switchText.style.display = 'block';
+        switchText.innerHTML = `Remember your password? <span onclick="switchAuthMode('signin')">Sign In</span>`;
+    } else if (currentAuthMode === 'reset') {
+        title.innerText = 'New Password';
+        desc.innerText = 'Enter a new password for ' + resetEmailContext;
+        nameField.style.display = 'none';
+        passwordField.style.display = 'block';
+        options.style.display = 'none';
+        switchText.style.display = 'none';
+        passInput.value = '';
+    }
+}
+
+function handleAuthSubmit() {
+    showError('');
+    const name = document.getElementById('authName').value.trim();
+    const email = document.getElementById('authEmail').value.trim().toLowerCase();
+    const password = document.getElementById('authPassword').value;
+    
+    if (!email) return showError('Please enter your email address.');
+    const emailRegex = /^[^s@]+@[^s@]+.[^s@]+$/;
+    if (!emailRegex.test(email)) return showError('Please enter a valid email address.');
+    
+    const users = getUsers();
+    
+    if (currentAuthMode === 'signup') {
+        if (!name) return showError('Please enter your full name.');
+        if (!password) return showError('Please enter a password.');
+        if (password.length < 8) return showError('Password must be at least 8 characters long.');
+        if (users[email]) return showError('An account with this email already exists.');
+        
+        users[email] = { name, password };
+        saveUsers(users);
+        loginSuccess(email, name, 'Welcome!', 'Account created successfully.');
+        
+    } else if (currentAuthMode === 'signin') {
+        if (!password) return showError('Please enter your password.');
+        if (!users[email]) return showError('No account found with this email.');
+        if (users[email].password !== password) return showError('Incorrect password.');
+        
+        loginSuccess(email, users[email].name, 'Welcome Back', 'Authenticating your credentials...');
+        
+    } else if (currentAuthMode === 'forgot') {
+        if (!users[email]) return showError('No account found with this email.');
+        resetEmailContext = email;
+        switchAuthMode('reset');
+        
+    } else if (currentAuthMode === 'reset') {
+        if (!password) return showError('Please enter a new password.');
+        if (password.length < 8) return showError('Password must be at least 8 characters long.');
+        
+        users[resetEmailContext].password = password;
+        saveUsers(users);
+        loginSuccess(resetEmailContext, users[resetEmailContext].name, 'Password Updated', 'Your password has been reset successfully.');
+    }
+}
+
+function loginSuccess(email, name, titleMsg, descMsg) {
+    const successMsg = document.getElementById('authSuccessMessage');
+    document.getElementById('authSuccessTitle').innerText = titleMsg;
+    document.getElementById('authSuccessDesc').innerText = descMsg;
+    successMsg.classList.add('active');
+    
+    setTimeout(() => {
+        localStorage.setItem('crestiva_auth_state', 'loggedIn');
+        localStorage.setItem('crestiva_auth_email', email);
+        localStorage.setItem('crestiva_auth_name', name);
+        
+        successMsg.classList.remove('active');
+        closeAuthModal();
+        updateAuthState();
+    }, 1500);
+}
+
+function handleLogout(e) {
+    if(e) e.preventDefault();
+    localStorage.removeItem('crestiva_auth_state');
+    updateAuthState();
+}
+
+function toggleProfileMenu(e) {
+    e.stopPropagation();
+    e.currentTarget.closest('.profile-dropdown-wrapper').classList.toggle('active');
+}
+
+document.addEventListener('click', (e) => {
+    document.querySelectorAll('.profile-dropdown-wrapper.active').forEach(dropdown => {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+function updateAuthState() {
+    const isLoggedIn = localStorage.getItem('crestiva_auth_state') === 'loggedIn';
+    const userName = localStorage.getItem('crestiva_auth_name') || 'User';
+    
+    const authContainers = document.querySelectorAll('.auth-container');
+    const profileDropdowns = document.querySelectorAll('.profile-dropdown-wrapper');
+    
+    if (isLoggedIn) {
+        authContainers.forEach(c => c.style.display = 'none');
+        profileDropdowns.forEach(p => {
+            p.style.display = 'flex';
+            const nameEl = p.querySelector('.profile-name');
+            const avatarEl = p.querySelector('.profile-avatar');
+            if(nameEl) nameEl.innerText = userName;
+            if(avatarEl) avatarEl.innerText = userName.charAt(0).toUpperCase();
+        });
+    } else {
+        authContainers.forEach(c => c.style.display = 'flex');
+        profileDropdowns.forEach(p => p.style.display = 'none');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateAuthState();
+    
+    const magneticEls = document.querySelectorAll('.magnetic, .auth-btn, .profile-btn');
+    magneticEls.forEach(el => {
+        if (!el.classList.contains('magnetic')) el.classList.add('magnetic');
+        if (!el.getAttribute('data-magnetic-strength')) el.setAttribute('data-magnetic-strength', '10');
+        
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const strength = el.getAttribute('data-magnetic-strength') || 10;
+            const x = ((e.clientX - rect.left) / rect.width - 0.5) * strength;
+            const y = ((e.clientY - rect.top) / rect.height - 0.5) * strength;
+            el.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = `translate(0px, 0px)`;
+        });
+    });
+});
+</script>
+
+
+</body>
+
+</html>

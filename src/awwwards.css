@@ -1,0 +1,165 @@
+/* Awwwards Level Enhancements */
+
+/* 1. Advanced Cursor System */
+body {
+    cursor: none !important;
+}
+
+#custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--c-highlight, #c4a882);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    will-change: transform, width, height, background-color;
+}
+
+#custom-cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(196, 168, 130, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999998;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, background-color 0.3s;
+    will-change: transform, width, height, border-color;
+}
+
+.cursor-hover #custom-cursor {
+    width: 5px;
+    height: 5px;
+}
+
+.cursor-hover #custom-cursor-follower {
+    width: 70px;
+    height: 70px;
+    border-color: rgba(196, 168, 130, 0.8);
+    background-color: rgba(196, 168, 130, 0.1);
+    backdrop-filter: blur(2px);
+}
+
+.cursor-hide #custom-cursor,
+.cursor-hide #custom-cursor-follower {
+    opacity: 0;
+}
+
+/* 2. Cinematic Page Loader */
+#page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #050505;
+    z-index: 9999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.loader-logo {
+    font-size: 4rem;
+    font-family: var(--font-display, serif);
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(196, 168, 130, 0.3);
+    position: relative;
+    letter-spacing: 0.2em;
+    font-weight: 300;
+}
+
+.loader-logo::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0%;
+    height: 100%;
+    color: var(--c-highlight, #c4a882);
+    -webkit-text-stroke: 0px;
+    overflow: hidden;
+    animation: loaderFill 2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes loaderFill {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+.loader-progress {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+.loader-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--c-highlight, #c4a882);
+    box-shadow: 0 0 10px rgba(196, 168, 130, 0.5);
+    transition: width 0.1s linear;
+}
+
+/* 5. Depth & Atmosphere */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0.04;
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+.ambient-glow {
+    position: fixed;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(196, 168, 130, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    transition: width 2s, height 2s;
+    mix-blend-mode: screen;
+}
+
+/* Ensure content stays above ambient glow */
+body > section, body > header, body > footer, body > div.content-wrap {
+    position: relative;
+    z-index: 10;
+}
+
+/* Premium Button Interactions */
+button, .btn, .nav-links a, .hero-cta, a {
+    position: relative;
+    overflow: hidden;
+}
+
+/* 7. Text Animations GSAP prep */
+.split-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px) rotateX(-45deg);
+    transform-origin: bottom center;
+}
+.split-word {
+    display: inline-block;
+    overflow: visible;
+}

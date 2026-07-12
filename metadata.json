@@ -1,0 +1,6 @@
+{
+  "name": "Crestiva Web Studio",
+  "description": "Modern websites for local businesses that want more calls, WhatsApp enquiries, and customers. Fast, mobile-first, SEO-ready web design studio with interactive AI planning tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
