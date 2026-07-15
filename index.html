@@ -976,20 +976,7 @@
 			50% { opacity: 1; transform: scale(1.1); }
 		}
 
-		.page-transition-overlay {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			width: 10px;
-			height: 10px;
-			background: #c4a882;
-			border-radius: 50%;
-			transform: translate(-50%, -50%) scale(0);
-			z-index: 9999;
-			pointer-events: none;
-			will-change: transform;
-		}
-	
+
 		/* Instagram Pop Animation */
 		.instagram-pop {
 			display: inline-flex;
@@ -1667,9 +1654,9 @@
 
 </head>
 
-<body>
+<body class="cinematic-entrance">
 	<div class="progress-bar" id="progressBar"></div>
-	<div class="page-transition-overlay" id="pageTransitionOverlay"></div>
+	<div class="page-transition-overlay" id="pageTransitionOverlay" style="display: none;"></div>
 	
 	<a href="/see-more.html" class="floating-cta-btn" id="floatingCta">
 		<span class="cta-text">See More</span>
@@ -3270,19 +3257,7 @@
 				});
 			}
 
-			floatingCta.addEventListener('click', (e) => {
-				e.preventDefault();
-				const href = floatingCta.getAttribute('href');
-				const overlay = document.getElementById('pageTransitionOverlay');
-				
-				gsap.to('#scroll-container', { scale: 0.9, opacity: 0, duration: 1.2, ease: "power3.inOut" });
-				gsap.to('.site-footer', { scale: 0.9, opacity: 0, duration: 1.2, ease: "power3.inOut" });
-				gsap.to(floatingCta, { scale: 3, opacity: 0, duration: 0.6, ease: "power2.in" });
-				
-				gsap.to(overlay, { scale: 300, duration: 1.2, ease: "power3.inOut", onComplete: () => {
-					window.location.href = href;
-				}});
-			});
+
 		}
 
 		// ─── Build settings now that cameraPath is defined ─────────────────

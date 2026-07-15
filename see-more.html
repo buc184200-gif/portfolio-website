@@ -899,20 +899,25 @@
 
         .plan-price {
             font-family: var(--font-sans);
-            font-size: 3rem;
+            font-size: clamp(1.8rem, 2.5vw, 3rem);
             font-weight: 400;
             color: var(--c-highlight);
             margin-bottom: 0.5rem;
             display: flex;
             align-items: baseline;
-            gap: 1rem;
+            justify-content: center;
+            gap: 0.5rem 1rem;
+            flex-wrap: wrap;
+            text-align: center;
+            width: 100%;
         }
 
         .plan-price-old {
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 1.3vw, 1.4rem);
             color: var(--c-text-dim);
             text-decoration: line-through;
             font-weight: 300;
+            white-space: nowrap;
         }
 
         .plan-desc {
@@ -2390,7 +2395,7 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
-<body>
+<body class="cinematic-entrance">
     <div class="ambient-light light-1"></div>
     <div class="ambient-light light-2"></div>
     <div class="ambient-light light-3"></div>

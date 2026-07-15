@@ -8,6 +8,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inject HTML elements
     const body = document.body;
     
+    // Premium Cinematic Page Entrance Animation
+    if (typeof gsap !== 'undefined') {
+        gsap.to(body, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.45,
+            ease: "power3.out",
+            clearProps: "transform,opacity,transform-origin,will-change",
+            onComplete: () => {
+                body.classList.remove('cinematic-entrance');
+            }
+        });
+    } else {
+        body.style.opacity = '1';
+        body.style.transform = 'scale(1)';
+        body.classList.remove('cinematic-entrance');
+    }
+    
     // Noise Overlay
     const noise = document.createElement('div');
     noise.className = 'noise-overlay';
@@ -25,15 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     follower.id = 'custom-cursor-follower';
     body.appendChild(cursor);
     body.appendChild(follower);
-
-    // Loader
-    const loader = document.createElement('div');
-    loader.id = 'page-loader';
-    loader.innerHTML = `
-        <div class="loader-logo" data-text="CRESTIVA">CRESTIVA</div>
-        <div class="loader-progress"><div class="loader-progress-bar" id="loader-bar"></div></div>
-    `;
-    body.appendChild(loader);
 
     // 1. Advanced Cursor System & Ambient Glow
     let mouseX = window.innerWidth / 2;
@@ -105,29 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Cinematic Page Loader (Fake Progress)
-    let progress = 0;
-    const bar = document.getElementById('loader-bar');
-    const interval = setInterval(() => {
-        progress += Math.random() * 15;
-        if (progress > 100) progress = 100;
-        bar.style.width = progress + '%';
-        if (progress === 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                gsap.to(loader, {
-                    yPercent: -100,
-                    duration: 1.2,
-                    ease: "power4.inOut",
-                    onComplete: () => loader.remove()
-                });
-                
-                // Trigger intro animations
-                gsap.to('body', { opacity: 1, duration: 0.5 });
-                initScrollAnimations();
-            }, 500);
-        }
-    }, 150);
+    // Trigger intro animations immediately
+    initScrollAnimations();
 
     // 3. Lenis Smooth Scroll Setup
     if (typeof Lenis !== 'undefined') {
