@@ -554,7 +554,7 @@ if (document.readyState === 'loading') {
 } else {
     AICierge.init();
 }
-\`;
+`;
 
 fs.writeFileSync('public/ai-concierge.css', css);
 fs.writeFileSync('public/ai-concierge.js', js);

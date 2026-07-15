@@ -1,5 +1,10 @@
 // Wait for DOM
 document.addEventListener('DOMContentLoaded', () => {
+    // Register GSAP ScrollTrigger if available
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+
     // Inject HTML elements
     const body = document.body;
     

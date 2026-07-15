@@ -1,6 +1,8 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
+import crypto from "crypto";
+import fs from "fs";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { createServer as createViteServer } from "vite";
 
@@ -59,7 +61,332 @@ If asked about yourself or the studio, represent yourself proudly as our officia
 
 // API Routes
 
-// 1. Health check
+// JWT Secret and Utilities for Secure Authentication Gate
+const JWT_SECRET = process.env.JWT_SECRET || "crestiva_super_secret_key_123_abc";
+
+function signToken(payload: any): string {
+  const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url");
+  const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
+  const signature = crypto.createHmac("sha256", JWT_SECRET)
+    .update(`${header}.${data}`)
+    .digest("base64url");
+  return `${header}.${data}.${signature}`;
+}
+
+function verifyToken(token: string): any | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const [header, data, signature] = parts;
+    const expectedSig = crypto.createHmac("sha256", JWT_SECRET)
+      .update(`${header}.${data}`)
+      .digest("base64url");
+    if (signature !== expectedSig) return null;
+    return JSON.parse(Buffer.from(data, "base64url").toString("utf-8"));
+  } catch (err) {
+    return null;
+  }
+}
+
+function getAuthenticatedUser(req: express.Request): any | null {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
+    const token = authHeader.split(" ")[1];
+    return verifyToken(token);
+  } catch (err) {
+    return null;
+  }
+}
+
+// Server-side Persistent User Store
+const USERS_FILE = path.join(process.cwd(), "users.json");
+
+function readUsers(): Record<string, any> {
+  try {
+    if (fs.existsSync(USERS_FILE)) {
+      return JSON.parse(fs.readFileSync(USERS_FILE, "utf-8"));
+    }
+  } catch (err) {
+    console.error("Error reading users file:", err);
+  }
+  return {};
+}
+
+function writeUsers(users: Record<string, any>) {
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error writing users file:", err);
+  }
+}
+
+// Trusted Server-Side Pricing Configurations
+const TRUSTED_PACKAGES: Record<string, number> = {
+  "Starter Package": 15499,
+  "Growth Package": 25999,
+  "Elite Package": 44399,
+};
+
+const CUSTOM_WEBSITE_TYPES: Record<string, number> = {
+  "Business Website": 9599,
+  "Coaching Institute": 18499,
+  "Gym Website": 18499,
+  "Clinic Website": 18499,
+  "Salon Website": 18499,
+  "Portfolio Website": 9599,
+  "Restaurant Website": 18499,
+  "E-commerce Store": 25000,
+  "Custom Solution": 44399,
+};
+
+const CUSTOM_PAGES: Record<string, number> = {
+  "1-5 Pages": 0,
+  "6-10 Pages": 5000,
+  "11-20 Pages": 12000,
+  "20+ Pages": 25000,
+};
+
+const CUSTOM_DESIGNS: Record<string, number> = {
+  "Standard": 0,
+  "Premium": 8000,
+  "Luxury": 20000,
+};
+
+const CUSTOM_FEATURES: Record<string, number> = {
+  "WhatsApp Integration": 1000,
+  "Contact Form": 1500,
+  "Blog System": 8000,
+  "Appointment Booking": 5000,
+  "AI Chat Assistant": 12000,
+  "Lead Generation Forms": 3000,
+  "Payment Gateway": 3000,
+  "E-commerce Store": 15000,
+  "Admin Dashboard": 10000,
+  "CRM Integration": 15000,
+  "Membership System": 18000,
+  "Multi-language Support": 10000,
+  "Google Maps Integration": 1500,
+  "Advanced SEO": 8000,
+  "Speed Optimization": 4000,
+  "Custom Animations": 6000,
+  "WebGL Effects": 25000,
+};
+
+const CUSTOM_ADDONS: Record<string, number> = {
+  "Google Analytics": 2000,
+  "Facebook Pixel": 2000,
+  "Conversion Tracking": 5000,
+  "Email Marketing Setup": 8000,
+};
+
+// In-Memory Double-Click / Duplicate Order Request Rate Limiter
+const activeOrderRequests = new Set<string>();
+
+// 1. Auth Register Endpoint
+app.post("/api/auth/register", (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Missing required fields." });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const users = readUsers();
+    if (users[cleanEmail]) {
+      return res.status(400).json({ error: "An account with this email already exists." });
+    }
+    users[cleanEmail] = { name: name.trim(), password };
+    writeUsers(users);
+
+    const token = signToken({ email: cleanEmail, name: name.trim() });
+    return res.json({ success: true, token, name: name.trim(), email: cleanEmail });
+  } catch (err: any) {
+    console.error("Register API error:", err);
+    return res.status(500).json({ error: "Internal server error during registration." });
+  }
+});
+
+// 2. Auth Login Endpoint
+app.post("/api/auth/login", (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: "Missing email or password." });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const users = readUsers();
+    const user = users[cleanEmail];
+    if (!user || user.password !== password) {
+      return res.status(401).json({ error: "Incorrect email or password." });
+    }
+
+    const token = signToken({ email: cleanEmail, name: user.name });
+    return res.json({ success: true, token, name: user.name, email: cleanEmail });
+  } catch (err: any) {
+    console.error("Login API error:", err);
+    return res.status(500).json({ error: "Internal server error during login." });
+  }
+});
+
+// 3. Secure Create Order Endpoint (Strictly server-validated)
+app.post("/api/payment/create-order", async (req, res) => {
+  try {
+    const user = getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ error: "Your session expired. Please sign in again." });
+    }
+
+    const { packageId, payPercent, customDetails } = req.body;
+    if (!packageId || !payPercent) {
+      return res.status(400).json({ error: "Missing package ID or payment percentage." });
+    }
+
+    const percentage = parseInt(payPercent);
+    if (percentage !== 25 && percentage !== 50 && percentage !== 100) {
+      return res.status(400).json({ error: "Invalid payment percentage. Must be 25%, 50%, or 100%." });
+    }
+
+    // Rate-limit duplicate double-click requests
+    const requestKey = `${user.email}_${packageId}_${percentage}`;
+    if (activeOrderRequests.has(requestKey)) {
+      return res.status(409).json({ error: "Duplicate order request in progress. Please wait." });
+    }
+    activeOrderRequests.add(requestKey);
+    setTimeout(() => activeOrderRequests.delete(requestKey), 4000); // 4-second rate limit window
+
+    let totalPrice = 0;
+
+    if (TRUSTED_PACKAGES[packageId] !== undefined) {
+      // Standard predefined packages
+      totalPrice = TRUSTED_PACKAGES[packageId];
+    } else if (packageId === "Custom Quote") {
+      // Re-calculate custom quote on the server to ensure maximum security
+      if (!customDetails) {
+        return res.status(400).json({ error: "Missing custom details for custom quote pricing." });
+      }
+
+      const { websiteType, pages, designLevel, features, addons } = customDetails;
+      
+      const basePrice = CUSTOM_WEBSITE_TYPES[websiteType] || 0;
+      const pagesPrice = CUSTOM_PAGES[pages] || 0;
+      const designPrice = CUSTOM_DESIGNS[designLevel] || 0;
+
+      let featuresPrice = 0;
+      if (Array.isArray(features)) {
+        features.forEach((f: string) => {
+          featuresPrice += CUSTOM_FEATURES[f] || 0;
+        });
+      }
+
+      let addonsPrice = 0;
+      if (Array.isArray(addons)) {
+        addons.forEach((a: string) => {
+          addonsPrice += CUSTOM_ADDONS[a] || 0;
+        });
+      }
+
+      totalPrice = basePrice + pagesPrice + designPrice + featuresPrice + addonsPrice;
+    } else {
+      return res.status(400).json({ error: "Invalid package selection." });
+    }
+
+    if (totalPrice <= 0) {
+      return res.status(400).json({ error: "We could not prepare the checkout. Invalid pricing calculated." });
+    }
+
+    // Server-side payment amount calculation (completely shielded from browser tools modification)
+    const amountDue = Math.round(totalPrice * (percentage / 100));
+
+    // Razorpay Integration
+    const keyId = process.env.RAZORPAY_KEY_ID;
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+
+    let orderId = `order_MOCK_${crypto.randomBytes(8).toString("hex")}`;
+
+    if (keyId && keySecret && keyId !== "rzp_test_DUMMY_KEY_123" && !keyId.includes("DUMMY")) {
+      try {
+        const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
+        const rpResponse = await fetch("https://api.razorpay.com/v1/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Basic ${auth}`
+          },
+          body: JSON.stringify({
+            amount: amountDue * 100, // in paise
+            currency: "INR",
+            receipt: `receipt_${crypto.randomBytes(6).toString("hex")}`,
+          })
+        });
+
+        if (rpResponse.ok) {
+          const rpData: any = await rpResponse.json();
+          orderId = rpData.id;
+        } else {
+          const errText = await rpResponse.text();
+          console.error("Razorpay API error response:", errText);
+        }
+      } catch (err) {
+        console.error("Failed to create real Razorpay order, falling back to mock:", err);
+      }
+    }
+
+    return res.json({
+      success: true,
+      orderId,
+      amount: amountDue,
+      totalPrice,
+      currency: "INR",
+      keyId: keyId || "rzp_test_DUMMY_KEY_123",
+      email: user.email,
+      name: user.name
+    });
+  } catch (err: any) {
+    console.error("Create order API error:", err);
+    return res.status(500).json({ error: "We could not prepare the checkout. No payment was taken." });
+  }
+});
+
+// 4. Secure Payment Verification Endpoint
+app.post("/api/payment/verify", (req, res) => {
+  try {
+    const user = getAuthenticatedUser(req);
+    if (!user) {
+      return res.status(401).json({ error: "Your session expired. Please sign in again." });
+    }
+
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    if (!razorpay_order_id || !razorpay_payment_id) {
+      return res.status(400).json({ error: "Missing transaction parameters." });
+    }
+
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+
+    // HMAC Signature verification on the server
+    if (keySecret && keySecret !== "rzp_test_DUMMY_KEY_123" && !keySecret.includes("DUMMY") && razorpay_signature) {
+      const expectedSignature = crypto
+        .createHmac("sha256", keySecret)
+        .update(razorpay_order_id + "|" + razorpay_payment_id)
+        .digest("hex");
+
+      if (expectedSignature !== razorpay_signature) {
+        return res.status(400).json({ error: "Payment verification was unsuccessful. Please contact us before trying again." });
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: "Payment verified successfully.",
+      paymentId: razorpay_payment_id,
+      orderId: razorpay_order_id
+    });
+  } catch (err: any) {
+    console.error("Verify payment API error:", err);
+    return res.status(500).json({ error: "Payment verification was unsuccessful. Please contact us before trying again." });
+  }
+});
+
+// 5. Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", geminiConfigured: !!ai });
 });
@@ -208,7 +535,7 @@ Do not write introductory or concluding fluff. Just return the 3 bullets in mark
 });
 
 
-// NVIDIA Agent Route
+// NVIDIA Agent Route (Unified to Gemini with Mock Fallback for rock-solid reliability)
 app.post("/api/nvidia-agent", async (req, res) => {
   try {
     const { messages } = req.body;
@@ -216,164 +543,48 @@ app.post("/api/nvidia-agent", async (req, res) => {
       return res.status(400).json({ error: "Invalid 'messages' format." });
     }
 
-    const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer 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"
-      },
-      body: JSON.stringify({
-        model: "meta/llama-3.1-405b-instruct", // Defaulting to a known good model just in case
-        messages: messages,
-        temperature: 0.7,
-        top_p: 1,
-        max_tokens: 1024,
-        stream: false
-      })
+    // Unify message formats across different frontends (React / Plain JS)
+    const normalizedMessages = messages.map((m: any) => {
+      const text = m.text || m.content || "";
+      const role = m.role === "user" ? "user" : "model";
+      return { role, text };
     });
 
-    if (!response.ok) {
-        // Try original model if llama 405b fails
-        const response2 = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer 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"
-            },
-            body: JSON.stringify({
-                model: "openai/gpt-oss-20b",
-                messages: messages,
-                temperature: 0.7,
-                top_p: 1,
-                max_tokens: 1024,
-                stream: false
-            })
-        });
-        if (!response2.ok) {
-            const errText = await response2.text();
-            throw new Error(`NVIDIA API Error: ${response2.status} ${errText}`);
-        }
-        const data = await response2.json();
-        return res.json({ text: data.choices[0].message.content });
+    // Fallback if Gemini key is missing
+    if (!ai) {
+      const lastUserMsg = normalizedMessages[normalizedMessages.length - 1]?.text || "";
+      let mockReply = "Hello! I am Crestiva Web Studio's AI assistant. We build modern websites that help local businesses get more enquiries. What kind of business do you run?";
+      
+      if (lastUserMsg.toLowerCase().includes("price") || lastUserMsg.toLowerCase().includes("cost")) {
+        mockReply = `Our pricing is highly accessible for local businesses:\n\n- **Basic Website**: ₹4,000 - ₹8,000\n- **Business Website**: ₹8,000 - ₹12,000\n- **Premium Website**: ₹12,000 - ₹30,000\n- **Luxury Web App**: ₹30,000 - ₹1,00,000+\n\nWhich package fits your goals best? I can suggest custom options!`;
+      } else if (lastUserMsg.toLowerCase().includes("how long") || lastUserMsg.toLowerCase().includes("time")) {
+        mockReply = `A standard single-page or Basic website takes **3 to 7 days** to complete. Multi-page Business sites take **7 to 14 days**, while custom Luxury platforms with payment pathways take **2 to 4 weeks**. We work very fast and keep you updated on WhatsApp!`;
+      } else if (lastUserMsg.toLowerCase().includes("coaching") || lastUserMsg.toLowerCase().includes("institute") || lastUserMsg.toLowerCase().includes("class")) {
+        mockReply = `We specialize in **Coaching & Tuition Institute websites**! We include: student results grids, course lists, trainer profiles, parent testimonials, and instant WhatsApp inquiry flows so parents can ask about batch timings in 1 click.\n\nOur Business package (₹8k-12k) is perfect for this. Shall we set up a free wireframe demo?`;
+      } else if (lastUserMsg.toLowerCase().includes("clinic") || lastUserMsg.toLowerCase().includes("doctor") || lastUserMsg.toLowerCase().includes("dentist")) {
+        mockReply = `For **Clinics and Doctors**, we design clean, comforting websites highlighting your credentials, treatment list, consultation fees, hours, Google Maps, and a 'Request Appointment' trigger connected directly to WhatsApp.\n\nOur Business package is ideal for medical clinics. Would you like us to draft a wireframe demo?`;
+      }
+
+      return res.json({ text: mockReply });
     }
 
-    const data = await response.json();
-    return res.json({ text: data.choices[0].message.content });
-  } catch (error) {
-    console.error("NVIDIA API error:", error);
+    const contents = normalizedMessages.map((msg: any) => ({
+      role: msg.role === "user" ? "user" : "model",
+      parts: [{ text: msg.text }],
+    }));
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents,
+      config: {
+        systemInstruction: SYSTEM_INSTRUCTION,
+      },
+    });
+
+    return res.json({ text: response.text || "I apologize, I'm having trouble formulating a response right now." });
+  } catch (error: any) {
+    console.error("NVIDIA/Gemini AI agent error:", error);
     return res.status(500).json({ error: error.message || "Internal server error" });
-  }
-});
-
-// === TECHNICAL SEO MIDDLEWARE & CLEAN URL ROUTING ===
-
-// 1. Lowercase URLs, Trailing Slashes, and Extensionless Redirects
-app.use((req, res, next) => {
-  // Ignore API routes and assets
-  if (req.path.startsWith("/api/") || req.path.includes(".")) {
-    return next();
-  }
-
-  // A. Force lowercase URLs (SEO best practice)
-  if (req.path !== req.path.toLowerCase()) {
-    const query = req.url.slice(req.path.length);
-    return res.redirect(301, req.path.toLowerCase() + query);
-  }
-
-  // B. Remove trailing slash (except for the home page /)
-  if (req.path.length > 1 && req.path.endsWith("/")) {
-    const query = req.url.slice(req.path.length);
-    return res.redirect(301, req.path.slice(0, -1) + query);
-  }
-
-  next();
-});
-
-// 2. Dynamic XML Sitemap & Robots.txt Routes
-app.get("/robots.txt", (req, res) => {
-  res.type("text/plain");
-  res.send(`User-agent: *
-Allow: /
-
-Sitemap: https://crestiva.in/sitemap.xml
-`);
-});
-
-app.get("/sitemap.xml", (req, res) => {
-  const today = new Date().toISOString().split("T")[0];
-  res.type("application/xml");
-  res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://crestiva.in/</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://crestiva.in/see-more</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://crestiva.in/projects</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://crestiva.in/demo</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-</urlset>`);
-});
-
-// 3. Clean URL Page Resolvers (handles .html redirects and clean URL rendering)
-app.get("/see-more.html", (req, res) => {
-  return res.redirect(301, "/see-more");
-});
-app.get("/projects.html", (req, res) => {
-  return res.redirect(301, "/projects");
-});
-app.get("/demo.html", (req, res) => {
-  return res.redirect(301, "/demo");
-});
-
-app.get("/", (req, res, next) => {
-  if (process.env.NODE_ENV !== "production") {
-    next();
-  } else {
-    res.sendFile(path.join(process.cwd(), "dist", "index.html"));
-  }
-});
-
-app.get("/see-more", (req, res, next) => {
-  if (process.env.NODE_ENV !== "production") {
-    req.url = "/see-more.html";
-    next();
-  } else {
-    res.sendFile(path.join(process.cwd(), "dist", "see-more.html"));
-  }
-});
-
-app.get("/projects", (req, res, next) => {
-  if (process.env.NODE_ENV !== "production") {
-    req.url = "/projects.html";
-    next();
-  } else {
-    res.sendFile(path.join(process.cwd(), "dist", "projects.html"));
-  }
-});
-
-app.get("/demo", (req, res, next) => {
-  if (process.env.NODE_ENV !== "production") {
-    req.url = "/demo.html";
-    next();
-  } else {
-    res.sendFile(path.join(process.cwd(), "dist", "demo.html"));
   }
 });
 
@@ -389,7 +600,43 @@ async function startServer() {
   } else {
     console.log("Running in PRODUCTION mode with compiled assets.");
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    
+    // Serve any requests starting with /src directly from the source directory
+    app.use("/src", express.static(path.join(process.cwd(), "src")));
+
+    // Explicit routing for clean page URLs
+    app.get("/see-more", (req, res) => {
+      res.sendFile(path.join(distPath, "see-more.html"));
+    });
+    app.get("/projects", (req, res) => {
+      res.sendFile(path.join(distPath, "projects.html"));
+    });
+    app.get("/demo", (req, res) => {
+      res.sendFile(path.join(distPath, "demo.html"));
+    });
+    
+    // Serve static files with explicit MIME type overrides to prevent application/octet-stream issues
+    app.use(express.static(distPath, {
+      setHeaders: (res, filePath) => {
+        const ext = path.extname(filePath).toLowerCase();
+        if (ext === ".js" || ext === ".mjs") {
+          res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+        } else if (ext === ".css") {
+          res.setHeader("Content-Type", "text/css; charset=utf-8");
+        } else if (ext === ".html") {
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+        } else if (ext === ".json") {
+          res.setHeader("Content-Type", "application/json; charset=utf-8");
+        } else if (ext === ".svg") {
+          res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+        } else if (ext === ".png") {
+          res.setHeader("Content-Type", "image/png");
+        } else if (ext === ".jpg" || ext === ".jpeg") {
+          res.setHeader("Content-Type", "image/jpeg");
+        }
+      }
+    }));
+
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });

@@ -3311,58 +3311,56 @@
             const calcTotal = document.getElementById('calc-total');
             const contactBtn = document.getElementById('calc-contact-btn');
 
-            if (calcType && calcPages && calcTotal && contactBtn && pageCountVal) {
-                function formatCurrency(num) {
-                    return '₹' + num.toLocaleString('en-IN');
-                }
+            function formatCurrency(num) {
+                return '₹' + num.toLocaleString('en-IN');
+            }
 
-                function updateCalculator() {
-                    let total = parseInt(calcType.value);
-                    
-                    const pages = parseInt(calcPages.value);
-                    pageCountVal.textContent = pages;
-                    total += (pages * 1000);
+            function updateCalculator() {
+                let total = parseInt(calcType.value);
+                
+                const pages = parseInt(calcPages.value);
+                pageCountVal.textContent = pages;
+                total += (pages * 1000);
 
-                    let selectedAddons = [];
-                    calcAddons.forEach(addon => {
-                        if (addon.checked) {
-                            total += parseInt(addon.value);
-                            selectedAddons.push(addon.parentElement.textContent.trim());
-                        }
-                    });
+                let selectedAddons = [];
+                calcAddons.forEach(addon => {
+                    if (addon.checked) {
+                        total += parseInt(addon.value);
+                        selectedAddons.push(addon.parentElement.textContent.trim());
+                    }
+                });
 
-                    // Range simulation for bespoke pricing
-                    const upperTotal = Math.floor(total * 1.25);
-                    calcTotal.textContent = formatCurrency(total) + (total > 44000 ? '+' : ' - ' + formatCurrency(upperTotal));
-                    
-                    // Add pop effect
-                    calcTotal.classList.remove('pop');
-                    void calcTotal.offsetWidth; // trigger reflow
-                    calcTotal.classList.add('pop');
-                    setTimeout(() => calcTotal.classList.remove('pop'), 300);
+                // Range simulation for bespoke pricing
+                const upperTotal = Math.floor(total * 1.25);
+                calcTotal.textContent = formatCurrency(total) + (total > 44000 ? '+' : ' - ' + formatCurrency(upperTotal));
+                
+                // Add pop effect
+                calcTotal.classList.remove('pop');
+                void calcTotal.offsetWidth; // trigger reflow
+                calcTotal.classList.add('pop');
+                setTimeout(() => calcTotal.classList.remove('pop'), 300);
 
-                    // Update WhatsApp Message
-                    const baseText = calcType.options[calcType.selectedIndex].text;
-                    let msg = `Hello Crestiva Web Studio! I am interested in a website project. 
+                // Update WhatsApp Message
+                const baseText = calcType.options[calcType.selectedIndex].text;
+                let msg = `Hello Crestiva Web Studio! I am interested in a website project. 
 
 *Base Plan*: ${baseText} 
 *Extra Pages*: ${pages}`;
-                    if(selectedAddons.length > 0) {
-                        msg += `
-*Add-ons*: ${selectedAddons.join(', ')}`;
-                    }
+                if(selectedAddons.length > 0) {
                     msg += `
-*Estimated Budget*: ${calcTotal.textContent}`;
-                    
-                    contactBtn.href = 'https://wa.me/917037311050?text=' + encodeURIComponent(msg);
+*Add-ons*: ${selectedAddons.join(', ')}`;
                 }
-
-                calcType.addEventListener('change', updateCalculator);
-                calcPages.addEventListener('input', updateCalculator);
-                calcAddons.forEach(a => a.addEventListener('change', updateCalculator));
+                msg += `
+*Estimated Budget*: ${calcTotal.textContent}`;
                 
-                updateCalculator();
+                contactBtn.href = 'https://wa.me/917037311050?text=' + encodeURIComponent(msg);
             }
+
+            calcType.addEventListener('change', updateCalculator);
+            calcPages.addEventListener('input', updateCalculator);
+            calcAddons.forEach(a => a.addEventListener('change', updateCalculator));
+            
+            updateCalculator();
         });
     </script>
 
@@ -3490,9 +3488,9 @@
     </script>
 
     <!-- AI Concierge -->
-    <link rel="stylesheet" href="/src/ai-concierge.css">
+    <link rel="stylesheet" href="/ai-concierge.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script type="module" src="/src/ai-concierge.js"></script>
+    <script src="/ai-concierge.js"></script>
 
     <!-- Premium Custom Builder Logic -->
     <script>
@@ -3833,19 +3831,6 @@
             };
             
             window.initiateRazorpay = function() {
-                const token = localStorage.getItem('crestiva_auth_token');
-                const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && token;
-                
-                if (!isAuthenticated) {
-                    alert("Please sign in first to proceed with the payment.");
-                    document.getElementById('paymentOverlay').classList.remove('active');
-                    openAuthModal('signin');
-                    return;
-                }
-
-                if (window.checkoutInProgress) return;
-                window.checkoutInProgress = true;
-
                 const dueAmount = window.updatePayAmount();
                 const btn = document.getElementById('razorpayBtn');
                 btn.textContent = 'Processing...';
@@ -3870,7 +3855,6 @@
                         btn.textContent = 'Proceed to Pay';
                         btn.style.opacity = '1';
                         btn.disabled = false;
-                        window.checkoutInProgress = false;
                         
                         document.getElementById('paymentOverlay').classList.remove('active');
                         
@@ -3886,14 +3870,14 @@
                         
                         // Save order locally
                         const orders = JSON.parse(localStorage.getItem('crestiva_orders') || '[]');
-                        orders.push(sanitizeSerializable({
+                        orders.push({
                             id: response.razorpay_payment_id,
                             amount: dueAmount,
                             date: new Date().toISOString(),
                             details: window.currentPayObj
-                        }));
+                        });
                         localStorage.setItem('crestiva_orders', JSON.stringify(orders));
-                    },
+                    },,
                     "prefill": {
                         "name": localStorage.getItem('crestiva_auth_name') || "",
                         "email": localStorage.getItem('crestiva_auth_email') || "",
@@ -3904,14 +3888,6 @@
                     },
                     "theme": {
                         "color": "#d4af37"
-                    },
-                    "modal": {
-                        "ondismiss": function() {
-                            btn.textContent = 'Proceed to Pay';
-                            btn.style.opacity = '1';
-                            btn.disabled = false;
-                            window.checkoutInProgress = false;
-                        }
                     }
                 };
                 
@@ -3921,7 +3897,6 @@
                         btn.textContent = 'Proceed to Pay';
                         btn.style.opacity = '1';
                         btn.disabled = false;
-                        window.checkoutInProgress = false;
                         const errorMsg = document.getElementById('paymentErrorMsg');
                         errorMsg.textContent = 'Payment Failed: ' + response.error.description;
                         errorMsg.style.display = 'block';
@@ -3931,7 +3906,6 @@
                     btn.textContent = 'Proceed to Pay';
                     btn.style.opacity = '1';
                     btn.disabled = false;
-                    window.checkoutInProgress = false;
                     const errorMsg = document.getElementById('paymentErrorMsg');
                     errorMsg.textContent = 'Error loading payment gateway. Please try again.';
                     errorMsg.style.display = 'block';
@@ -4409,41 +4383,10 @@ function updateAuthState() {
     }
 }
 
-function sanitizeSerializable(obj, seen = new WeakSet()) {
-    if (obj === null || obj === undefined) return obj;
-    if (typeof obj !== 'object') {
-        if (typeof obj === 'function' || typeof obj === 'symbol') return undefined;
-        return obj;
-    }
-    if (obj instanceof HTMLElement || (typeof window !== 'undefined' && obj === window) || (typeof document !== 'undefined' && obj === document)) {
-        return undefined;
-    }
-    if (seen.has(obj)) return undefined;
-    seen.add(obj);
-
-    if (Array.isArray(obj)) {
-        return obj.map(item => sanitizeSerializable(item, seen)).filter(item => item !== undefined);
-    }
-
-    const clean = {};
-    for (const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            if (key.startsWith('_gsap') || key === 'target' || key === 'currentTarget' || key === 'srcElement') {
-                continue;
-            }
-            const val = sanitizeSerializable(obj[key], seen);
-            if (val !== undefined) {
-                clean[key] = val;
-            }
-        }
-    }
-    return clean;
-}
-
 window.requireAuthenticatedPayment = function(packageId, payPercent, customDetails, clickedBtn) {
     const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && localStorage.getItem('crestiva_auth_token');
     
-    window.pendingPaymentIntention = sanitizeSerializable({ packageId, payPercent, customDetails });
+    window.pendingPaymentIntention = { packageId, payPercent, customDetails };
     
     if (isAuthenticated) {
         showPaymentConfirmationPanel();
@@ -4510,18 +4453,6 @@ function showPaymentConfirmationPanel() {
 }
 
 window.executeSecureCheckout = async function() {
-    const token = localStorage.getItem('crestiva_auth_token');
-    const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && token;
-    
-    if (!isAuthenticated) {
-        alert("Please sign in first to proceed with the payment.");
-        openAuthModal('signin');
-        return;
-    }
-
-    if (window.checkoutInProgress) return;
-    window.checkoutInProgress = true;
-
     const ctaBtn = document.getElementById('confirmPayBtn');
     const textEl = document.getElementById('confirmPayText');
     const glowLine = document.getElementById('confirmPayGlowLine');
@@ -4536,7 +4467,8 @@ window.executeSecureCheckout = async function() {
     }
     
     try {
-        const { packageId, payPercent, customDetails } = sanitizeSerializable(window.pendingPaymentIntention || {});
+        const { packageId, payPercent, customDetails } = window.pendingPaymentIntention;
+        const token = localStorage.getItem('crestiva_auth_token');
         
         const response = await fetch('/api/payment/create-order', {
             method: 'POST',
@@ -4554,7 +4486,6 @@ window.executeSecureCheckout = async function() {
             ctaBtn.disabled = false;
             textEl.textContent = "Continue to Secure Payment";
             glowLine.style.display = 'none';
-            window.checkoutInProgress = false;
             return;
         }
         
@@ -4593,7 +4524,6 @@ window.executeSecureCheckout = async function() {
                     const verifyResult = await verifyRes.json();
                     if (verifyRes.status !== 200) {
                         alert(verifyResult.error || 'Payment verification failed.');
-                        window.checkoutInProgress = false;
                         return;
                     }
                     
@@ -4607,22 +4537,20 @@ window.executeSecureCheckout = async function() {
                     document.getElementById('paymentSuccessOverlay').classList.add('active');
                     
                     window.pendingPaymentIntention = null;
-                    window.checkoutInProgress = false;
                     
                     const orders = JSON.parse(localStorage.getItem('crestiva_orders') || '[]');
-                    orders.push(sanitizeSerializable({
+                    orders.push({
                         orderId: verifyResult.orderId,
                         paymentId: verifyResult.paymentId,
                         packageName: packageId,
                         amount: result.amount,
                         remaining,
                         date: new Date().toISOString()
-                    }));
+                    });
                     localStorage.setItem('crestiva_orders', JSON.stringify(orders));
                 } catch (err) {
                     console.error("Verification error:", err);
                     alert("Verification error. Please contact our support team.");
-                    window.checkoutInProgress = false;
                 }
             },
             "modal": {
@@ -4630,7 +4558,6 @@ window.executeSecureCheckout = async function() {
                     ctaBtn.disabled = false;
                     textEl.textContent = "Continue to Secure Payment";
                     glowLine.style.display = 'none';
-                    window.checkoutInProgress = false;
                 }
             }
         };
@@ -4646,13 +4573,6 @@ window.executeSecureCheckout = async function() {
             }, 1000);
         } else {
             const rzp = new Razorpay(options);
-            rzp.on('payment.failed', function (response) {
-                alert('Payment Failed: ' + (response.error ? response.error.description : 'Unknown error'));
-                ctaBtn.disabled = false;
-                textEl.textContent = "Continue to Secure Payment";
-                glowLine.style.display = 'none';
-                window.checkoutInProgress = false;
-            });
             rzp.open();
         }
         
@@ -4662,7 +4582,6 @@ window.executeSecureCheckout = async function() {
         ctaBtn.disabled = false;
         textEl.textContent = "Continue to Secure Payment";
         glowLine.style.display = 'none';
-        window.checkoutInProgress = false;
     }
 };
 

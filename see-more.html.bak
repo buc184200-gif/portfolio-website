@@ -18,196 +18,6 @@
     </script>
 
     <style>
-        /* Cinematic Payment Gate Premium Styles */
-        .auth-modal-overlay {
-            background: radial-gradient(circle, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.97) 100%) !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .auth-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .auth-modal {
-            position: relative;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 440px;
-            width: 90%;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.04);
-            transform: scale(0.85);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .auth-modal-overlay.active .auth-modal {
-            transform: scale(1);
-            opacity: 1;
-        }
-        .border-sweep {
-            position: absolute;
-            top: 0; left: -150%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.05), transparent);
-            transform: skewX(-25deg);
-            pointer-events: none;
-            z-index: 1;
-        }
-        .verification-ring-svg {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 16px auto;
-            display: block;
-        }
-        .verification-ring-circle {
-            stroke: #d4af37;
-            stroke-width: 2.5;
-            stroke-dasharray: 251;
-            stroke-dashoffset: 251;
-            fill: none;
-            transform-origin: center;
-        }
-        .verification-ring-check {
-            stroke: #d4af37;
-            stroke-width: 3.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 40;
-            stroke-dashoffset: 40;
-            fill: none;
-        }
-        .draw-active .verification-ring-circle {
-            animation: drawRing 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        .draw-active .verification-ring-check {
-            animation: drawCheck 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
-        }
-        @keyframes drawRing {
-            to { stroke-dashoffset: 0; }
-        }
-        @keyframes drawCheck {
-            to { stroke-dashoffset: 0; }
-        }
-        .confirm-panel {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            animation: fadeInConfirm 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        @keyframes fadeInConfirm {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .confirm-title {
-            font-family: 'Playfair Display', serif;
-            color: #d4af37;
-            font-size: 24px;
-            margin-bottom: 6px;
-            text-align: center;
-            font-weight: 400;
-        }
-        .confirm-subtitle {
-            color: rgba(255, 255, 255, 0.55);
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .confirm-details {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-        }
-        .confirm-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
-        .confirm-row:last-child {
-            margin-bottom: 0;
-        }
-        .confirm-label {
-            color: rgba(255, 255, 255, 0.45);
-        }
-        .confirm-val {
-            color: #ffffff;
-            font-weight: 500;
-        }
-        .confirm-val.gold {
-            color: #d4af37;
-            font-weight: 600;
-        }
-        .confirm-divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.06);
-            margin: 12px 0;
-        }
-        .secure-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            color: rgba(212, 175, 55, 0.7);
-            font-size: 10px;
-            margin-top: 4px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-        .confirm-cta-btn {
-            position: relative;
-            background: #d4af37;
-            color: #0a0a0a;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            overflow: hidden;
-            transition: background 0.3s, transform 0.2s;
-            margin-bottom: 12px;
-            width: 100%;
-            text-align: center;
-        }
-        .confirm-cta-btn:hover {
-            background: #e5c158;
-        }
-        .confirm-cta-btn:disabled {
-            background: rgba(212, 175, 55, 0.4);
-            color: rgba(10, 10, 10, 0.6);
-            cursor: not-allowed;
-        }
-        .confirm-secondary-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: rgba(255, 255, 255, 0.6);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-        .confirm-secondary-btn:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            color: #fff;
-        }
-        .btn-gold-line {
-            position: absolute;
-            bottom: 0; left: -100%; width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, #ffffff, #d4af37, #ffffff, transparent);
-            display: none;
-        }
-
         :root {
             --c-bg: #0e0e0e;
             --c-surface: #1a1a1a;
@@ -3311,58 +3121,56 @@
             const calcTotal = document.getElementById('calc-total');
             const contactBtn = document.getElementById('calc-contact-btn');
 
-            if (calcType && calcPages && calcTotal && contactBtn && pageCountVal) {
-                function formatCurrency(num) {
-                    return '₹' + num.toLocaleString('en-IN');
-                }
+            function formatCurrency(num) {
+                return '₹' + num.toLocaleString('en-IN');
+            }
 
-                function updateCalculator() {
-                    let total = parseInt(calcType.value);
-                    
-                    const pages = parseInt(calcPages.value);
-                    pageCountVal.textContent = pages;
-                    total += (pages * 1000);
+            function updateCalculator() {
+                let total = parseInt(calcType.value);
+                
+                const pages = parseInt(calcPages.value);
+                pageCountVal.textContent = pages;
+                total += (pages * 1000);
 
-                    let selectedAddons = [];
-                    calcAddons.forEach(addon => {
-                        if (addon.checked) {
-                            total += parseInt(addon.value);
-                            selectedAddons.push(addon.parentElement.textContent.trim());
-                        }
-                    });
+                let selectedAddons = [];
+                calcAddons.forEach(addon => {
+                    if (addon.checked) {
+                        total += parseInt(addon.value);
+                        selectedAddons.push(addon.parentElement.textContent.trim());
+                    }
+                });
 
-                    // Range simulation for bespoke pricing
-                    const upperTotal = Math.floor(total * 1.25);
-                    calcTotal.textContent = formatCurrency(total) + (total > 44000 ? '+' : ' - ' + formatCurrency(upperTotal));
-                    
-                    // Add pop effect
-                    calcTotal.classList.remove('pop');
-                    void calcTotal.offsetWidth; // trigger reflow
-                    calcTotal.classList.add('pop');
-                    setTimeout(() => calcTotal.classList.remove('pop'), 300);
+                // Range simulation for bespoke pricing
+                const upperTotal = Math.floor(total * 1.25);
+                calcTotal.textContent = formatCurrency(total) + (total > 44000 ? '+' : ' - ' + formatCurrency(upperTotal));
+                
+                // Add pop effect
+                calcTotal.classList.remove('pop');
+                void calcTotal.offsetWidth; // trigger reflow
+                calcTotal.classList.add('pop');
+                setTimeout(() => calcTotal.classList.remove('pop'), 300);
 
-                    // Update WhatsApp Message
-                    const baseText = calcType.options[calcType.selectedIndex].text;
-                    let msg = `Hello Crestiva Web Studio! I am interested in a website project. 
+                // Update WhatsApp Message
+                const baseText = calcType.options[calcType.selectedIndex].text;
+                let msg = `Hello Crestiva Web Studio! I am interested in a website project. 
 
 *Base Plan*: ${baseText} 
 *Extra Pages*: ${pages}`;
-                    if(selectedAddons.length > 0) {
-                        msg += `
-*Add-ons*: ${selectedAddons.join(', ')}`;
-                    }
+                if(selectedAddons.length > 0) {
                     msg += `
-*Estimated Budget*: ${calcTotal.textContent}`;
-                    
-                    contactBtn.href = 'https://wa.me/917037311050?text=' + encodeURIComponent(msg);
+*Add-ons*: ${selectedAddons.join(', ')}`;
                 }
-
-                calcType.addEventListener('change', updateCalculator);
-                calcPages.addEventListener('input', updateCalculator);
-                calcAddons.forEach(a => a.addEventListener('change', updateCalculator));
+                msg += `
+*Estimated Budget*: ${calcTotal.textContent}`;
                 
-                updateCalculator();
+                contactBtn.href = 'https://wa.me/917037311050?text=' + encodeURIComponent(msg);
             }
+
+            calcType.addEventListener('change', updateCalculator);
+            calcPages.addEventListener('input', updateCalculator);
+            calcAddons.forEach(a => a.addEventListener('change', updateCalculator));
+            
+            updateCalculator();
         });
     </script>
 
@@ -3490,9 +3298,9 @@
     </script>
 
     <!-- AI Concierge -->
-    <link rel="stylesheet" href="/src/ai-concierge.css">
+    <link rel="stylesheet" href="/ai-concierge.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script type="module" src="/src/ai-concierge.js"></script>
+    <script src="/ai-concierge.js"></script>
 
     <!-- Premium Custom Builder Logic -->
     <script>
@@ -3739,22 +3547,31 @@
                             design: selectedDesign || "Not selected",
                             features: selectedFeatures.length > 0 ? selectedFeatures.join(", ") : "None",
                             addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "None",
-                            price: formatPrice(window.currentProjectTotal)
+                            price: quotePrice ? quotePrice.textContent : ""
                         };
+                        
+                        // Populate summary
+                        let summaryHtml = '<p>Website Type: <span>' + window.currentPayObj.type + '</span></p>';
+                        summaryHtml += '<p>Pages: <span>' + window.currentPayObj.pages + '</span></p>';
+                        summaryHtml += '<p>Support/Design: <span>' + window.currentPayObj.design + '</span></p>';
+                        if (selectedFeatures.length > 0) summaryHtml += '<p>Features: <span>' + window.currentPayObj.features + '</span></p>';
+                        if (selectedAddons.length > 0) summaryHtml += '<p>Addons: <span>' + window.currentPayObj.addons + '</span></p>';
+                        
+                        document.getElementById('paymentSummary').innerHTML = summaryHtml;
 
-                        // Trigger secure authentication gate for payment action!
-                        window.requireAuthenticatedPayment(
-                            "Custom Quote", 
-                            25, 
-                            {
-                                websiteType: selectedType,
-                                pages: selectedPages,
-                                designLevel: selectedDesign,
-                                features: selectedFeatures,
-                                addons: selectedAddons
-                            }, 
-                            pBtn
-                        );
+                        document.getElementById('payTotalAmount').textContent = formatPrice(window.currentProjectTotal);
+                        
+                        window.isPackageMode = false;
+                        const optionsDiv = document.querySelector('.payment-options');
+                        if (optionsDiv) optionsDiv.style.display = 'flex';
+                        
+                        // Reset options to 25%
+                        document.querySelector('input[name="pay_option"][value="25"]').checked = true;
+
+                        window.updatePayAmount();
+                        
+                        // Show modal
+                        document.getElementById('paymentOverlay').classList.add('active');
                     };
                 }
             };
@@ -3777,28 +3594,36 @@
 
             
             window.packageWhatsapp = function(packageName, price, support) {
-                const selectBtn = event?.currentTarget;
-                const numericPrice = parseInt(price.replace(/[^0-9]/g, '')) || 0;
-                
-                const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && localStorage.getItem('crestiva_auth_token');
-                if (isAuthenticated) {
-                    const msg = "Hi Crestiva,\n\nI'm interested in the " + packageName + ".\n\nPackage Price: " + price + "\nSupport Duration: " + support + "\n\nPlease contact me regarding this project.";
-                    window.open("https://wa.me/917037311050?text=" + encodeURIComponent(msg), "_blank");
-                } else {
-                    window.pendingPaymentIntention = { packageId: packageName, isWhatsapp: true, price, support };
-                    openAuthModal('signin', selectBtn);
-                }
+                const msg = "Hi Crestiva,\n\nI'm interested in the " + packageName + ".\n\nPackage Price: " + price + "\nSupport Duration: " + support + "\n\nPlease contact me regarding this project.";
+                window.open("https://wa.me/917037311050?text=" + encodeURIComponent(msg), "_blank");
             };
 
             window.packagePayAdvance = function(packageName, price) {
-                const selectBtn = event?.currentTarget;
                 window.isPackageMode = true;
                 window.packageFixedDue = Math.round(price * 0.25);
                 window.currentProjectTotal = price;
                 window.currentPayObj = { type: packageName };
                 
-                // Enforce the premium secure payment guard!
-                window.requireAuthenticatedPayment(packageName, 25, null, selectBtn);
+                const remaining = price - window.packageFixedDue;
+                
+                let summaryHtml = '<p>Package Name: <span>' + packageName + '</span></p>';
+                summaryHtml += '<p>Package Price: <span>₹' + price.toLocaleString('en-IN') + '</span></p>';
+                summaryHtml += '<p>Advance Amount (25%): <span>₹' + window.packageFixedDue.toLocaleString('en-IN') + '</span></p>';
+                summaryHtml += '<p>Remaining Amount: <span>₹' + remaining.toLocaleString('en-IN') + '</span></p>';
+                
+                document.getElementById('paymentSummary').innerHTML = summaryHtml;
+                document.getElementById('payTotalAmount').textContent = '₹' + price.toLocaleString('en-IN');
+                document.getElementById('payDueAmount').textContent = '₹' + window.packageFixedDue.toLocaleString('en-IN');
+                
+                // Hide payment options
+                const optionsDiv = document.querySelector('.payment-options');
+                if(optionsDiv) optionsDiv.style.display = 'none';
+                
+                // Set radio option to 25% just in case
+                const radio25 = document.querySelector('input[name="pay_option"][value="25"]');
+                if(radio25) radio25.checked = true;
+                
+                document.getElementById('paymentOverlay').classList.add('active');
             };
 
             window.updatePayAmount = function() {
@@ -3833,19 +3658,6 @@
             };
             
             window.initiateRazorpay = function() {
-                const token = localStorage.getItem('crestiva_auth_token');
-                const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && token;
-                
-                if (!isAuthenticated) {
-                    alert("Please sign in first to proceed with the payment.");
-                    document.getElementById('paymentOverlay').classList.remove('active');
-                    openAuthModal('signin');
-                    return;
-                }
-
-                if (window.checkoutInProgress) return;
-                window.checkoutInProgress = true;
-
                 const dueAmount = window.updatePayAmount();
                 const btn = document.getElementById('razorpayBtn');
                 btn.textContent = 'Processing...';
@@ -3870,7 +3682,6 @@
                         btn.textContent = 'Proceed to Pay';
                         btn.style.opacity = '1';
                         btn.disabled = false;
-                        window.checkoutInProgress = false;
                         
                         document.getElementById('paymentOverlay').classList.remove('active');
                         
@@ -3886,14 +3697,14 @@
                         
                         // Save order locally
                         const orders = JSON.parse(localStorage.getItem('crestiva_orders') || '[]');
-                        orders.push(sanitizeSerializable({
+                        orders.push({
                             id: response.razorpay_payment_id,
                             amount: dueAmount,
                             date: new Date().toISOString(),
                             details: window.currentPayObj
-                        }));
+                        });
                         localStorage.setItem('crestiva_orders', JSON.stringify(orders));
-                    },
+                    },,
                     "prefill": {
                         "name": localStorage.getItem('crestiva_auth_name') || "",
                         "email": localStorage.getItem('crestiva_auth_email') || "",
@@ -3904,14 +3715,6 @@
                     },
                     "theme": {
                         "color": "#d4af37"
-                    },
-                    "modal": {
-                        "ondismiss": function() {
-                            btn.textContent = 'Proceed to Pay';
-                            btn.style.opacity = '1';
-                            btn.disabled = false;
-                            window.checkoutInProgress = false;
-                        }
                     }
                 };
                 
@@ -3921,7 +3724,6 @@
                         btn.textContent = 'Proceed to Pay';
                         btn.style.opacity = '1';
                         btn.disabled = false;
-                        window.checkoutInProgress = false;
                         const errorMsg = document.getElementById('paymentErrorMsg');
                         errorMsg.textContent = 'Payment Failed: ' + response.error.description;
                         errorMsg.style.display = 'block';
@@ -3931,7 +3733,6 @@
                     btn.textContent = 'Proceed to Pay';
                     btn.style.opacity = '1';
                     btn.disabled = false;
-                    window.checkoutInProgress = false;
                     const errorMsg = document.getElementById('paymentErrorMsg');
                     errorMsg.textContent = 'Error loading payment gateway. Please try again.';
                     errorMsg.style.display = 'block';
@@ -3962,103 +3763,46 @@
 
 
 <div class="auth-modal-overlay" id="authModalOverlay" onclick="closeAuthModal(event)">
-    <div class="auth-modal" id="authModal" onclick="event.stopPropagation()">
-        <div class="border-sweep" id="modalBorderSweep"></div>
+    <div class="auth-modal" onclick="event.stopPropagation()">
         <button class="auth-modal-close" onclick="closeAuthModal(event)">&times;</button>
+        <h2 id="authModalTitle">Sign In</h2>
+        <p id="authModalDesc">Enter your details to access your premium account.</p>
         
-        <!-- Authentic Sign in / Sign up form wrapper -->
-        <div id="authFormWrapper">
-            <h2 id="authModalTitle">Sign In</h2>
-            <p id="authModalDesc">Enter your details to access your premium account.</p>
-            
-            <div id="authErrorMsg" style="color: #ff6b6b; background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.2); padding: 10px 12px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; display: none;"></div>
-            
-            <div id="authNameField" class="auth-form-group" style="display: none;">
-                <input type="text" id="authName" placeholder=" ">
-                <label for="authName">Full Name</label>
-            </div>
-            
-            <div class="auth-form-group" id="authEmailField">
-                <input type="email" id="authEmail" placeholder=" ">
-                <label for="authEmail">Email Address</label>
-            </div>
-            
-            <div class="auth-form-group" id="authPasswordField">
-                <input type="password" id="authPassword" placeholder=" ">
-                <label for="authPassword">Password</label>
-            </div>
-            
-            <div class="auth-options" id="authOptions">
-                <label class="auth-checkbox" id="authRememberWrapper">
-                    <input type="checkbox" id="authRemember" checked>
-                    Remember me
-                </label>
-                <a href="javascript:void(0)" onclick="switchAuthMode('forgot')" id="authForgotLink" style="color: rgba(255,255,255,0.5); font-size: 12px; text-decoration: none;">Forgot password?</a>
-            </div>
-            
-            <button class="auth-submit magnetic" data-magnetic-strength="5" onclick="handleAuthSubmit()">Continue</button>
-            
-            <div class="auth-switch" id="authSwitchText">
-                Don't have an account? <span onclick="switchAuthMode('signup')">Sign Up</span>
-            </div>
+        <div id="authErrorMsg" style="color: #ff6b6b; background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.2); padding: 10px 12px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; display: none;"></div>
+        
+        <div id="authNameField" class="auth-form-group" style="display: none;">
+            <input type="text" id="authName" placeholder=" ">
+            <label for="authName">Full Name</label>
         </div>
         
-        <!-- Verification / Success State -->
-        <div class="success-message" id="authSuccessMessage" style="position:relative; z-index:2;">
-            <!-- Premium Draw Verification Ring SVG -->
-            <svg class="verification-ring-svg" id="verificationRingSvg" viewBox="0 0 100 100">
-                <circle class="verification-ring-circle" cx="50" cy="50" r="40"></circle>
-                <path class="verification-ring-check" d="M35 50 L45 60 L65 40"></path>
-            </svg>
-            <h3 id="authSuccessTitle" style="font-family: 'Playfair Display', serif; color: #d4af37; font-weight: 400; font-size: 24px; margin-bottom: 8px;">Identity verified</h3>
+        <div class="auth-form-group" id="authEmailField">
+            <input type="email" id="authEmail" placeholder=" ">
+            <label for="authEmail">Email Address</label>
+        </div>
+        
+        <div class="auth-form-group" id="authPasswordField">
+            <input type="password" id="authPassword" placeholder=" ">
+            <label for="authPassword">Password</label>
+        </div>
+        
+        <div class="auth-options" id="authOptions">
+            <label class="auth-checkbox" id="authRememberWrapper">
+                <input type="checkbox" id="authRemember" checked>
+                Remember me
+            </label>
+            <a href="javascript:void(0)" onclick="switchAuthMode('forgot')" id="authForgotLink" style="color: rgba(255,255,255,0.5); font-size: 12px; text-decoration: none;">Forgot password?</a>
+        </div>
+        
+        <button class="auth-submit magnetic" data-magnetic-strength="5" onclick="handleAuthSubmit()">Continue</button>
+        
+        <div class="auth-switch" id="authSwitchText">
+            Don't have an account? <span onclick="switchAuthMode('signup')">Sign Up</span>
+        </div>
+        
+        <div class="success-message" id="authSuccessMessage">
+            <div class="success-icon">✓</div>
+            <h3 id="authSuccessTitle" style="font-family: 'Playfair Display', serif; color: #d4af37; font-weight: 400; font-size: 24px; margin-bottom: 8px;">Welcome Back</h3>
             <p id="authSuccessDesc" style="color: rgba(255,255,255,0.6); font-size: 13px;">Authenticating your credentials...</p>
-        </div>
-
-        <!-- Payment Confirmation Panel inside the Modal -->
-        <div class="confirm-panel" id="paymentConfirmPanel">
-            <h2 class="confirm-title">Confirm Your Project</h2>
-            <p class="confirm-subtitle">Verify your details before proceeding to payment.</p>
-            
-            <div class="confirm-details">
-                <div class="confirm-row">
-                    <span class="confirm-label">Package Name</span>
-                    <span class="confirm-val" id="confirmPackageName">-</span>
-                </div>
-                <div class="confirm-row">
-                    <span class="confirm-label">Total Package Price</span>
-                    <span class="confirm-val" id="confirmPackagePrice">-</span>
-                </div>
-                <div class="confirm-row">
-                    <span class="confirm-label">Payment Type</span>
-                    <span class="confirm-val" id="confirmPaymentType">-</span>
-                </div>
-                <div class="confirm-divider"></div>
-                <div class="confirm-row">
-                    <span class="confirm-label">Amount Due Now</span>
-                    <span class="confirm-val gold" id="confirmAmountDue">-</span>
-                </div>
-                <div class="confirm-row" id="confirmRemainingRow">
-                    <span class="confirm-label">Remaining Balance</span>
-                    <span class="confirm-val" id="confirmRemainingBalance">-</span>
-                </div>
-                <div class="confirm-divider"></div>
-                <div class="confirm-row">
-                    <span class="confirm-label">Client Account</span>
-                    <span class="confirm-val" id="confirmClientEmail">-</span>
-                </div>
-            </div>
-            
-            <button class="confirm-cta-btn" id="confirmPayBtn" onclick="executeSecureCheckout()">
-                <span id="confirmPayText">Continue to Secure Payment</span>
-                <div class="btn-gold-line" id="confirmPayGlowLine"></div>
-            </button>
-            
-            <button class="confirm-secondary-btn" onclick="closeAuthModal()">Change Package</button>
-            
-            <div class="secure-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                256-bit Secure TLS Encryption
-            </div>
         </div>
     </div>
 </div>
@@ -4077,94 +3821,21 @@ function saveUsers(users) {
     localStorage.setItem('crestiva_users', JSON.stringify(users));
 }
 
-function openAuthModal(mode, clickedBtn = null) {
+function openAuthModal(mode) {
     currentAuthMode = mode;
     updateAuthModalUI();
-    
-    document.getElementById('paymentConfirmPanel').style.display = 'none';
-    document.getElementById('authFormWrapper').style.display = 'block';
-    document.getElementById('authSuccessMessage').style.display = 'none';
-    
     document.getElementById('authModalOverlay').classList.add('active');
-    
-    // Cinematic entrance animations using GSAP
-    if (clickedBtn && typeof gsap !== 'undefined') {
-        gsap.to(clickedBtn, {
-            boxShadow: '0 0 35px rgba(212, 175, 55, 0.95)',
-            scale: 1.05,
-            duration: 0.3,
-            yoyo: true,
-            repeat: 1
-        });
-        
-        const ring = document.createElement('div');
-        ring.style.position = 'fixed';
-        ring.style.border = '2px solid #d4af37';
-        ring.style.borderRadius = '50%';
-        ring.style.pointerEvents = 'none';
-        ring.style.zIndex = '999999';
-        const rect = clickedBtn.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        ring.style.width = size + 'px';
-        ring.style.height = size + 'px';
-        ring.style.left = (rect.left + rect.width / 2 - size / 2) + 'px';
-        ring.style.top = (rect.top + rect.height / 2 - size / 2) + 'px';
-        document.body.appendChild(ring);
-        gsap.to(ring, {
-            scale: 3.5,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            onComplete: () => ring.remove()
-        });
-    }
-    
-    const pricing = document.getElementById('pricing');
-    if (pricing && typeof gsap !== 'undefined') {
-        gsap.to(pricing, {
-            scale: 0.985,
-            opacity: 0.4,
-            filter: 'blur(2px)',
-            duration: 0.8,
-            ease: 'power2.out'
-        });
-    }
-    
-    const modal = document.getElementById('authModal');
-    if (typeof gsap !== 'undefined') {
-        gsap.killTweensOf(modal);
-        gsap.fromTo(modal, 
-            { clipPath: 'circle(0% at 50% 50%)', scale: 0.82, opacity: 0 },
-            { clipPath: 'circle(150% at 50% 50%)', scale: 1, opacity: 1, duration: 0.9, ease: 'power3.inOut' }
-        );
-    }
-    
-    const sweep = document.getElementById('modalBorderSweep');
-    if (sweep && typeof gsap !== 'undefined') {
-        gsap.fromTo(sweep, { left: '-150%' }, { left: '200%', duration: 1.3, ease: 'power2.inOut', delay: 0.2 });
-    }
 }
 
 function closeAuthModal(e) {
     if (e) {
         e.preventDefault();
-        if (e.target.id !== 'authModalOverlay' && !e.target.classList.contains('auth-modal-close') && !e.target.classList.contains('confirm-secondary-btn')) {
-            return;
+        if (e.target.id === 'authModalOverlay' || e.target.classList.contains('auth-modal-close')) {
+            document.getElementById('authModalOverlay').classList.remove('active');
         }
+    } else {
+        document.getElementById('authModalOverlay').classList.remove('active');
     }
-    document.getElementById('authModalOverlay').classList.remove('active');
-    
-    const pricing = document.getElementById('pricing');
-    if (pricing && typeof gsap !== 'undefined') {
-        gsap.to(pricing, {
-            scale: 1,
-            opacity: 1,
-            filter: 'none',
-            duration: 0.6,
-            ease: 'power2.out'
-        });
-    }
-    window.pendingPaymentIntention = null;
 }
 
 function switchAuthMode(mode) {
@@ -4242,80 +3913,34 @@ function handleAuthSubmit() {
     const password = document.getElementById('authPassword').value;
     
     if (!email) return showError('Please enter your email address.');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^s@]+@[^s@]+.[^s@]+$/;
     if (!emailRegex.test(email)) return showError('Please enter a valid email address.');
+    
+    const users = getUsers();
     
     if (currentAuthMode === 'signup') {
         if (!name) return showError('Please enter your full name.');
         if (!password) return showError('Please enter a password.');
         if (password.length < 8) return showError('Password must be at least 8 characters long.');
+        if (users[email]) return showError('An account with this email already exists.');
         
-        const btn = document.querySelector('.auth-submit');
-        btn.disabled = true;
-        btn.textContent = 'Creating Account...';
-        
-        fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password })
-        })
-        .then(res => res.json().then(data => ({ status: res.status, data })))
-        .then(({ status, data }) => {
-            btn.disabled = false;
-            btn.textContent = 'Continue';
-            if (status !== 200) {
-                showError(data.error || 'Registration failed.');
-            } else {
-                const users = getUsers();
-                users[email] = { name, password };
-                saveUsers(users);
-                
-                localStorage.setItem('crestiva_auth_token', data.token);
-                loginSuccess(email, name, 'Welcome!', 'Account created successfully.');
-            }
-        })
-        .catch(() => {
-            btn.disabled = false;
-            btn.textContent = 'Continue';
-            showError('Network error. Please try again.');
-        });
+        users[email] = { name, password };
+        saveUsers(users);
+        loginSuccess(email, name, 'Welcome!', 'Account created successfully.');
         
     } else if (currentAuthMode === 'signin') {
         if (!password) return showError('Please enter your password.');
+        if (!users[email]) return showError('No account found with this email.');
+        if (users[email].password !== password) return showError('Incorrect password.');
         
-        const btn = document.querySelector('.auth-submit');
-        btn.disabled = true;
-        btn.textContent = 'Authenticating...';
-        
-        fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        })
-        .then(res => res.json().then(data => ({ status: res.status, data })))
-        .then(({ status, data }) => {
-            btn.disabled = false;
-            btn.textContent = 'Continue';
-            if (status !== 200) {
-                showError(data.error || 'Incorrect email or password.');
-            } else {
-                localStorage.setItem('crestiva_auth_token', data.token);
-                loginSuccess(email, data.name, 'Welcome Back', 'Authenticating your credentials...');
-            }
-        })
-        .catch(() => {
-            btn.disabled = false;
-            btn.textContent = 'Continue';
-            showError('Network error. Please try again.');
-        });
+        loginSuccess(email, users[email].name, 'Welcome Back', 'Authenticating your credentials...');
         
     } else if (currentAuthMode === 'forgot') {
-        const users = getUsers();
         if (!users[email]) return showError('No account found with this email.');
         resetEmailContext = email;
         switchAuthMode('reset');
+        
     } else if (currentAuthMode === 'reset') {
-        const users = getUsers();
         if (!password) return showError('Please enter a new password.');
         if (password.length < 8) return showError('Password must be at least 8 characters long.');
         
@@ -4326,51 +3951,25 @@ function handleAuthSubmit() {
 }
 
 function loginSuccess(email, name, titleMsg, descMsg) {
-    localStorage.setItem('crestiva_auth_state', 'loggedIn');
-    localStorage.setItem('crestiva_auth_email', email);
-    localStorage.setItem('crestiva_auth_name', name);
-    
-    updateAuthState();
-    
-    document.getElementById('authFormWrapper').style.display = 'none';
-    
     const successMsg = document.getElementById('authSuccessMessage');
-    successMsg.style.display = 'block';
+    document.getElementById('authSuccessTitle').innerText = titleMsg;
+    document.getElementById('authSuccessDesc').innerText = descMsg;
     successMsg.classList.add('active');
     
-    document.getElementById('authSuccessTitle').innerText = 'Identity verified';
-    document.getElementById('authSuccessDesc').innerText = descMsg;
-    
-    successMsg.classList.add('draw-active');
-    
     setTimeout(() => {
-        successMsg.classList.remove('active');
-        successMsg.style.display = 'none';
-        successMsg.classList.remove('draw-active');
+        localStorage.setItem('crestiva_auth_state', 'loggedIn');
+        localStorage.setItem('crestiva_auth_email', email);
+        localStorage.setItem('crestiva_auth_name', name);
         
-        if (window.pendingPaymentIntention) {
-            if (window.pendingPaymentIntention.isWhatsapp) {
-                const { packageId, price, support } = window.pendingPaymentIntention;
-                const msg = "Hi Crestiva,\n\nI'm interested in the " + packageId + ".\n\nPackage Price: " + price + "\nSupport Duration: " + support + "\n\nPlease contact me regarding this project.";
-                window.open("https://wa.me/917037311050?text=" + encodeURIComponent(msg), "_blank");
-                window.pendingPaymentIntention = null;
-                closeAuthModal();
-            } else {
-                showPaymentConfirmationPanel();
-            }
-        } else {
-            closeAuthModal();
-        }
-    }, 1800);
+        successMsg.classList.remove('active');
+        closeAuthModal();
+        updateAuthState();
+    }, 1500);
 }
 
 function handleLogout(e) {
     if(e) e.preventDefault();
     localStorage.removeItem('crestiva_auth_state');
-    localStorage.removeItem('crestiva_auth_token');
-    localStorage.removeItem('crestiva_auth_email');
-    localStorage.removeItem('crestiva_auth_name');
-    window.pendingPaymentIntention = null;
     updateAuthState();
 }
 
@@ -4408,263 +4007,6 @@ function updateAuthState() {
         profileDropdowns.forEach(p => p.style.display = 'none');
     }
 }
-
-function sanitizeSerializable(obj, seen = new WeakSet()) {
-    if (obj === null || obj === undefined) return obj;
-    if (typeof obj !== 'object') {
-        if (typeof obj === 'function' || typeof obj === 'symbol') return undefined;
-        return obj;
-    }
-    if (obj instanceof HTMLElement || (typeof window !== 'undefined' && obj === window) || (typeof document !== 'undefined' && obj === document)) {
-        return undefined;
-    }
-    if (seen.has(obj)) return undefined;
-    seen.add(obj);
-
-    if (Array.isArray(obj)) {
-        return obj.map(item => sanitizeSerializable(item, seen)).filter(item => item !== undefined);
-    }
-
-    const clean = {};
-    for (const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            if (key.startsWith('_gsap') || key === 'target' || key === 'currentTarget' || key === 'srcElement') {
-                continue;
-            }
-            const val = sanitizeSerializable(obj[key], seen);
-            if (val !== undefined) {
-                clean[key] = val;
-            }
-        }
-    }
-    return clean;
-}
-
-window.requireAuthenticatedPayment = function(packageId, payPercent, customDetails, clickedBtn) {
-    const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && localStorage.getItem('crestiva_auth_token');
-    
-    window.pendingPaymentIntention = sanitizeSerializable({ packageId, payPercent, customDetails });
-    
-    if (isAuthenticated) {
-        showPaymentConfirmationPanel();
-    } else {
-        openAuthModal('signin', clickedBtn);
-    }
-};
-
-function showPaymentConfirmationPanel() {
-    if (!window.pendingPaymentIntention) return;
-    
-    const { packageId, payPercent } = window.pendingPaymentIntention;
-    
-    document.getElementById('authModalOverlay').classList.add('active');
-    
-    const modal = document.getElementById('authModal');
-    modal.style.opacity = '1';
-    modal.style.transform = 'scale(1)';
-    modal.style.clipPath = 'none';
-    
-    document.getElementById('authFormWrapper').style.display = 'none';
-    document.getElementById('authSuccessMessage').style.display = 'none';
-    
-    const confirmPanel = document.getElementById('paymentConfirmPanel');
-    confirmPanel.style.display = 'flex';
-    
-    let nameText = packageId;
-    let totalPrice = 0;
-    
-    if (packageId === "Custom Quote") {
-        nameText = "Custom Project Estimate";
-        totalPrice = window.currentProjectTotal;
-    } else if (packageId === "Starter Package") {
-        totalPrice = 15499;
-    } else if (packageId === "Growth Package") {
-        totalPrice = 25999;
-    } else if (packageId === "Elite Package") {
-        totalPrice = 44399;
-    }
-    
-    const percentage = parseInt(payPercent || 25);
-    const amountDue = Math.round(totalPrice * (percentage / 100));
-    const remaining = totalPrice - amountDue;
-    
-    document.getElementById('confirmPackageName').textContent = nameText;
-    document.getElementById('confirmPackagePrice').textContent = '₹' + totalPrice.toLocaleString('en-IN');
-    document.getElementById('confirmPaymentType').textContent = percentage === 100 ? 'Full Payment (100%)' : percentage + '% Advance';
-    document.getElementById('confirmAmountDue').textContent = '₹' + amountDue.toLocaleString('en-IN');
-    
-    const remainingRow = document.getElementById('confirmRemainingRow');
-    if (percentage === 100) {
-        remainingRow.style.display = 'none';
-    } else {
-        remainingRow.style.display = 'flex';
-        document.getElementById('confirmRemainingBalance').textContent = '₹' + remaining.toLocaleString('en-IN');
-    }
-    
-    document.getElementById('confirmClientEmail').textContent = localStorage.getItem('crestiva_auth_email') || 'Your Account';
-    
-    const ctaBtn = document.getElementById('confirmPayBtn');
-    ctaBtn.disabled = false;
-    document.getElementById('confirmPayText').textContent = "Continue to Secure Payment";
-    document.getElementById('confirmPayGlowLine').style.display = 'none';
-}
-
-window.executeSecureCheckout = async function() {
-    const token = localStorage.getItem('crestiva_auth_token');
-    const isAuthenticated = localStorage.getItem('crestiva_auth_state') === 'loggedIn' && token;
-    
-    if (!isAuthenticated) {
-        alert("Please sign in first to proceed with the payment.");
-        openAuthModal('signin');
-        return;
-    }
-
-    if (window.checkoutInProgress) return;
-    window.checkoutInProgress = true;
-
-    const ctaBtn = document.getElementById('confirmPayBtn');
-    const textEl = document.getElementById('confirmPayText');
-    const glowLine = document.getElementById('confirmPayGlowLine');
-    
-    ctaBtn.disabled = true;
-    textEl.textContent = "Preparing secure checkout...";
-    glowLine.style.display = 'block';
-    
-    if (typeof gsap !== 'undefined') {
-        gsap.killTweensOf(glowLine);
-        gsap.fromTo(glowLine, { left: '-100%' }, { left: '100%', duration: 1.5, repeat: -1, ease: 'linear' });
-    }
-    
-    try {
-        const { packageId, payPercent, customDetails } = sanitizeSerializable(window.pendingPaymentIntention || {});
-        
-        const response = await fetch('/api/payment/create-order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({ packageId, payPercent, customDetails })
-        });
-        
-        const result = await response.json();
-        
-        if (response.status !== 200) {
-            alert(result.error || 'We could not prepare checkout. Please try again.');
-            ctaBtn.disabled = false;
-            textEl.textContent = "Continue to Secure Payment";
-            glowLine.style.display = 'none';
-            window.checkoutInProgress = false;
-            return;
-        }
-        
-        closeAuthModal();
-        
-        const options = {
-            "key": result.keyId,
-            "amount": result.amount * 100,
-            "currency": result.currency,
-            "name": "Crestiva Web Studio",
-            "description": packageId + " Payment",
-            "image": "https://dummyimage.com/150x150/0f0f0f/d4af37&text=Crestiva",
-            "order_id": result.orderId.startsWith('order_MOCK_') ? undefined : result.orderId,
-            "prefill": {
-                "name": result.name,
-                "email": result.email
-            },
-            "theme": {
-                "color": "#0e0e0e"
-            },
-            "handler": async function (response) {
-                try {
-                    const verifyRes = await fetch('/api/payment/verify', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        body: JSON.stringify({
-                            razorpay_order_id: response.razorpay_order_id || result.orderId,
-                            razorpay_payment_id: response.razorpay_payment_id || `pay_${Math.random().toString(36).substring(2, 11)}`,
-                            razorpay_signature: response.razorpay_signature || 'mock_signature'
-                        })
-                    });
-                    
-                    const verifyResult = await verifyRes.json();
-                    if (verifyRes.status !== 200) {
-                        alert(verifyResult.error || 'Payment verification failed.');
-                        window.checkoutInProgress = false;
-                        return;
-                    }
-                    
-                    document.getElementById('successOrderId').textContent = verifyResult.paymentId;
-                    document.getElementById('successPackageName').textContent = packageId;
-                    document.getElementById('successAmountPaid').textContent = '₹' + result.amount.toLocaleString('en-IN');
-                    
-                    const remaining = result.totalPrice - result.amount;
-                    document.getElementById('successRemainingBalance').textContent = '₹' + remaining.toLocaleString('en-IN');
-                    
-                    document.getElementById('paymentSuccessOverlay').classList.add('active');
-                    
-                    window.pendingPaymentIntention = null;
-                    window.checkoutInProgress = false;
-                    
-                    const orders = JSON.parse(localStorage.getItem('crestiva_orders') || '[]');
-                    orders.push(sanitizeSerializable({
-                        orderId: verifyResult.orderId,
-                        paymentId: verifyResult.paymentId,
-                        packageName: packageId,
-                        amount: result.amount,
-                        remaining,
-                        date: new Date().toISOString()
-                    }));
-                    localStorage.setItem('crestiva_orders', JSON.stringify(orders));
-                } catch (err) {
-                    console.error("Verification error:", err);
-                    alert("Verification error. Please contact our support team.");
-                    window.checkoutInProgress = false;
-                }
-            },
-            "modal": {
-                "ondismiss": function() {
-                    ctaBtn.disabled = false;
-                    textEl.textContent = "Continue to Secure Payment";
-                    glowLine.style.display = 'none';
-                    window.checkoutInProgress = false;
-                }
-            }
-        };
-        
-        if (typeof Razorpay === "undefined") {
-            setTimeout(() => {
-                alert("Simulating secure Razorpay checkout (Razorpay SDK not loaded in iframe). Click OK to mock successful payment.");
-                options.handler({
-                    razorpay_order_id: result.orderId,
-                    razorpay_payment_id: `pay_${Math.random().toString(36).substring(2, 11)}`,
-                    razorpay_signature: 'mock_signature'
-                });
-            }, 1000);
-        } else {
-            const rzp = new Razorpay(options);
-            rzp.on('payment.failed', function (response) {
-                alert('Payment Failed: ' + (response.error ? response.error.description : 'Unknown error'));
-                ctaBtn.disabled = false;
-                textEl.textContent = "Continue to Secure Payment";
-                glowLine.style.display = 'none';
-                window.checkoutInProgress = false;
-            });
-            rzp.open();
-        }
-        
-    } catch (err) {
-        console.error("Checkout initialization failed:", err);
-        alert("Network error. Please try again.");
-        ctaBtn.disabled = false;
-        textEl.textContent = "Continue to Secure Payment";
-        glowLine.style.display = 'none';
-        window.checkoutInProgress = false;
-    }
-};
 
 document.addEventListener('DOMContentLoaded', () => {
     updateAuthState();
