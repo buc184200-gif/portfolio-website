@@ -465,10 +465,21 @@ const AICierge = (() => {
         showTyping();
 
         try {
-            const response = await fetch('/api/nvidia-agent', {
+            const conversationHistory = chatHistory
+                .filter(msg => msg.role !== 'system')
+                .slice(0, -1)
+                .map(msg => ({
+                    role: msg.role === 'user' ? 'user' : 'assistant',
+                    content: msg.content
+                }));
+
+            const response = await fetch('/.netlify/functions/ai-chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: chatHistory })
+                body: JSON.stringify({
+                    message: text,
+                    conversation: conversationHistory
+                })
             });
             
             removeTyping();
@@ -476,11 +487,11 @@ const AICierge = (() => {
             if (!response.ok) throw new Error('Network error');
             const data = await response.json();
             
-            if (data.text) {
-                addMessage(data.text, 'agent');
-                chatHistory.push({ role: 'assistant', content: data.text });
+            if (data.success && data.message) {
+                addMessage(data.message, 'agent');
+                chatHistory.push({ role: 'assistant', content: data.message });
             } else {
-                addMessage("I apologize, I'm having trouble connecting to my knowledge base right now.", 'agent');
+                addMessage(data.error || "I apologize, I'm having trouble connecting to my knowledge base right now.", 'agent');
             }
         } catch (err) {
             removeTyping();
