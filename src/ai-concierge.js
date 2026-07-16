@@ -1,3 +1,5 @@
+import gsap from 'gsap';
+
 const AICierge = (() => {
     let initialized = false;
     let orbWrapper, orb, chatPanel, messagesContainer, inputField, submitBtn, suggestionBubble;
@@ -270,7 +272,7 @@ const AICierge = (() => {
         orbWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(0)`;
         setTimeout(() => {
             orbWrapper.classList.add('visible');
-            if (window.gsap) {
+            if (gsap) {
                 gsap.to(orbWrapper, {
                     scale: 1,
                     duration: 1.5,
@@ -365,7 +367,7 @@ const AICierge = (() => {
             const pX = window.innerWidth / 2 - pWidth / 2;
             const pY = window.innerHeight / 2 - pHeight / 2;
 
-            if (window.gsap) {
+            if (gsap) {
                 // Animate Panel appearing from Orb position
                 gsap.set(chatPanel, { x: currentX, y: currentY, scale: 0.2, opacity: 0 });
                 chatPanel.classList.add('active');
@@ -393,10 +395,10 @@ const AICierge = (() => {
 
             setTimeout(() => inputField.focus(), 600);
             
-        } else {
+         } else {
             chatPanel.classList.remove('active');
             
-            if (window.gsap) {
+            if (gsap) {
                 // Hide panel back to currentX/Y
                 gsap.to(chatPanel, {
                     x: currentX,
