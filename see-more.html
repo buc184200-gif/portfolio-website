@@ -762,8 +762,11 @@
         /* Pricing Grid */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .price-card {
@@ -899,21 +902,22 @@
 
         .plan-price {
             font-family: var(--font-sans);
-            font-size: clamp(1.8rem, 2.5vw, 3rem);
+            font-size: clamp(1.4rem, 2.2vw, 2.2rem);
             font-weight: 400;
             color: var(--c-highlight);
             margin-bottom: 0.5rem;
             display: flex;
-            align-items: baseline;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            gap: 0.5rem 1rem;
-            flex-wrap: wrap;
+            gap: 0.25rem;
+            min-height: 4.5rem;
             text-align: center;
             width: 100%;
         }
 
         .plan-price-old {
-            font-size: clamp(1.1rem, 1.3vw, 1.4rem);
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
             color: var(--c-text-dim);
             text-decoration: line-through;
             font-weight: 300;
@@ -925,7 +929,8 @@
             color: var(--c-text-dim);
             margin-bottom: 2.5rem;
             line-height: 1.6;
-            min-height: 3em;
+            min-height: 3.5rem;
+            text-align: center;
         }
 
         .plan-features {
@@ -1455,8 +1460,8 @@
             
             /* Pricing */
             .pricing-grid { grid-template-columns: 1fr; gap: 30px; }
-            .plan-card { padding: 30px 20px; }
-            .plan-btn { width: 100%; min-height: 48px; padding: 15px; text-align: center; justify-content: center; display: flex; }
+            .price-card { padding: 30px 20px; height: auto !important; }
+            .plan-btn { width: 100%; min-height: 48px; padding: 15px; text-align: center; justify-content: center; display: flex; box-sizing: border-box; }
             
             /* Footer */
             .footer { flex-direction: column; gap: 30px; text-align: center; padding: 40px 20px; }
@@ -1526,7 +1531,7 @@
 
         .builder-container {
             display: grid;
-            grid-template-columns: 350px 1fr;
+            grid-template-columns: 400px 1fr;
             gap: 4rem;
             align-items: start;
             max-width: 1200px;
@@ -1571,13 +1576,14 @@
         }
 
         .quote-price {
-            font-size: 2.2rem;
+            font-size: 2.05rem;
             font-family: var(--font-sans);
             color: var(--c-highlight);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            white-space: nowrap;
         }
 
         .quote-price.updating {
@@ -1746,13 +1752,32 @@
         @media (max-width: 992px) {
             .builder-container {
                 grid-template-columns: 1fr;
+                gap: 3rem;
             }
             .builder-left {
                 position: relative;
                 top: 0;
+                width: 100%;
             }
             .builder-group {
                 padding: 1.5rem;
+            }
+            .builder-quote-box {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 2rem 1.5rem;
+            }
+            .quote-price {
+                font-size: clamp(1.4rem, 5.5vw, 2.2rem);
+                word-break: break-all;
+                flex-wrap: wrap;
+                white-space: normal;
+            }
+            .grid-2 {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+            .grid-3 {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             }
         }
 
@@ -2417,10 +2442,9 @@
                     <span></span><span></span><span></span>
                 </button>
                 <div class="nav-links" id="nav-links">
-                    <a href="/projects.html" class="nav-link"><span class="nav-idx">01</span>Projects</a>
-                    <a href="#pricing" class="nav-link"><span class="nav-idx">02</span>Pricing</a>
-                    <a href="#about" class="nav-link"><span class="nav-idx">03</span>About</a>
-                    <a href="https://wa.me/917037311050" class="nav-link" ><span class="nav-idx">04</span>Inquire</a>
+                    <a href="#pricing" class="nav-link"><span class="nav-idx">01</span>Pricing</a>
+                    <a href="#about" class="nav-link"><span class="nav-idx">02</span>About</a>
+                    <a href="https://wa.me/917037311050" class="nav-link" ><span class="nav-idx">03</span>Inquire</a>
                 </div>
 
 <div class="auth-container" id="authContainer">
@@ -2660,8 +2684,8 @@
             <div class="luxury-divider"></div>
             <section id="about" class="fade-in-section info-block">
                 <h2 class="section-heading">About <em>Us</em></h2>
-                <p>Crestiva Web Studio is driven by <strong>Khushwant Singh</strong> and <strong>Sarthak Sengar</strong>. We build immersive digital experiences tailored to your brand, bridging the gap between cutting-edge technology and aesthetic design.</p>
-                <p>We believe every website is the digital embodiment of a brand's soul. Let us bring yours to life with algorithmic precision and bespoke craftsmanship.</p>
+                <p>Crestiva Web Studio is founded by Khushwant Singh and Sarthak Sengar. We build premium, high-performance websites that help businesses establish trust, attract more customers, and create a powerful online presence.</p>
+                <p>Every website is thoughtfully crafted around your brand, combining modern design, speed, SEO, and user experience to deliver digital experiences that not only look exceptional but also support real business growth.</p>
             </section>
 
             <div class="luxury-divider"></div>
@@ -3454,6 +3478,53 @@
                 } else {
                     btn.style.transform = '';
                 }
+            });
+
+            // Smart Scrolling-Hide UX & Price Card Overlap Prevention
+            let lastScrollY = window.scrollY;
+            let isHiddenByScroll = false;
+            let isHiddenByCardHover = false;
+
+            const updateButtonVisibility = () => {
+                if (isHiddenByCardHover) {
+                    btn.style.opacity = '0.08';
+                    btn.style.pointerEvents = 'none';
+                    btn.style.transform = 'scale(0.8)';
+                } else if (isHiddenByScroll) {
+                    btn.style.opacity = '0';
+                    btn.style.pointerEvents = 'none';
+                    btn.style.transform = 'translateY(100px)';
+                } else {
+                    btn.style.opacity = '';
+                    btn.style.pointerEvents = '';
+                    btn.style.transform = '';
+                }
+            };
+
+            window.addEventListener('scroll', () => {
+                if (!btn.classList.contains('is-active')) return;
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > lastScrollY && currentScrollY > 300) {
+                    // Scrolling down - hide button so it doesn't cover content
+                    isHiddenByScroll = true;
+                } else {
+                    // Scrolling up - show button
+                    isHiddenByScroll = false;
+                }
+                lastScrollY = currentScrollY;
+                updateButtonVisibility();
+            }, { passive: true });
+
+            // Also hide when hovering over any price card
+            document.querySelectorAll('.price-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    isHiddenByCardHover = true;
+                    updateButtonVisibility();
+                });
+                card.addEventListener('mouseleave', () => {
+                    isHiddenByCardHover = false;
+                    updateButtonVisibility();
+                });
             });
 
             // 4. Click ripple & transition

@@ -14,78 +14,23 @@ const ParallaxGallery = React.lazy(() => Promise.resolve({ default: memo(Paralla
 const Stats = React.lazy(() => Promise.resolve({ default: memo(StatsComponent) }));
 const Footer = React.lazy(() => Promise.resolve({ default: memo(FooterComponent) }));
 
-const LoadingScreen = memo(({ onComplete }: { onComplete: () => void }) => {
-  const [count, setCount] = useState(0);
-  const words = ["Design", "Create", "Inspire"];
-  const [wordIndex, setWordIndex] = useState(0);
-
-  useEffect(() => {
-    let start: number;
-    const duration = 2700;
-    
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      setCount(Math.floor(progress * 100));
-      
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        setTimeout(onComplete, 400);
-      }
-    };
-    
-    requestAnimationFrame(step);
-
-    const wordInterval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % words.length);
-    }, 900);
-
-    return () => clearInterval(wordInterval);
-  }, [onComplete]);
-
+export default function App() {
   return (
-    <div className="fixed inset-0 z-[9999] bg-bg flex flex-col justify-between p-6 overflow-hidden">
-      <motion.div 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="text-xs text-muted uppercase tracking-[0.3em]"
-      >
-        Portfolio
-      </motion.div>
-
-      <div className="flex-1 flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={wordIndex}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-display italic text-text-primary/80"
-          >
-            {words[wordIndex]}
-          </motion.div>
-        </AnimatePresence>
+    <BrowserRouter>
+      <div>
+        <Navbar />
+        <Hero />
+        <Suspense fallback={null}>
+          <SelectedWorks />
+          <Journal />
+          <ParallaxGallery />
+          <Stats />
+          <Footer />
+        </Suspense>
       </div>
-
-      <div className="flex flex-col gap-4">
-        <div className="text-right text-6xl md:text-8xl lg:text-9xl font-display text-text-primary tabular-nums">
-          {String(count).padStart(3, "0")}
-        </div>
-        <div className="w-full h-[3px] bg-stroke/50 relative overflow-hidden">
-          <div 
-            className="absolute inset-y-0 left-0 w-full accent-gradient origin-left"
-            style={{ 
-              transform: `scaleX(${count / 100})`,
-              boxShadow: '0 0 8px rgba(137, 170, 204, 0.35)'
-            }}
-          />
-        </div>
-      </div>
-    </div>
+    </BrowserRouter>
   );
-});
+}
 
 const Navbar = memo(() => {
   const [scrolled, setScrolled] = useState(false);
@@ -129,17 +74,24 @@ const Navbar = memo(() => {
         <div className="hidden md:block w-px h-5 bg-stroke mx-1" />
 
         <div className="flex items-center px-2">
-          <a 
-            href="#"
-            onClick={(e) => { e.preventDefault(); window.history.back(); }}
-            className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors text-muted hover:text-text-primary hover:bg-stroke/50"
+          <button 
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              if (window.history.length > 1) {
+                window.history.back();
+              } else {
+                window.location.href = "/";
+              }
+            }}
+            className="text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors text-muted hover:text-text-primary hover:bg-stroke/50 bg-transparent border-0 outline-none cursor-pointer"
           >
             Back
-          </a>
+          </button>
           {["Home", "Work", "Resume"].map((item, i) => (
             <a 
               key={item} 
-              href="#"
+              href={item === "Home" ? "/" : "#"}
               className={`text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors ${i === 0 ? 'text-text-primary bg-stroke/50' : 'text-muted hover:text-text-primary hover:bg-stroke/50'}`}
             >
               {item}
@@ -149,7 +101,17 @@ const Navbar = memo(() => {
 
         <div className="w-px h-5 bg-stroke mx-1" />
 
-        <div className="group relative ml-2 cursor-pointer">
+        <div 
+          onClick={() => {
+            const trigger = document.getElementById('ai-concierge-orb-wrapper');
+            if (trigger) {
+              trigger.click();
+            } else {
+              console.warn("AI Concierge orb trigger (#ai-concierge-orb-wrapper) not found.");
+            }
+          }}
+          className="group relative ml-2 cursor-pointer"
+        >
           <span className="absolute -inset-[2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity" />
           <div className="relative bg-surface rounded-full backdrop-blur-sm text-xs sm:text-sm text-text-primary px-3 sm:px-4 py-1.5 sm:py-2 flex items-center gap-2">
             Say hi <span className="text-[10px]">↗</span>
@@ -520,23 +482,4 @@ const FooterComponent = () => {
   );
 };
 
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
 
-  return (
-    <BrowserRouter>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      <div className={`transition-opacity duration-1000 ${isLoading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
-        <Navbar />
-        <Hero />
-        <Suspense fallback={null}>
-          <SelectedWorks />
-          <Journal />
-          <ParallaxGallery />
-          <Stats />
-          <Footer />
-        </Suspense>
-      </div>
-    </BrowserRouter>
-  );
-}
