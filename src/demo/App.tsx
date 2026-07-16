@@ -88,15 +88,33 @@ const Navbar = memo(() => {
           >
             Back
           </button>
-          {["Home", "Work", "Resume"].map((item, i) => (
-            <a 
-              key={item} 
-              href={item === "Home" ? "/" : "#"}
-              className={`text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors ${i === 0 ? 'text-text-primary bg-stroke/50' : 'text-muted hover:text-text-primary hover:bg-stroke/50'}`}
-            >
-              {item}
-            </a>
-          ))}
+          {["Home", "Work"].map((item, i) => {
+            const isHome = item === "Home";
+            return (
+              <a 
+                key={item} 
+                href={isHome ? "/" : "#work"}
+                onClick={(e) => {
+                  if (!isHome) {
+                    e.preventDefault();
+                    const element = document.getElementById('work');
+                    if (element) {
+                      const navbarHeight = 80;
+                      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+                      const offsetPosition = elementPosition - navbarHeight;
+                      window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                      });
+                    }
+                  }
+                }}
+                className={`text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 transition-colors ${isHome ? 'text-text-primary bg-stroke/50' : 'text-muted hover:text-text-primary hover:bg-stroke/50'}`}
+              >
+                {item}
+              </a>
+            );
+          })}
         </div>
 
         <div className="w-px h-5 bg-stroke mx-1" />
@@ -214,7 +232,7 @@ const SelectedWorksComponent = () => {
   ];
 
   return (
-    <section className="bg-bg py-12 md:py-16">
+    <section id="work" className="bg-bg py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
         
         <motion.div 
