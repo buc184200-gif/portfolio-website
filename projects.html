@@ -164,6 +164,10 @@
             .cta-button { margin-top: 2rem; }
         }
         @media (max-width: 768px) { body { cursor: auto; } .cursor-dot, .cursor-ring { display: none; } }
+        @media (hover: none), (pointer: coarse) {
+            body { cursor: auto !important; }
+            .cursor-dot, .cursor-ring { display: none !important; }
+        }
 
         /* --- Page Transition Overlay --- */
         .page-transition {
@@ -940,7 +944,44 @@
 
         const lerp = (start, end, factor) => start + (end - start) * factor;
 
-        if (window.innerWidth > 768) {
+        const isTouchDevice = window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches;
+
+        if (isTouchDevice) {
+            if (cursorDot) cursorDot.style.display = 'none';
+            if (cursorRing) cursorRing.style.display = 'none';
+            
+            // Reusable ripple creator
+            const createTapRipple = (x, y) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'tap-ripple';
+                ripple.style.position = 'fixed';
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                ripple.style.width = '40px';
+                ripple.style.height = '40px';
+                ripple.style.borderRadius = '50%';
+                ripple.style.backgroundColor = 'rgba(196, 168, 130, 0.45)';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.zIndex = '9999999';
+                ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+                ripple.style.opacity = '1';
+                ripple.style.transition = 'transform 0.4s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.4s ease';
+                
+                document.body.appendChild(ripple);
+                ripple.getBoundingClientRect(); // trigger reflow
+                ripple.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                ripple.style.opacity = '0';
+                
+                setTimeout(() => { ripple.remove(); }, 450);
+            };
+
+            window.addEventListener('touchstart', (e) => {
+                if (e.touches && e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    createTapRipple(touch.clientX, touch.clientY);
+                }
+            }, { passive: true });
+        } else if (window.innerWidth > 768) {
             window.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX; mouseY = e.clientY;
             });
@@ -1082,7 +1123,7 @@
         // --- 3. Main Loop (Hero Parallax + Cursor + Canvas) ---
         const hero = document.getElementById('hero');
         function animate() {
-            if (window.innerWidth > 768) {
+            if (!isTouchDevice && window.innerWidth > 768) {
                 dotX = lerp(dotX, mouseX, 0.2); dotY = lerp(dotY, mouseY, 0.2);
                 ringX = lerp(ringX, mouseX, 0.1); ringY = lerp(ringY, mouseY, 0.1);
                 cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
@@ -1262,9 +1303,7 @@ function saveUsers(users) {
 }
 
 function openAuthModal(mode) {
-    currentAuthMode = mode;
-    updateAuthModalUI();
-    document.getElementById('authModalOverlay').classList.add('active');
+    window.location.href = '/see-more.html?auth=' + mode;
 }
 
 function closeAuthModal(e) {

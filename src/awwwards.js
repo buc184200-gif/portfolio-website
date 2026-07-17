@@ -36,58 +36,103 @@ document.addEventListener('DOMContentLoaded', () => {
     glow.className = 'ambient-glow';
     body.appendChild(glow);
 
-    // Cursor
-    const cursor = document.createElement('div');
-    cursor.id = 'custom-cursor';
-    const follower = document.createElement('div');
-    follower.id = 'custom-cursor-follower';
-    body.appendChild(cursor);
-    body.appendChild(follower);
+    // Check for touch device using pointer media queries
+    const isTouchDevice = window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches;
 
-    // 1. Advanced Cursor System & Ambient Glow
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let cx = mouseX, cy = mouseY; // cursor
-    let fx = mouseX, fy = mouseY; // follower
-    let gx = mouseX, gy = mouseY; // glow
+    if (!isTouchDevice) {
+        // Cursor
+        const cursor = document.createElement('div');
+        cursor.id = 'custom-cursor';
+        const follower = document.createElement('div');
+        follower.id = 'custom-cursor-follower';
+        body.appendChild(cursor);
+        body.appendChild(follower);
 
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+        // 1. Advanced Cursor System & Ambient Glow
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cx = mouseX, cy = mouseY; // cursor
+        let fx = mouseX, fy = mouseY; // follower
+        let gx = mouseX, gy = mouseY; // glow
 
-    function renderLoop() {
-        // Linear interpolation for smooth follow
-        cx += (mouseX - cx) * 0.3;
-        cy += (mouseY - cy) * 0.3;
-        fx += (mouseX - fx) * 0.15;
-        fy += (mouseY - fy) * 0.15;
-        gx += (mouseX - gx) * 0.05;
-        gy += (mouseY - gy) * 0.05;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-        // Velocity stretch for cursor
-        const vx = mouseX - cx;
-        const vy = mouseY - cy;
-        const speed = Math.sqrt(vx * vx + vy * vy);
-        const scaleX = 1 + Math.min(speed * 0.005, 1);
-        const scaleY = 1 - Math.min(speed * 0.002, 0.5);
-        const angle = Math.atan2(vy, vx) * 180 / Math.PI;
+        function renderLoop() {
+            // Linear interpolation for smooth follow
+            cx += (mouseX - cx) * 0.3;
+            cy += (mouseY - cy) * 0.3;
+            fx += (mouseX - fx) * 0.15;
+            fy += (mouseY - fy) * 0.15;
+            gx += (mouseX - gx) * 0.05;
+            gy += (mouseY - gy) * 0.05;
 
-        cursor.style.transform = `translate(-50%, -50%) translate3d(${cx}px, ${cy}px, 0) rotate(${angle}deg) scale(${scaleX}, ${scaleY})`;
-        follower.style.transform = `translate(-50%, -50%) translate3d(${fx}px, ${fy}px, 0)`;
-        
-        glow.style.transform = `translate(-50%, -50%) translate3d(${gx}px, ${gy}px, 0)`;
+            // Velocity stretch for cursor
+            const vx = mouseX - cx;
+            const vy = mouseY - cy;
+            const speed = Math.sqrt(vx * vx + vy * vy);
+            const scaleX = 1 + Math.min(speed * 0.005, 1);
+            const scaleY = 1 - Math.min(speed * 0.002, 0.5);
+            const angle = Math.atan2(vy, vx) * 180 / Math.PI;
 
+            cursor.style.transform = `translate(-50%, -50%) translate3d(${cx}px, ${cy}px, 0) rotate(${angle}deg) scale(${scaleX}, ${scaleY})`;
+            follower.style.transform = `translate(-50%, -50%) translate3d(${fx}px, ${fy}px, 0)`;
+            
+            if (glow) {
+                glow.style.transform = `translate(-50%, -50%) translate3d(${gx}px, ${gy}px, 0)`;
+            }
+
+            requestAnimationFrame(renderLoop);
+        }
         requestAnimationFrame(renderLoop);
-    }
-    requestAnimationFrame(renderLoop);
 
-    // Hover states for cursor
-    const interactiveElements = document.querySelectorAll('a, button, input, select, .price-card');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => body.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => body.classList.remove('cursor-hover'));
-    });
+        // Hover states for cursor
+        const interactiveElements = document.querySelectorAll('a, button, input, select, .price-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => body.classList.remove('cursor-hover'));
+        });
+    } else {
+        // Touch device setup
+        // Hide ambient-glow or make it static/hidden
+        if (glow) {
+            glow.style.display = 'none';
+        }
+        
+        // Dynamic Tap Ripple creator for premium click feedback
+        const createTapRipple = (x, y) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'tap-ripple';
+            ripple.style.position = 'fixed';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            ripple.style.width = '40px';
+            ripple.style.height = '40px';
+            ripple.style.borderRadius = '50%';
+            ripple.style.backgroundColor = 'rgba(196, 168, 130, 0.45)';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.zIndex = '9999999';
+            ripple.style.transform = 'translate(-50%, -50%) scale(0)';
+            ripple.style.opacity = '1';
+            ripple.style.transition = 'transform 0.4s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.4s ease';
+            
+            document.body.appendChild(ripple);
+            ripple.getBoundingClientRect(); // trigger reflow
+            ripple.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            ripple.style.opacity = '0';
+            
+            setTimeout(() => { ripple.remove(); }, 450);
+        };
+
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches.length > 0) {
+                const touch = e.touches[0];
+                createTapRipple(touch.clientX, touch.clientY);
+            }
+        }, { passive: true });
+    }
     
     // Magnetic Buttons (Awwwards staple)
     const magneticBtns = document.querySelectorAll('.hero-cta, .plan-btn, .nav-btn, .action-btn');
@@ -318,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Premium Cursor Follower Light
         const cursorLight = document.getElementById('cursor-light');
-        if (cursorLight) {
+        if (cursorLight && !isTouchDevice) {
             let clx = window.innerWidth / 2;
             let cly = window.innerHeight / 2;
             
@@ -336,6 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.mouseX = e.clientX;
                 window.mouseY = e.clientY;
             });
+        } else if (cursorLight && isTouchDevice) {
+            cursorLight.style.display = 'none';
         }
     }
 });

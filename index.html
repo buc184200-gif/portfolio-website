@@ -3532,9 +3532,7 @@ function saveUsers(users) {
 }
 
 function openAuthModal(mode) {
-    currentAuthMode = mode;
-    updateAuthModalUI();
-    document.getElementById('authModalOverlay').classList.add('active');
+    window.location.href = '/see-more.html?auth=' + mode;
 }
 
 function closeAuthModal(e) {
