@@ -2408,6 +2408,110 @@
     text-align: center;
 }
 
+/* Contact Section CSS */
+.contact-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.glass-form {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+.form-group input, .form-group textarea {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+.contact-info-blocks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+.info-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+.info-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.04);
+}
+.info-card h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d4af37;
+    margin-bottom: 0.5rem;
+}
+.info-card p, .info-card a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.info-card a:hover {
+    color: #fff;
+}
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .contact-info-blocks {
+        grid-template-columns: 1fr 1fr;
+    }
+    .glass-form {
+        padding: 1.5rem;
+    }
+}
+@media (max-width: 480px) {
+    .contact-info-blocks {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
 
     <!-- Awwwards Level Upgrades -->
@@ -2689,13 +2793,66 @@
             </section>
 
             <div class="luxury-divider"></div>
-            <section id="contact" class="fade-in-section info-block">
-                <h2 class="section-heading">Get in <em>Touch</em></h2>
-                <p>Ready to start your project or need a custom quote?</p>
-                <p>WhatsApp: <a href="https://wa.me/917037311050" target="_blank">+91 7037311050</a></p>
-                <p>Email: <a href="mailto:crestivawebstudio@gmail.com">crestivawebstudio@gmail.com</a></p>
-                <br>
-                <a href="https://wa.me/917037311050" class="plan-btn" target="_blank">Start the Conversation</a>
+            <section id="contact" class="fade-in-section contact-section" style="padding-bottom: 60px;">
+                <h2 class="section-heading">Let's Build Your <em>Vision</em></h2>
+                <p class="builder-desc" style="text-align: center; max-width: 600px; margin: 0 auto 40px;">Ready to start your project or need a custom quote? Fill out the form below and we'll get back to you within 24 hours.</p>
+                
+                <div class="contact-container">
+                    <form id="supabaseContactForm" class="glass-form">
+                        <div id="contactFormSuccess" style="display: none; padding: 15px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; color: #10b981; margin-bottom: 20px; font-size: 14px;">
+                            Thank you! Your message has been sent successfully. We will contact you soon.
+                        </div>
+                        <div id="contactFormError" style="display: none; padding: 15px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 8px; color: #ef4444; margin-bottom: 20px; font-size: 14px;">
+                            There was an error sending your message. Please try again.
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="contactName">Full Name *</label>
+                                <input type="text" id="contactName" required placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Email Address *</label>
+                                <input type="email" id="contactEmail" required placeholder="john@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPhone">Phone Number *</label>
+                                <input type="tel" id="contactPhone" required placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactBusiness">Business Name</label>
+                                <input type="text" id="contactBusiness" placeholder="Your Company Ltd.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message *</label>
+                            <textarea id="contactMessage" required rows="4" placeholder="Tell us about your project requirements..."></textarea>
+                        </div>
+                        
+                        <button type="submit" id="contactSubmitBtn" class="plan-btn gold-btn magnetic" data-magnetic-strength="10" style="width: 100%; border: none; cursor: pointer; padding: 16px;">
+                            Send Message
+                        </button>
+                    </form>
+                    
+                    <div class="contact-info-blocks">
+                        <div class="info-card">
+                            <h4>Email Us</h4>
+                            <p><a href="mailto:crestivawebstudio@gmail.com">crestivawebstudio@gmail.com</a></p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Call / WhatsApp</h4>
+                            <p><a href="https://wa.me/917037311050" target="_blank">+91 7037311050</a></p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Business Hours</h4>
+                            <p>Mon - Sat, 10:00 AM - 7:00 PM</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>Location</h4>
+                            <p>India (Available Globally)</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
@@ -2705,6 +2862,7 @@
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { createClient } from '@supabase/supabase-js';
 
         const container = document.getElementById('three-container');
         const morphNameEl = document.getElementById('morph-name');
@@ -4913,6 +5071,67 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.transform = `translate(0px, 0px)`;
         });
     });
+
+    // Supabase Contact Form Setup
+    const supabaseUrl = 'https://fjtjloenjkzhnzbrzabb.supabase.co';
+    const supabaseKey = 'sb_publishable_jYZBb0lUodq9cR5sJeFPaA_r2gPM0cr';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const contactForm = document.getElementById('supabaseContactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('contactSubmitBtn');
+            const successMsg = document.getElementById('contactFormSuccess');
+            const errorMsg = document.getElementById('contactFormError');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const phone = document.getElementById('contactPhone').value.trim();
+            const business_name = document.getElementById('contactBusiness').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+            
+            if (!name || !email || !phone || !message) {
+                errorMsg.textContent = 'Please fill out all required fields.';
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase
+                    .from('leads')
+                    .insert([
+                        { 
+                            name, 
+                            email, 
+                            phone, 
+                            business_name: business_name || null, 
+                            message 
+                        }
+                    ]);
+                    
+                if (error) throw error;
+                
+                successMsg.style.display = 'block';
+                contactForm.reset();
+            } catch (err) {
+                console.error('Supabase error:', err);
+                errorMsg.textContent = err.message || 'There was an error sending your message. Please try again.';
+                errorMsg.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    }
 });
 </script>
 
