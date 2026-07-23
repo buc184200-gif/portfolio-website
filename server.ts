@@ -815,6 +815,10 @@ async function startServer() {
           res.setHeader("Content-Type", "image/png");
         } else if (ext === ".jpg" || ext === ".jpeg") {
           res.setHeader("Content-Type", "image/jpeg");
+        } else if (ext === ".xml") {
+          res.setHeader("Content-Type", "application/xml; charset=utf-8");
+        } else if (ext === ".txt") {
+          res.setHeader("Content-Type", "text/plain; charset=utf-8");
         }
       }
     }));

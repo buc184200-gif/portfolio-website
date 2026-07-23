@@ -669,12 +669,46 @@
 
 		.nav-float.visible { opacity: 1; }
 
-		.nav-logo {
-			font-family: 'Playfair Display', serif;
-			font-size: 18px;
-			color: var(--color-heading, rgba(245, 250, 230, 0.8));
-			letter-spacing: 1px;
+		.nav-logo-link {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			text-decoration: none;
 			pointer-events: auto;
+			transition: opacity 0.3s ease;
+		}
+		.nav-logo-link:hover {
+			opacity: 0.95;
+		}
+		.nav-logo-img {
+			height: 40px;
+			width: 40px;
+			object-fit: contain;
+			transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.nav-logo-link:hover .nav-logo-img {
+			transform: scale(1.08) rotate(3deg);
+		}
+		.nav-logo-text {
+			font-family: 'Playfair Display', serif;
+			font-size: 20px;
+			font-weight: 500;
+			color: var(--color-heading, rgba(245, 250, 230, 0.9));
+			letter-spacing: 1.5px;
+			margin: 0;
+			transition: color 0.3s ease;
+		}
+		.nav-logo-link:hover .nav-logo-text {
+			color: var(--color-accent, rgba(230, 245, 120, 0.95));
+		}
+		@media (max-width: 640px) {
+			.nav-logo-text {
+				display: none;
+			}
+			.nav-logo-img {
+				height: 34px;
+				width: 34px;
+			}
 		}
 
 		.nav-links {
@@ -1631,6 +1665,315 @@
 			}
 		}
 
+		/* AI Audit Section CSS */
+		.audit-section {
+			padding: 100px 20px;
+			position: relative;
+			background: transparent;
+			overflow: hidden;
+		}
+		.audit-container {
+			max-width: 1000px;
+			margin: 0 auto;
+			position: relative;
+			z-index: 2;
+		}
+		.audit-hero-glass {
+			background: rgba(15, 20, 15, 0.4);
+			border: 1px solid rgba(212, 175, 55, 0.15);
+			border-radius: 24px;
+			padding: 4rem 3rem;
+			backdrop-filter: blur(20px);
+			-webkit-backdrop-filter: blur(20px);
+			text-align: center;
+			box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.02);
+		}
+		.audit-title {
+			font-family: 'Playfair Display', serif;
+			font-size: clamp(2rem, 5vw, 3.5rem);
+			color: #fff;
+			margin-bottom: 1rem;
+		}
+		.audit-title em {
+			font-style: italic;
+			color: #c4a882;
+		}
+		.audit-subtitle {
+			color: rgba(255,255,255,0.7);
+			max-width: 600px;
+			margin: 0 auto 2.5rem;
+			font-size: 1.1rem;
+			line-height: 1.6;
+		}
+		.audit-input-group {
+			display: flex;
+			max-width: 600px;
+			margin: 0 auto;
+			background: rgba(0, 0, 0, 0.6);
+			border: 1px solid rgba(196, 168, 130, 0.3);
+			border-radius: 50px;
+			overflow: hidden;
+			padding: 5px;
+			box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+			transition: border-color 0.3s;
+		}
+		.audit-input-group:focus-within {
+			border-color: #c4a882;
+		}
+		.audit-input-group input {
+			flex: 1;
+			background: transparent;
+			border: none;
+			color: #fff;
+			padding: 15px 25px;
+			font-size: 1rem;
+			outline: none;
+		}
+		.audit-input-group input::placeholder {
+			color: rgba(255, 255, 255, 0.4);
+		}
+		.audit-input-group button {
+			background: #c4a882;
+			color: #000;
+			border: none;
+			padding: 15px 35px;
+			border-radius: 40px;
+			font-weight: 600;
+			font-size: 1rem;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+		.audit-input-group button:hover {
+			box-shadow: 0 0 20px rgba(196, 168, 130, 0.4);
+			transform: scale(1.02);
+		}
+		
+		.audit-loading {
+			display: none;
+			margin-top: 3rem;
+			flex-direction: column;
+			align-items: center;
+			gap: 20px;
+		}
+		.audit-spinner {
+			width: 50px;
+			height: 50px;
+			border: 2px solid rgba(196, 168, 130, 0.1);
+			border-top-color: #c4a882;
+			border-right-color: #c4a882;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+		}
+		@keyframes spin { 100% { transform: rotate(360deg); } }
+		.audit-loading-text {
+			color: #c4a882;
+			font-family: var(--font-mono, monospace);
+			font-size: 0.9rem;
+			letter-spacing: 3px;
+			text-transform: uppercase;
+		}
+		
+		.audit-results {
+			display: none;
+			margin-top: 4rem;
+			text-align: left;
+			animation: fadeIn 0.6s ease forwards;
+		}
+		
+		.audit-metrics-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			gap: 1.5rem;
+			margin-bottom: 3rem;
+		}
+		.audit-metric-card {
+			background: rgba(255, 255, 255, 0.02);
+			border: 1px solid rgba(255, 255, 255, 0.05);
+			border-radius: 16px;
+			padding: 1.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			position: relative;
+			overflow: hidden;
+		}
+		.audit-metric-card::before {
+			content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+			background: linear-gradient(135deg, rgba(196, 168, 130, 0.05), transparent);
+			pointer-events: none;
+		}
+		.audit-metric-label {
+			font-size: 0.8rem;
+			color: rgba(255, 255, 255, 0.5);
+			text-transform: uppercase;
+			letter-spacing: 1.5px;
+		}
+		.audit-metric-score {
+			font-size: 2.5rem;
+			color: #fff;
+			font-weight: 300;
+			line-height: 1;
+			font-family: 'Playfair Display', serif;
+		}
+		.audit-metric-score span {
+			font-size: 1rem;
+			color: rgba(255,255,255,0.3);
+		}
+		.audit-metric-bar {
+			width: 100%;
+			height: 4px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 2px;
+			overflow: hidden;
+			margin-top: auto;
+		}
+		.audit-metric-fill {
+			height: 100%;
+			background: #c4a882;
+			width: 0%;
+			transition: width 2s cubic-bezier(0.23, 1, 0.32, 1);
+		}
+		
+		.audit-insights-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.5rem;
+			margin-bottom: 3rem;
+		}
+		.audit-insight-list {
+			background: rgba(0,0,0,0.4);
+			border-radius: 16px;
+			padding: 2rem;
+			border: 1px solid rgba(255,255,255,0.03);
+		}
+		.audit-insight-list h4 {
+			margin-bottom: 1.5rem;
+			text-transform: uppercase;
+			letter-spacing: 1.5px;
+			font-size: 0.85rem;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+		.audit-insight-list.strengths h4 { color: #10b981; }
+		.audit-insight-list.weaknesses h4 { color: #ef4444; }
+		.audit-insight-list.recommendations h4 { color: #c4a882; }
+		
+		.audit-insight-list ul {
+			list-style: none; padding: 0; margin: 0;
+		}
+		.audit-insight-list li {
+			font-size: 0.95rem;
+			color: rgba(255,255,255,0.7);
+			margin-bottom: 1rem;
+			padding-left: 1.8rem;
+			position: relative;
+			line-height: 1.5;
+		}
+		.audit-insight-list li:last-child { margin-bottom: 0; }
+		.audit-insight-list li::before {
+			position: absolute;
+			left: 0;
+			top: 2px;
+			font-size: 1rem;
+		}
+		.audit-insight-list.strengths li::before { content: '✓'; color: #10b981; }
+		.audit-insight-list.weaknesses li::before { content: '✕'; color: #ef4444; }
+		.audit-insight-list.recommendations li::before { content: '✦'; color: #c4a882; }
+		
+		.audit-revenue-impact {
+			background: linear-gradient(135deg, rgba(196, 168, 130, 0.1), rgba(0,0,0,0.5));
+			border: 1px solid rgba(196, 168, 130, 0.2);
+			border-radius: 16px;
+			padding: 2.5rem;
+			margin-bottom: 3rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.audit-revenue-text h3 {
+			color: #c4a882;
+			font-family: 'Playfair Display', serif;
+			font-size: 1.8rem;
+			margin-bottom: 0.5rem;
+		}
+		.audit-revenue-text p {
+			color: rgba(255,255,255,0.6);
+			font-size: 0.95rem;
+		}
+		.audit-revenue-stats {
+			display: flex;
+			gap: 3rem;
+		}
+		.audit-rev-stat {
+			text-align: right;
+		}
+		.audit-rev-val {
+			font-size: 2.5rem;
+			color: #fff;
+			font-weight: 300;
+			font-family: var(--font-mono, monospace);
+		}
+		.audit-rev-label {
+			color: rgba(255,255,255,0.5);
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+		
+		.audit-actions {
+			display: flex;
+			justify-content: center;
+			gap: 1.5rem;
+		}
+		.audit-btn-primary {
+			background: #c4a882;
+			color: #000;
+			padding: 16px 32px;
+			border-radius: 40px;
+			text-decoration: none;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transition: all 0.3s;
+		}
+		.audit-btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 20px rgba(196, 168, 130, 0.3);
+		}
+		.audit-btn-secondary {
+			background: transparent;
+			color: #c4a882;
+			border: 1px solid #c4a882;
+			padding: 16px 32px;
+			border-radius: 40px;
+			text-decoration: none;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transition: all 0.3s;
+		}
+		.audit-btn-secondary:hover {
+			background: rgba(196, 168, 130, 0.1);
+		}
+
+		@media (max-width: 900px) {
+			.audit-insights-grid { grid-template-columns: 1fr; }
+			.audit-revenue-impact { flex-direction: column; text-align: center; gap: 2rem; }
+			.audit-revenue-stats { justify-content: center; width: 100%; gap: 2rem; }
+			.audit-rev-stat { text-align: center; }
+		}
+		@media (max-width: 600px) {
+			.audit-input-group { flex-direction: column; border-radius: 16px; padding: 10px; background: rgba(0,0,0,0.5); }
+			.audit-input-group input { padding: 15px; text-align: center; }
+			.audit-input-group button { border-radius: 12px; width: 100%; }
+			.audit-hero-glass { padding: 2.5rem 1.5rem; }
+			.audit-actions { flex-direction: column; }
+			.audit-btn-primary, .audit-btn-secondary { text-align: center; }
+		}
+
 </style>
 
 	<script type="importmap">
@@ -1666,7 +2009,10 @@
 	</a>
 
 	<nav class="nav-float" id="navFloat">
-		<div class="nav-logo">Crestiva</div>
+		<a href="/" class="nav-logo-link" title="Crestiva Web Studio">
+			<img src="/crestiva-logo.svg" alt="Crestiva Web Studio Logo" class="nav-logo-img" referrerPolicy="no-referrer" />
+			<span class="nav-logo-text">Crestiva</span>
+		</a>
 		<div class="nav-links">
 			<a href="javascript:void(0)" data-nav="1">Vision</a>
 			<a href="javascript:void(0)" data-nav="2">Services</a>
@@ -1737,6 +2083,105 @@
 				<div class="scroll-line"></div>
 			</div>
 		</section>
+
+		<section class="section audit-section" id="auditSection">
+			<div class="audit-container">
+				<div class="audit-hero-glass">
+					<h2 class="audit-title" data-reveal>Free AI Website <em>Audit</em></h2>
+					<p class="audit-subtitle" data-reveal data-delay="1">Discover how your website performs and uncover hidden opportunities for more leads, sales, and conversions.</p>
+					
+					<div class="audit-input-group" data-reveal data-delay="2">
+						<input type="url" id="idxAuditUrlInput" placeholder="https://yourwebsite.com" required>
+						<button id="idxAuditBtn" onclick="runIndexAudit()">Analyze Website</button>
+					</div>
+
+					<div class="audit-loading" id="idxAuditLoading">
+						<div class="audit-spinner"></div>
+						<div class="audit-loading-text" id="idxAuditLoadingText">Scanning Website...</div>
+					</div>
+
+					<div class="audit-results" id="idxAuditResults">
+						<div class="audit-metrics-grid">
+							<div class="audit-metric-card">
+								<div class="audit-metric-label">SEO Score</div>
+								<div class="audit-metric-score" id="idxAuditSeoVal">0<span>/100</span></div>
+								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditSeoFill"></div></div>
+							</div>
+							<div class="audit-metric-card">
+								<div class="audit-metric-label">Speed Score</div>
+								<div class="audit-metric-score" id="idxAuditSpeedVal">0<span>/100</span></div>
+								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditSpeedFill"></div></div>
+							</div>
+							<div class="audit-metric-card">
+								<div class="audit-metric-label">Mobile Perf.</div>
+								<div class="audit-metric-score" id="idxAuditMobileVal">0<span>/100</span></div>
+								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditMobileFill"></div></div>
+							</div>
+							<div class="audit-metric-card">
+								<div class="audit-metric-label">Trust Score</div>
+								<div class="audit-metric-score" id="idxAuditTrustVal">0<span>/100</span></div>
+								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditTrustFill"></div></div>
+							</div>
+							<div class="audit-metric-card">
+								<div class="audit-metric-label">Conversion</div>
+								<div class="audit-metric-score" id="idxAuditLeadVal">0<span>/100</span></div>
+								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditLeadFill"></div></div>
+							</div>
+						</div>
+
+						<div class="audit-insights-grid">
+							<div class="audit-insight-list strengths">
+								<h4>Top Strengths</h4>
+								<ul id="idxAuditStrengthsList">
+									<li>Valid SSL Certificate</li>
+									<li>Basic mobile responsiveness</li>
+									<li>Domain authority established</li>
+								</ul>
+							</div>
+							<div class="audit-insight-list weaknesses">
+								<h4>Key Weaknesses</h4>
+								<ul id="idxAuditWeaknessesList">
+									<li>Slow Largest Contentful Paint (LCP)</li>
+									<li>Missing meta descriptions</li>
+									<li>Unclear call-to-actions</li>
+								</ul>
+							</div>
+							<div class="audit-insight-list recommendations">
+								<h4>Recommended Improvements</h4>
+								<ul id="idxAuditRecommendationsList">
+									<li>Optimize image payloads for speed</li>
+									<li>Implement clear, conversion-focused CTAs</li>
+									<li>Add schema markup for rich snippets</li>
+								</ul>
+							</div>
+						</div>
+						
+						<div class="audit-revenue-impact">
+							<div class="audit-revenue-text">
+								<h3>Revenue Impact</h3>
+								<p>Based on traffic estimates and current conversion gaps.</p>
+							</div>
+							<div class="audit-revenue-stats">
+								<div class="audit-rev-stat">
+									<div class="audit-rev-val" id="idxAuditLostLeads">0</div>
+									<div class="audit-rev-label">Lost Leads / Mo</div>
+								</div>
+								<div class="audit-rev-stat">
+									<div class="audit-rev-val" id="idxAuditRevOpp">₹0</div>
+									<div class="audit-rev-label">Revenue Opp.</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="audit-actions">
+							<a href="https://wa.me/917037311050" class="audit-btn-primary" target="_blank">Book a Free Strategy Call</a>
+							<a href="/see-more.html" class="audit-btn-secondary">Get a Custom Website Plan</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
 
 		<section class="section manifesto" data-stage="1">
 			<span class="manifesto-label" data-reveal>Our Vision</span>

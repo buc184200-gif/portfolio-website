@@ -416,17 +416,46 @@
             pointer-events: auto;
         }
 
-        .nav-brand {
-            font-family: var(--font-sans);
-            font-size: 1.1rem;
+        .nav-brand-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .nav-brand-link:hover {
+            opacity: 0.95;
+        }
+        .nav-brand-img {
+            height: 38px;
+            width: 38px;
+            object-fit: contain;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-brand-link:hover .nav-brand-img {
+            transform: scale(1.08) rotate(3deg);
+        }
+        .nav-brand-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
             font-weight: 500;
             color: var(--c-text);
-            text-decoration: none;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            transition: color 0.3s;
+            letter-spacing: 0.12em;
+            margin: 0;
+            transition: color 0.3s ease;
         }
-        .nav-brand:hover { color: var(--c-accent); }
+        .nav-brand-link:hover .nav-brand-text {
+            color: var(--c-accent);
+        }
+        @media (max-width: 640px) {
+            .nav-brand-text {
+                display: none;
+            }
+            .nav-brand-img {
+                height: 34px;
+                width: 34px;
+            }
+        }
 
         .nav-links {
             display: flex;
@@ -2512,6 +2541,355 @@
         grid-template-columns: 1fr;
     }
 }
+/* AI Audit Section CSS */
+.audit-section {
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
+}
+.audit-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+.audit-hero-glass {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 20px;
+    padding: 3rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.audit-input-group {
+    display: flex;
+    max-width: 600px;
+    margin: 2rem auto;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50px;
+    overflow: hidden;
+    padding: 5px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+.audit-input-group input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 15px 25px;
+    font-size: 1rem;
+    outline: none;
+}
+.audit-input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+.audit-input-group button {
+    background: #d4af37;
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.audit-input-group button:hover {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    transform: scale(1.02);
+}
+
+.audit-loading {
+    display: none;
+    margin-top: 2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.audit-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(212, 175, 55, 0.2);
+    border-top-color: #d4af37;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.audit-loading-text {
+    color: #d4af37;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+.audit-results {
+    display: none;
+    margin-top: 3rem;
+    text-align: left;
+    animation: fadeIn 0.5s ease forwards;
+}
+.audit-overall-score {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.audit-overall-score .score-circle {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 4px solid #d4af37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+    background: rgba(0,0,0,0.4);
+}
+.audit-overall-score .score-value {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #fff;
+    line-height: 1;
+}
+.audit-overall-score .score-label {
+    font-size: 0.8rem;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+.audit-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+.audit-metric-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.audit-metric-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.audit-metric-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.audit-metric-fill {
+    height: 100%;
+    background: #d4af37;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.audit-metric-value {
+    font-family: var(--font-mono);
+    color: #fff;
+    align-self: flex-end;
+}
+
+.audit-insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+.audit-insight-list {
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.audit-insight-list h4 {
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+.audit-insight-list.strengths h4 { color: #10b981; }
+.audit-insight-list.weaknesses h4 { color: #ef4444; }
+.audit-insight-list.recommendations h4 { color: #d4af37; }
+.audit-insight-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.audit-insight-list li {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+.audit-insight-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.4);
+}
+.audit-insight-list.strengths li::before { content: '✓'; color: #10b981; }
+.audit-insight-list.weaknesses li::before { content: '✕'; color: #ef4444; }
+.audit-insight-list.recommendations li::before { content: '✦'; color: #d4af37; }
+
+.audit-cta {
+    text-align: center;
+}
+@media (max-width: 900px) {
+    .audit-insights-grid { grid-template-columns: 1fr; gap: 1rem; }
+}
+@media (max-width: 600px) {
+    .audit-input-group { flex-direction: column; border-radius: 12px; padding: 10px; background: rgba(0,0,0,0.3); }
+    .audit-input-group input { padding: 10px; text-align: center; }
+    .audit-input-group button { border-radius: 8px; width: 100%; }
+    .audit-hero-glass { padding: 1.5rem; }
+}
+/* Dream Website Builder CSS */
+.dream-builder-section {
+    padding: 80px 20px;
+    position: relative;
+    background: transparent;
+    overflow: hidden;
+}
+.dream-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+.dream-glass {
+    background: rgba(15, 20, 15, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 24px;
+    padding: 3rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+.dream-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.dream-title em {
+    font-style: italic;
+    color: #c4a882;
+}
+.dream-subtitle {
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.dream-step {
+    margin-bottom: 2.5rem;
+}
+.dream-step-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9rem;
+    color: #c4a882;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.dream-step-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(196, 168, 130, 0.2);
+}
+
+.dream-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+.dream-option {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+    position: relative;
+    overflow: hidden;
+}
+.dream-option:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(196, 168, 130, 0.4);
+}
+.dream-option.selected {
+    background: rgba(196, 168, 130, 0.1);
+    border-color: #c4a882;
+    color: #c4a882;
+    box-shadow: 0 5px 15px rgba(196, 168, 130, 0.15);
+}
+
+.dream-results {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(196, 168, 130, 0.2);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: center;
+}
+.dream-result-card {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+.dream-result-card.highlight {
+    background: linear-gradient(135deg, rgba(196, 168, 130, 0.15), rgba(0,0,0,0.5));
+    border-color: rgba(196, 168, 130, 0.3);
+}
+.dream-result-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+}
+.dream-result-val {
+    font-size: 1.8rem;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+}
+.dream-result-card.highlight .dream-result-val {
+    color: #c4a882;
+}
+
+@media (max-width: 768px) {
+    .dream-results { grid-template-columns: 1fr; }
+    .dream-glass { padding: 2rem 1.5rem; }
+    .dream-options-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 </style>
 
     <!-- Awwwards Level Upgrades -->
@@ -2541,7 +2919,10 @@
         <div class="hero-section">
             
             <nav class="nav">
-                <a href="/" class="nav-brand">Crestiva</a>
+                <a href="/" class="nav-brand-link" title="Crestiva Web Studio">
+                    <img src="/crestiva-logo.svg" alt="Crestiva Web Studio Logo" class="nav-brand-img" referrerPolicy="no-referrer" />
+                    <span class="nav-brand-text">Crestiva</span>
+                </a>
                 <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" style="display: none;">
                     <span></span><span></span><span></span>
                 </button>
@@ -2605,6 +2986,166 @@
         </div>
 
         <div class="content-wrap">
+            <section id="ai-audit" class="audit-section fade-in-section">
+                <div class="audit-container">
+                    <div class="audit-hero-glass">
+                        <h2 class="section-heading" style="margin-bottom: 10px;">Free AI Website <em>Audit</em></h2>
+                        <p style="color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto;">Enter your website URL below to get an instant, AI-driven analysis of your SEO, performance, and lead generation potential.</p>
+                        
+                        <div class="audit-input-group">
+                            <input type="url" id="auditUrlInput" placeholder="https://yourwebsite.com" required>
+                            <button id="auditBtn" onclick="runWebsiteAudit()">Analyze Website</button>
+                        </div>
+
+                        <div class="audit-loading" id="auditLoading">
+                            <div class="audit-spinner"></div>
+                            <div class="audit-loading-text" id="auditLoadingText">ANALYZING ARCHITECTURE...</div>
+                        </div>
+
+                        <div class="audit-results" id="auditResults">
+                            <div class="audit-overall-score">
+                                <div class="score-circle">
+                                    <div class="score-value" id="auditOverallScore">0</div>
+                                    <div class="score-label">Overall Score</div>
+                                </div>
+                            </div>
+                            
+                            <div class="audit-metrics-grid">
+                                <div class="audit-metric-card">
+                                    <div class="audit-metric-label">SEO Score</div>
+                                    <div class="audit-metric-bar"><div class="audit-metric-fill" id="auditSeoFill"></div></div>
+                                    <div class="audit-metric-value" id="auditSeoVal">0/100</div>
+                                </div>
+                                <div class="audit-metric-card">
+                                    <div class="audit-metric-label">Mobile Performance</div>
+                                    <div class="audit-metric-bar"><div class="audit-metric-fill" id="auditMobileFill"></div></div>
+                                    <div class="audit-metric-value" id="auditMobileVal">0/100</div>
+                                </div>
+                                <div class="audit-metric-card">
+                                    <div class="audit-metric-label">User Experience</div>
+                                    <div class="audit-metric-bar"><div class="audit-metric-fill" id="auditUxFill"></div></div>
+                                    <div class="audit-metric-value" id="auditUxVal">0/100</div>
+                                </div>
+                                <div class="audit-metric-card">
+                                    <div class="audit-metric-label">Trust & Credibility</div>
+                                    <div class="audit-metric-bar"><div class="audit-metric-fill" id="auditTrustFill"></div></div>
+                                    <div class="audit-metric-value" id="auditTrustVal">0/100</div>
+                                </div>
+                                <div class="audit-metric-card">
+                                    <div class="audit-metric-label">Lead Gen Potential</div>
+                                    <div class="audit-metric-bar"><div class="audit-metric-fill" id="auditLeadFill"></div></div>
+                                    <div class="audit-metric-value" id="auditLeadVal">0/100</div>
+                                </div>
+                            </div>
+
+                            <div class="audit-insights-grid">
+                                <div class="audit-insight-list strengths">
+                                    <h4>Top Strengths</h4>
+                                    <ul id="auditStrengthsList">
+                                        <li>Good domain authority</li>
+                                        <li>Secure SSL configured</li>
+                                        <li>Basic mobile responsiveness</li>
+                                    </ul>
+                                </div>
+                                <div class="audit-insight-list weaknesses">
+                                    <h4>Key Weaknesses</h4>
+                                    <ul id="auditWeaknessesList">
+                                        <li>Slow initial page load</li>
+                                        <li>Missing meta descriptions</li>
+                                        <li>Unclear call-to-actions</li>
+                                    </ul>
+                                </div>
+                                <div class="audit-insight-list recommendations">
+                                    <h4>Recommendations</h4>
+                                    <ul id="auditRecommendationsList">
+                                        <li>Optimize image sizes for faster load</li>
+                                        <li>Add prominent CTA buttons</li>
+                                        <li>Implement schema markup</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="audit-cta">
+                                <a href="#contact" class="plan-btn gold-btn" style="display: inline-flex;">Get a Free Redesign Consultation</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="luxury-divider" style="margin: 2rem 0;"></div>
+
+                        <section id="dream-builder" class="dream-builder-section fade-in-section">
+                <div class="dream-container">
+                    <div class="dream-glass">
+                        <h2 class="dream-title">Build Your <em>Dream Website</em></h2>
+                        <p class="dream-subtitle">Customize your ideal website and get an instant estimate.</p>
+
+                        <div class="dream-step">
+                            <div class="dream-step-title">Step 1: Choose Business Type</div>
+                            <div class="dream-options-grid" id="db-type">
+                                <div class="dream-option" data-val="15000">Gym</div>
+                                <div class="dream-option" data-val="20000">Coaching Institute</div>
+                                <div class="dream-option" data-val="18000">Restaurant</div>
+                                <div class="dream-option" data-val="15000">Clinic</div>
+                                <div class="dream-option" data-val="12000">Salon</div>
+                                <div class="dream-option" data-val="30000">E-commerce</div>
+                                <div class="dream-option" data-val="10000">Portfolio</div>
+                            </div>
+                        </div>
+
+                        <div class="dream-step">
+                            <div class="dream-step-title">Step 2: Choose Number Of Pages</div>
+                            <div class="dream-options-grid" id="db-pages">
+                                <div class="dream-option" data-val="0">1–3 Pages</div>
+                                <div class="dream-option" data-val="5000">4–6 Pages</div>
+                                <div class="dream-option" data-val="10000">7–10 Pages</div>
+                                <div class="dream-option" data-val="15000">10+ Pages</div>
+                            </div>
+                        </div>
+
+                        <div class="dream-step">
+                            <div class="dream-step-title">Step 3: Choose Features</div>
+                            <div class="dream-options-grid" id="db-features">
+                                <div class="dream-option multi" data-val="0">Contact Forms</div>
+                                <div class="dream-option multi" data-val="3000">Booking System</div>
+                                <div class="dream-option multi" data-val="5000">Payment Gateway</div>
+                                <div class="dream-option multi" data-val="2000">Blog</div>
+                                <div class="dream-option multi" data-val="4000">AI Chatbot</div>
+                                <div class="dream-option multi" data-val="6000">CRM Integration</div>
+                                <div class="dream-option multi" data-val="2500">Lead Capture</div>
+                                <div class="dream-option multi" data-val="8000">Membership Area</div>
+                            </div>
+                        </div>
+
+                        <div class="dream-step">
+                            <div class="dream-step-title">Step 4: Choose Design Style</div>
+                            <div class="dream-options-grid" id="db-style">
+                                <div class="dream-option" data-val="0">Modern</div>
+                                <div class="dream-option" data-val="5000">Luxury</div>
+                                <div class="dream-option" data-val="0">Minimal</div>
+                                <div class="dream-option" data-val="3000">Corporate</div>
+                            </div>
+                        </div>
+
+                        <div class="dream-results">
+                            <div class="dream-result-card highlight">
+                                <div class="dream-result-label">Estimated Cost</div>
+                                <div class="dream-result-val" id="db-est-cost">₹0</div>
+                            </div>
+                            <div class="dream-result-card">
+                                <div class="dream-result-label">Estimated Timeline</div>
+                                <div class="dream-result-val" id="db-est-time">0 Weeks</div>
+                            </div>
+                            <div class="dream-result-card">
+                                <div class="dream-result-label">Recommended Package</div>
+                                <div class="dream-result-val" id="db-est-package">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="pricing" class="fade-in-section">
                 <h2 class="section-heading">Website <em>Packages</em></h2>
                 <div class="pricing-grid">
@@ -2786,6 +3327,31 @@
 
 
             <div class="luxury-divider"></div>
+            <section id="promo-info" class="fade-in-section info-block" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2 class="section-heading">Special Offers & <em>Promo Codes</em></h2>
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 16px; padding: 2rem; margin-top: 2rem; backdrop-filter: blur(10px);">
+                    <ul style="list-style: none; padding: 0; margin: 0; color: rgba(255, 255, 255, 0.8); font-size: 1.05rem; line-height: 1.8; text-align: left; display: inline-block;">
+                        <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: #d4af37; margin-top: 2px;">✦</span>
+                            First-time customers can use <strong style="color: #fff; margin: 0 5px; background: rgba(212, 175, 55, 0.2); padding: 2px 8px; border-radius: 4px; letter-spacing: 1px; font-size: 0.9em;">FIRSTWEB</strong> for a 15% discount.
+                        </li>
+                        <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: #d4af37; margin-top: 2px;">✦</span>
+                            Follow our Instagram page to receive exclusive promo codes.
+                        </li>
+                        <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: #d4af37; margin-top: 2px;">✦</span>
+                            Seasonal promo codes are released during special events.
+                        </li>
+                        <li style="display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: #d4af37; margin-top: 2px;">✦</span>
+                            Promo codes cannot be combined with other offers.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="luxury-divider"></div>
             <section id="about" class="fade-in-section info-block">
                 <h2 class="section-heading">About <em>Us</em></h2>
                 <p>Crestiva Web Studio is founded by Khushwant Singh and Sarthak Sengar. We build premium, high-performance websites that help businesses establish trust, attract more customers, and create a powerful online presence.</p>
@@ -2822,6 +3388,10 @@
                             <div class="form-group">
                                 <label for="contactBusiness">Business Name</label>
                                 <input type="text" id="contactBusiness" placeholder="Your Company Ltd.">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPromo">Promo Code (Optional)</label>
+                                <input type="text" id="contactPromo" placeholder="e.g. FIRSTWEB" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
@@ -4208,6 +4778,19 @@
                 </div>
                 <div class="confirm-divider"></div>
                 <div class="confirm-row">
+                    <span class="confirm-label">Promo Code</span>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="promoCodeInput" placeholder="Enter code" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px 12px; color: #fff; text-transform: uppercase; width: 120px; outline: none;">
+                        <button onclick="applyPromoCode()" class="plan-btn gold-btn" style="padding: 6px 15px; font-size: 12px; width: auto; margin: 0; min-width: 0;">Apply</button>
+                    </div>
+                </div>
+                <div id="promoMessage" style="color: #10b981; font-size: 12px; margin-top: 5px; text-align: right; display: none;"></div>
+                <div class="confirm-row" id="confirmDiscountRow" style="display: none; color: #10b981;">
+                    <span class="confirm-label" style="color: #10b981;">Discount Saved</span>
+                    <span class="confirm-val" id="confirmDiscountAmount">-</span>
+                </div>
+                <div class="confirm-divider"></div>
+                <div class="confirm-row">
                     <span class="confirm-label">Amount Due Now</span>
                     <span class="confirm-val gold" id="confirmAmountDue">-</span>
                 </div>
@@ -4764,8 +5347,12 @@ window.requireAuthenticatedPayment = async function(packageId, payPercent, custo
         // Ensure backend token is present and valid
         const token = await ensureBackendToken();
         if (token) {
-            // Bypass the login modal completely and immediately continue to the existing payment flow!
-            await window.executeSecureCheckout();
+            if (clickedBtn) {
+                clickedBtn.textContent = originalBtnText;
+                clickedBtn.disabled = false;
+            }
+            // Show confirmation panel to allow promo code entry and review
+            showPaymentConfirmationPanel();
         } else {
             if (clickedBtn) {
                 clickedBtn.textContent = originalBtnText;
@@ -4852,21 +5439,20 @@ function showPaymentConfirmationPanel() {
     }
     
     const percentage = parseInt(payPercent || 25);
-    const amountDue = Math.round(totalPrice * (percentage / 100));
-    const remaining = totalPrice - amountDue;
+    
+    window.basePackagePrice = totalPrice;
+    window.basePayPercent = percentage;
+    window.currentPromo = null;
+    
+    document.getElementById('promoCodeInput').value = '';
+    document.getElementById('promoMessage').style.display = 'none';
+    document.getElementById('confirmDiscountRow').style.display = 'none';
+    document.getElementById('confirmPackagePrice').innerHTML = '₹' + totalPrice.toLocaleString('en-IN');
     
     document.getElementById('confirmPackageName').textContent = nameText;
-    document.getElementById('confirmPackagePrice').textContent = '₹' + totalPrice.toLocaleString('en-IN');
     document.getElementById('confirmPaymentType').textContent = percentage === 100 ? 'Full Payment (100%)' : percentage + '% Advance';
-    document.getElementById('confirmAmountDue').textContent = '₹' + amountDue.toLocaleString('en-IN');
     
-    const remainingRow = document.getElementById('confirmRemainingRow');
-    if (percentage === 100) {
-        remainingRow.style.display = 'none';
-    } else {
-        remainingRow.style.display = 'flex';
-        document.getElementById('confirmRemainingBalance').textContent = '₹' + remaining.toLocaleString('en-IN');
-    }
+    window.updatePaymentConfirmValues();
     
     document.getElementById('confirmClientEmail').textContent = localStorage.getItem('crestiva_auth_email') || 'Your Account';
     
@@ -4875,6 +5461,79 @@ function showPaymentConfirmationPanel() {
     document.getElementById('confirmPayText').textContent = "Continue to Secure Payment";
     document.getElementById('confirmPayGlowLine').style.display = 'none';
 }
+
+window.updatePaymentConfirmValues = function() {
+    let totalPrice = window.basePackagePrice;
+    let discountAmount = 0;
+    
+    if (window.currentPromo) {
+        discountAmount = Math.round(totalPrice * (window.currentPromo.discountPercent / 100));
+        totalPrice = totalPrice - discountAmount;
+        
+        document.getElementById('confirmPackagePrice').innerHTML = `<span style="text-decoration: line-through; opacity: 0.5; margin-right: 8px; font-size: 0.9em;">₹${window.basePackagePrice.toLocaleString('en-IN')}</span> ₹${totalPrice.toLocaleString('en-IN')}`;
+        document.getElementById('confirmDiscountRow').style.display = 'flex';
+        document.getElementById('confirmDiscountAmount').textContent = '- ₹' + discountAmount.toLocaleString('en-IN');
+    } else {
+        document.getElementById('confirmPackagePrice').innerHTML = '₹' + window.basePackagePrice.toLocaleString('en-IN');
+        document.getElementById('confirmDiscountRow').style.display = 'none';
+    }
+    
+    const amountDue = Math.round(totalPrice * (window.basePayPercent / 100));
+    const remaining = totalPrice - amountDue;
+    
+    document.getElementById('confirmAmountDue').textContent = '₹' + amountDue.toLocaleString('en-IN');
+    
+    const remainingRow = document.getElementById('confirmRemainingRow');
+    if (window.basePayPercent === 100) {
+        remainingRow.style.display = 'none';
+    } else {
+        remainingRow.style.display = 'flex';
+        document.getElementById('confirmRemainingBalance').textContent = '₹' + remaining.toLocaleString('en-IN');
+    }
+    
+    // Update global variables for razorpay integration
+    if (window.pendingPaymentIntention) {
+        window.pendingPaymentIntention.finalAmountDue = amountDue;
+        window.pendingPaymentIntention.appliedPromo = window.currentPromo ? window.currentPromo.code : null;
+    }
+};
+
+window.applyPromoCode = function() {
+    const PROMO_CODES = [
+        { code: 'INSTA26', discountPercent: 26 },
+        { code: 'FIRSTWEB', discountPercent: 15 },
+        { code: 'SUMMER10', discountPercent: 10 },
+        { code: 'SPECIAL30', discountPercent: 30 }
+    ];
+    
+    const input = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+    const msgEl = document.getElementById('promoMessage');
+    
+    if (!input) return;
+    
+    const promo = PROMO_CODES.find(p => p.code === input);
+    
+    if (promo) {
+        window.currentPromo = promo;
+        msgEl.style.color = '#10b981';
+        msgEl.textContent = `Promo code ${promo.code} applied! (${promo.discountPercent}% off)`;
+        msgEl.style.display = 'block';
+        
+        // Add a slight animation
+        const modal = document.getElementById('paymentConfirmPanel');
+        if (typeof gsap !== 'undefined') {
+            gsap.fromTo(modal, { scale: 0.98 }, { scale: 1, duration: 0.3, ease: 'back.out(1.5)' });
+        }
+        
+        window.updatePaymentConfirmValues();
+    } else {
+        window.currentPromo = null;
+        msgEl.style.color = '#ef4444';
+        msgEl.textContent = 'Invalid promo code.';
+        msgEl.style.display = 'block';
+        window.updatePaymentConfirmValues();
+    }
+};
 
 window.executeSecureCheckout = async function() {
     const token = localStorage.getItem('crestiva_auth_token');
@@ -5095,7 +5754,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('contactEmail').value.trim();
             const phone = document.getElementById('contactPhone').value.trim();
             const business_name = document.getElementById('contactBusiness').value.trim();
-            const message = document.getElementById('contactMessage').value.trim();
+            let message = document.getElementById('contactMessage').value.trim();
+            const promo = document.getElementById('contactPromo').value.trim();
+            
+            if (promo) {
+                message += `\n\n[Promo Code Entered: ${promo.toUpperCase()}]`;
+            }
             
             if (!name || !email || !phone || !message) {
                 errorMsg.textContent = 'Please fill out all required fields.';
@@ -5133,6 +5797,206 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// AI Website Audit Simulation
+window.runWebsiteAudit = function() {
+    const urlInput = document.getElementById('auditUrlInput').value.trim();
+    if (!urlInput) {
+        alert("Please enter a valid website URL.");
+        return;
+    }
+    
+    // UI Elements
+    const btn = document.getElementById('auditBtn');
+    const loading = document.getElementById('auditLoading');
+    const results = document.getElementById('auditResults');
+    const loadingText = document.getElementById('auditLoadingText');
+    
+    btn.disabled = true;
+    results.style.display = 'none';
+    loading.style.display = 'flex';
+    
+    // Simulate loading steps
+    const loadingSteps = [
+        "ANALYZING ARCHITECTURE...",
+        "CHECKING MOBILE RESPONSIVENESS...",
+        "EVALUATING SEO METRICS...",
+        "ASSESSING USER EXPERIENCE...",
+        "COMPILING FINAL REPORT..."
+    ];
+    
+    let step = 0;
+    const stepInterval = setInterval(() => {
+        step++;
+        if (step < loadingSteps.length) {
+            loadingText.textContent = loadingSteps[step];
+        }
+    }, 800);
+    
+    // Simulate delay
+    setTimeout(() => {
+        clearInterval(stepInterval);
+        loading.style.display = 'none';
+        btn.disabled = false;
+        
+        // Randomize some scores for simulation
+        const seoScore = Math.floor(Math.random() * 30) + 50; // 50-80
+        const mobileScore = Math.floor(Math.random() * 40) + 40; // 40-80
+        const uxScore = Math.floor(Math.random() * 30) + 55; // 55-85
+        const trustScore = Math.floor(Math.random() * 40) + 50; // 50-90
+        const leadScore = Math.floor(Math.random() * 30) + 40; // 40-70
+        
+        const overallScore = Math.floor((seoScore + mobileScore + uxScore + trustScore + leadScore) / 5);
+        
+        // Populate results
+        document.getElementById('auditOverallScore').textContent = overallScore;
+        
+        // Set bar widths
+        setTimeout(() => {
+            document.getElementById('auditSeoFill').style.width = seoScore + '%';
+            document.getElementById('auditMobileFill').style.width = mobileScore + '%';
+            document.getElementById('auditUxFill').style.width = uxScore + '%';
+            document.getElementById('auditTrustFill').style.width = trustScore + '%';
+            document.getElementById('auditLeadFill').style.width = leadScore + '%';
+        }, 100);
+        
+        // Set values
+        document.getElementById('auditSeoVal').textContent = seoScore + '/100';
+        document.getElementById('auditMobileVal').textContent = mobileScore + '/100';
+        document.getElementById('auditUxVal').textContent = uxScore + '/100';
+        document.getElementById('auditTrustVal').textContent = trustScore + '/100';
+        document.getElementById('auditLeadVal').textContent = leadScore + '/100';
+        
+        // Dynamic insights based on score
+        const strengthsList = document.getElementById('auditStrengthsList');
+        const weaknessesList = document.getElementById('auditWeaknessesList');
+        const recommendationsList = document.getElementById('auditRecommendationsList');
+        
+        let strengthsHtml = '';
+        let weaknessesHtml = '';
+        let recommendationsHtml = '';
+        
+        if (seoScore > 65) {
+            strengthsHtml += '<li>Adequate on-page SEO foundations</li>';
+        } else {
+            weaknessesHtml += '<li>Missing critical meta tags</li>';
+            recommendationsHtml += '<li>Implement comprehensive on-page SEO</li>';
+        }
+        
+        if (mobileScore > 60) {
+            strengthsHtml += '<li>Basic mobile responsiveness present</li>';
+        } else {
+            weaknessesHtml += '<li>Layout breaks on smaller screens</li>';
+            recommendationsHtml += '<li>Adopt a mobile-first design approach</li>';
+        }
+        
+        if (trustScore > 70) {
+            strengthsHtml += '<li>Secure SSL connection (HTTPS)</li>';
+        } else {
+            weaknessesHtml += '<li>Lack of clear trust signals</li>';
+            recommendationsHtml += '<li>Add testimonials, reviews, and secure badges</li>';
+        }
+        
+        if (leadScore < 60) {
+            weaknessesHtml += '<li>Ineffective call-to-actions</li>';
+            recommendationsHtml += '<li>Design prominent, conversion-focused CTAs</li>';
+        } else {
+            strengthsHtml += '<li>Contact forms are functional</li>';
+        }
+        
+        if (!strengthsHtml) strengthsHtml = '<li>Domain is accessible</li><li>Basic structure exists</li>';
+        if (!weaknessesHtml) weaknessesHtml = '<li>Slow initial page load</li><li>Outdated aesthetic</li>';
+        if (!recommendationsHtml) recommendationsHtml = '<li>Upgrade to a modern design</li><li>Optimize media assets</li>';
+        
+        strengthsList.innerHTML = strengthsHtml;
+        weaknessesList.innerHTML = weaknessesHtml;
+        recommendationsList.innerHTML = recommendationsHtml;
+        
+        results.style.display = 'block';
+        
+        // Scroll to results
+        setTimeout(() => {
+            results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+        
+    }, 4000);
+};
+// Dream Builder Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const dbt = document.getElementById('db-type');
+    const dbp = document.getElementById('db-pages');
+    const dbf = document.getElementById('db-features');
+    const dbs = document.getElementById('db-style');
+    
+    if(!dbt) return;
+
+    const setupOptions = (container, isMulti) => {
+        const opts = container.querySelectorAll('.dream-option');
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                if(!isMulti) {
+                    opts.forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                } else {
+                    opt.classList.toggle('selected');
+                }
+                calcDream();
+            });
+        });
+    };
+
+    setupOptions(dbt, false);
+    setupOptions(dbp, false);
+    setupOptions(dbf, true);
+    setupOptions(dbs, false);
+
+    // pre-select defaults
+    if(dbt.querySelector('.dream-option')) dbt.querySelector('.dream-option').classList.add('selected');
+    if(dbp.querySelector('.dream-option')) dbp.querySelector('.dream-option').classList.add('selected');
+    if(dbs.querySelector('.dream-option')) dbs.querySelector('.dream-option').classList.add('selected');
+
+    function calcDream() {
+        let total = 0;
+        
+        const typeOpt = dbt.querySelector('.selected');
+        if(typeOpt) total += parseInt(typeOpt.getAttribute('data-val') || '0');
+        
+        const pageOpt = dbp.querySelector('.selected');
+        if(pageOpt) total += parseInt(pageOpt.getAttribute('data-val') || '0');
+        
+        const styleOpt = dbs.querySelector('.selected');
+        if(styleOpt) total += parseInt(styleOpt.getAttribute('data-val') || '0');
+        
+        const featOpts = dbf.querySelectorAll('.selected');
+        featOpts.forEach(f => {
+            total += parseInt(f.getAttribute('data-val') || '0');
+        });
+        
+        const elCost = document.getElementById('db-est-cost');
+        const elTime = document.getElementById('db-est-time');
+        const elPkg = document.getElementById('db-est-package');
+        
+        elCost.textContent = '₹' + total.toLocaleString('en-IN');
+        
+        let weeks = 2;
+        if(total > 20000) weeks = 3;
+        if(total > 35000) weeks = 4;
+        if(total > 50000) weeks = 6;
+        elTime.textContent = weeks + (weeks > 1 ? ' Weeks' : ' Week');
+        
+        let pkg = 'Starter';
+        if(total >= 25000) pkg = 'Growth';
+        if(total >= 40000) pkg = 'Elite';
+        elPkg.textContent = pkg + ' Package';
+        
+        elCost.classList.remove('pop');
+        void elCost.offsetWidth;
+        elCost.classList.add('pop');
+    }
+    
+    calcDream();
+});
+
 </script>
 
 

@@ -64,12 +64,14 @@ const Navbar = memo(() => {
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 md:pt-6 px-4" style={{ transform: 'translateZ(0)', willChange: 'transform' }}>
       <div className={`inline-flex items-center rounded-full backdrop-blur-sm border border-white/10 bg-surface px-2 py-2 transition-shadow duration-300 ${scrolled ? 'shadow-md shadow-black/10' : ''}`}>
         
-        <div className="group relative w-9 h-9 rounded-full accent-gradient p-[1px] cursor-pointer hover:scale-110 transition-transform">
-          <div className="absolute inset-0 rounded-full accent-gradient [background-size:200%_200%] group-hover:animate-gradient-shift" />
-          <div className="relative w-full h-full bg-bg rounded-full flex items-center justify-center">
-            <span className="font-display italic text-[13px] text-text-primary">JA</span>
-          </div>
-        </div>
+        <a href="/" className="group relative w-9 h-9 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300" title="Crestiva Web Studio">
+          <img 
+            src="/crestiva-logo.svg" 
+            alt="Crestiva Web Studio Logo" 
+            className="w-full h-full object-contain block" 
+            referrerPolicy="no-referrer"
+          />
+        </a>
 
         <div className="hidden md:block w-px h-5 bg-stroke mx-1" />
 
