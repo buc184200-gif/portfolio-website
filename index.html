@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Crestiva Web Studio | Premium AI Web Design & Development</title>
+    <meta name="description" content="Crestiva Web Studio crafts premium, custom-designed websites using advanced AI and modern web technologies for businesses that demand excellence." />
+    <link rel="canonical" href="https://crestivawebstudio.online/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Crestiva Web Studio | Premium AI Web Design & Development" />
+    <meta property="og:description" content="Crestiva Web Studio crafts premium, custom-designed websites using advanced AI and modern web technologies for businesses that demand excellence." />
+    <meta property="og:url" content="https://crestivawebstudio.online/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://crestivawebstudio.online/crestiva-logo.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Crestiva Web Studio | Premium AI Web Design & Development" />
+    <meta name="twitter:description" content="Crestiva Web Studio crafts premium, custom-designed websites using advanced AI and modern web technologies for businesses that demand excellence." />
+    <meta name="twitter:image" content="https://crestivawebstudio.online/crestiva-logo.svg" />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-	<title>Crestiva Web Studio</title>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
@@ -1665,315 +1677,6 @@
 			}
 		}
 
-		/* AI Audit Section CSS */
-		.audit-section {
-			padding: 100px 20px;
-			position: relative;
-			background: transparent;
-			overflow: hidden;
-		}
-		.audit-container {
-			max-width: 1000px;
-			margin: 0 auto;
-			position: relative;
-			z-index: 2;
-		}
-		.audit-hero-glass {
-			background: rgba(15, 20, 15, 0.4);
-			border: 1px solid rgba(212, 175, 55, 0.15);
-			border-radius: 24px;
-			padding: 4rem 3rem;
-			backdrop-filter: blur(20px);
-			-webkit-backdrop-filter: blur(20px);
-			text-align: center;
-			box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.02);
-		}
-		.audit-title {
-			font-family: 'Playfair Display', serif;
-			font-size: clamp(2rem, 5vw, 3.5rem);
-			color: #fff;
-			margin-bottom: 1rem;
-		}
-		.audit-title em {
-			font-style: italic;
-			color: #c4a882;
-		}
-		.audit-subtitle {
-			color: rgba(255,255,255,0.7);
-			max-width: 600px;
-			margin: 0 auto 2.5rem;
-			font-size: 1.1rem;
-			line-height: 1.6;
-		}
-		.audit-input-group {
-			display: flex;
-			max-width: 600px;
-			margin: 0 auto;
-			background: rgba(0, 0, 0, 0.6);
-			border: 1px solid rgba(196, 168, 130, 0.3);
-			border-radius: 50px;
-			overflow: hidden;
-			padding: 5px;
-			box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
-			transition: border-color 0.3s;
-		}
-		.audit-input-group:focus-within {
-			border-color: #c4a882;
-		}
-		.audit-input-group input {
-			flex: 1;
-			background: transparent;
-			border: none;
-			color: #fff;
-			padding: 15px 25px;
-			font-size: 1rem;
-			outline: none;
-		}
-		.audit-input-group input::placeholder {
-			color: rgba(255, 255, 255, 0.4);
-		}
-		.audit-input-group button {
-			background: #c4a882;
-			color: #000;
-			border: none;
-			padding: 15px 35px;
-			border-radius: 40px;
-			font-weight: 600;
-			font-size: 1rem;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-		}
-		.audit-input-group button:hover {
-			box-shadow: 0 0 20px rgba(196, 168, 130, 0.4);
-			transform: scale(1.02);
-		}
-		
-		.audit-loading {
-			display: none;
-			margin-top: 3rem;
-			flex-direction: column;
-			align-items: center;
-			gap: 20px;
-		}
-		.audit-spinner {
-			width: 50px;
-			height: 50px;
-			border: 2px solid rgba(196, 168, 130, 0.1);
-			border-top-color: #c4a882;
-			border-right-color: #c4a882;
-			border-radius: 50%;
-			animation: spin 1s linear infinite;
-		}
-		@keyframes spin { 100% { transform: rotate(360deg); } }
-		.audit-loading-text {
-			color: #c4a882;
-			font-family: var(--font-mono, monospace);
-			font-size: 0.9rem;
-			letter-spacing: 3px;
-			text-transform: uppercase;
-		}
-		
-		.audit-results {
-			display: none;
-			margin-top: 4rem;
-			text-align: left;
-			animation: fadeIn 0.6s ease forwards;
-		}
-		
-		.audit-metrics-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-			gap: 1.5rem;
-			margin-bottom: 3rem;
-		}
-		.audit-metric-card {
-			background: rgba(255, 255, 255, 0.02);
-			border: 1px solid rgba(255, 255, 255, 0.05);
-			border-radius: 16px;
-			padding: 1.5rem;
-			display: flex;
-			flex-direction: column;
-			gap: 12px;
-			position: relative;
-			overflow: hidden;
-		}
-		.audit-metric-card::before {
-			content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-			background: linear-gradient(135deg, rgba(196, 168, 130, 0.05), transparent);
-			pointer-events: none;
-		}
-		.audit-metric-label {
-			font-size: 0.8rem;
-			color: rgba(255, 255, 255, 0.5);
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
-		}
-		.audit-metric-score {
-			font-size: 2.5rem;
-			color: #fff;
-			font-weight: 300;
-			line-height: 1;
-			font-family: 'Playfair Display', serif;
-		}
-		.audit-metric-score span {
-			font-size: 1rem;
-			color: rgba(255,255,255,0.3);
-		}
-		.audit-metric-bar {
-			width: 100%;
-			height: 4px;
-			background: rgba(255, 255, 255, 0.1);
-			border-radius: 2px;
-			overflow: hidden;
-			margin-top: auto;
-		}
-		.audit-metric-fill {
-			height: 100%;
-			background: #c4a882;
-			width: 0%;
-			transition: width 2s cubic-bezier(0.23, 1, 0.32, 1);
-		}
-		
-		.audit-insights-grid {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 1.5rem;
-			margin-bottom: 3rem;
-		}
-		.audit-insight-list {
-			background: rgba(0,0,0,0.4);
-			border-radius: 16px;
-			padding: 2rem;
-			border: 1px solid rgba(255,255,255,0.03);
-		}
-		.audit-insight-list h4 {
-			margin-bottom: 1.5rem;
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
-			font-size: 0.85rem;
-			display: flex;
-			align-items: center;
-			gap: 10px;
-		}
-		.audit-insight-list.strengths h4 { color: #10b981; }
-		.audit-insight-list.weaknesses h4 { color: #ef4444; }
-		.audit-insight-list.recommendations h4 { color: #c4a882; }
-		
-		.audit-insight-list ul {
-			list-style: none; padding: 0; margin: 0;
-		}
-		.audit-insight-list li {
-			font-size: 0.95rem;
-			color: rgba(255,255,255,0.7);
-			margin-bottom: 1rem;
-			padding-left: 1.8rem;
-			position: relative;
-			line-height: 1.5;
-		}
-		.audit-insight-list li:last-child { margin-bottom: 0; }
-		.audit-insight-list li::before {
-			position: absolute;
-			left: 0;
-			top: 2px;
-			font-size: 1rem;
-		}
-		.audit-insight-list.strengths li::before { content: '✓'; color: #10b981; }
-		.audit-insight-list.weaknesses li::before { content: '✕'; color: #ef4444; }
-		.audit-insight-list.recommendations li::before { content: '✦'; color: #c4a882; }
-		
-		.audit-revenue-impact {
-			background: linear-gradient(135deg, rgba(196, 168, 130, 0.1), rgba(0,0,0,0.5));
-			border: 1px solid rgba(196, 168, 130, 0.2);
-			border-radius: 16px;
-			padding: 2.5rem;
-			margin-bottom: 3rem;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-		.audit-revenue-text h3 {
-			color: #c4a882;
-			font-family: 'Playfair Display', serif;
-			font-size: 1.8rem;
-			margin-bottom: 0.5rem;
-		}
-		.audit-revenue-text p {
-			color: rgba(255,255,255,0.6);
-			font-size: 0.95rem;
-		}
-		.audit-revenue-stats {
-			display: flex;
-			gap: 3rem;
-		}
-		.audit-rev-stat {
-			text-align: right;
-		}
-		.audit-rev-val {
-			font-size: 2.5rem;
-			color: #fff;
-			font-weight: 300;
-			font-family: var(--font-mono, monospace);
-		}
-		.audit-rev-label {
-			color: rgba(255,255,255,0.5);
-			font-size: 0.8rem;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-		}
-		
-		.audit-actions {
-			display: flex;
-			justify-content: center;
-			gap: 1.5rem;
-		}
-		.audit-btn-primary {
-			background: #c4a882;
-			color: #000;
-			padding: 16px 32px;
-			border-radius: 40px;
-			text-decoration: none;
-			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			transition: all 0.3s;
-		}
-		.audit-btn-primary:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 10px 20px rgba(196, 168, 130, 0.3);
-		}
-		.audit-btn-secondary {
-			background: transparent;
-			color: #c4a882;
-			border: 1px solid #c4a882;
-			padding: 16px 32px;
-			border-radius: 40px;
-			text-decoration: none;
-			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			transition: all 0.3s;
-		}
-		.audit-btn-secondary:hover {
-			background: rgba(196, 168, 130, 0.1);
-		}
-
-		@media (max-width: 900px) {
-			.audit-insights-grid { grid-template-columns: 1fr; }
-			.audit-revenue-impact { flex-direction: column; text-align: center; gap: 2rem; }
-			.audit-revenue-stats { justify-content: center; width: 100%; gap: 2rem; }
-			.audit-rev-stat { text-align: center; }
-		}
-		@media (max-width: 600px) {
-			.audit-input-group { flex-direction: column; border-radius: 16px; padding: 10px; background: rgba(0,0,0,0.5); }
-			.audit-input-group input { padding: 15px; text-align: center; }
-			.audit-input-group button { border-radius: 12px; width: 100%; }
-			.audit-hero-glass { padding: 2.5rem 1.5rem; }
-			.audit-actions { flex-direction: column; }
-			.audit-btn-primary, .audit-btn-secondary { text-align: center; }
-		}
-
 </style>
 
 	<script type="importmap">
@@ -1995,6 +1698,44 @@
     <script src="https://unpkg.com/split-type"></script>
     <script src="/src/awwwards.js" type="module"></script>
 
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://crestivawebstudio.online/#organization",
+          "name": "Crestiva Web Studio",
+          "url": "https://crestivawebstudio.online/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://crestivawebstudio.online/crestiva-logo.svg"
+          },
+          "description": "Premium AI Web Design & Development Studio"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://crestivawebstudio.online/#website",
+          "url": "https://crestivawebstudio.online/",
+          "name": "Crestiva Web Studio",
+          "publisher": {
+            "@id": "https://crestivawebstudio.online/#organization"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://crestivawebstudio.online/#webpage",
+          "url": "https://crestivawebstudio.online/",
+          "name": "Premium AI Web Design & Development | Crestiva Web Studio",
+          "isPartOf": {
+            "@id": "https://crestivawebstudio.online/#website"
+          }
+        }
+      ]
+    }
+    </script>
+    
 </head>
 
 <body class="cinematic-entrance">
@@ -2072,7 +1813,7 @@
 	</button>
 	<div class="settings-panel" id="settingsPanel"></div>
 
-	<div id="scroll-container">
+	<main id="scroll-container">
 		<section class="section hero" id="heroSection" data-stage="0">
 			<span class="hero-tag" data-reveal data-delay="1">Crafting Digital Experiences</span>
 			<h1 data-reveal data-delay="2">Crestiva<br><em>Web</em> Studio</h1>
@@ -2081,104 +1822,6 @@
 			<div class="scroll-hint" data-reveal data-delay="4">
 				<span>Explore</span>
 				<div class="scroll-line"></div>
-			</div>
-		</section>
-
-		<section class="section audit-section" id="auditSection">
-			<div class="audit-container">
-				<div class="audit-hero-glass">
-					<h2 class="audit-title" data-reveal>Free AI Website <em>Audit</em></h2>
-					<p class="audit-subtitle" data-reveal data-delay="1">Discover how your website performs and uncover hidden opportunities for more leads, sales, and conversions.</p>
-					
-					<div class="audit-input-group" data-reveal data-delay="2">
-						<input type="url" id="idxAuditUrlInput" placeholder="https://yourwebsite.com" required>
-						<button id="idxAuditBtn" onclick="runIndexAudit()">Analyze Website</button>
-					</div>
-
-					<div class="audit-loading" id="idxAuditLoading">
-						<div class="audit-spinner"></div>
-						<div class="audit-loading-text" id="idxAuditLoadingText">Scanning Website...</div>
-					</div>
-
-					<div class="audit-results" id="idxAuditResults">
-						<div class="audit-metrics-grid">
-							<div class="audit-metric-card">
-								<div class="audit-metric-label">SEO Score</div>
-								<div class="audit-metric-score" id="idxAuditSeoVal">0<span>/100</span></div>
-								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditSeoFill"></div></div>
-							</div>
-							<div class="audit-metric-card">
-								<div class="audit-metric-label">Speed Score</div>
-								<div class="audit-metric-score" id="idxAuditSpeedVal">0<span>/100</span></div>
-								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditSpeedFill"></div></div>
-							</div>
-							<div class="audit-metric-card">
-								<div class="audit-metric-label">Mobile Perf.</div>
-								<div class="audit-metric-score" id="idxAuditMobileVal">0<span>/100</span></div>
-								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditMobileFill"></div></div>
-							</div>
-							<div class="audit-metric-card">
-								<div class="audit-metric-label">Trust Score</div>
-								<div class="audit-metric-score" id="idxAuditTrustVal">0<span>/100</span></div>
-								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditTrustFill"></div></div>
-							</div>
-							<div class="audit-metric-card">
-								<div class="audit-metric-label">Conversion</div>
-								<div class="audit-metric-score" id="idxAuditLeadVal">0<span>/100</span></div>
-								<div class="audit-metric-bar"><div class="audit-metric-fill" id="idxAuditLeadFill"></div></div>
-							</div>
-						</div>
-
-						<div class="audit-insights-grid">
-							<div class="audit-insight-list strengths">
-								<h4>Top Strengths</h4>
-								<ul id="idxAuditStrengthsList">
-									<li>Valid SSL Certificate</li>
-									<li>Basic mobile responsiveness</li>
-									<li>Domain authority established</li>
-								</ul>
-							</div>
-							<div class="audit-insight-list weaknesses">
-								<h4>Key Weaknesses</h4>
-								<ul id="idxAuditWeaknessesList">
-									<li>Slow Largest Contentful Paint (LCP)</li>
-									<li>Missing meta descriptions</li>
-									<li>Unclear call-to-actions</li>
-								</ul>
-							</div>
-							<div class="audit-insight-list recommendations">
-								<h4>Recommended Improvements</h4>
-								<ul id="idxAuditRecommendationsList">
-									<li>Optimize image payloads for speed</li>
-									<li>Implement clear, conversion-focused CTAs</li>
-									<li>Add schema markup for rich snippets</li>
-								</ul>
-							</div>
-						</div>
-						
-						<div class="audit-revenue-impact">
-							<div class="audit-revenue-text">
-								<h3>Revenue Impact</h3>
-								<p>Based on traffic estimates and current conversion gaps.</p>
-							</div>
-							<div class="audit-revenue-stats">
-								<div class="audit-rev-stat">
-									<div class="audit-rev-val" id="idxAuditLostLeads">0</div>
-									<div class="audit-rev-label">Lost Leads / Mo</div>
-								</div>
-								<div class="audit-rev-stat">
-									<div class="audit-rev-val" id="idxAuditRevOpp">₹0</div>
-									<div class="audit-rev-label">Revenue Opp.</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="audit-actions">
-							<a href="https://wa.me/917037311050" class="audit-btn-primary" target="_blank">Book a Free Strategy Call</a>
-							<a href="/see-more.html" class="audit-btn-secondary">Get a Custom Website Plan</a>
-						</div>
-					</div>
-				</div>
 			</div>
 		</section>
 
@@ -2296,7 +1939,38 @@
 		} from 'three/tsl';
 		import { dof } from 'three/addons/tsl/display/DepthOfFieldNode.js';
 
-		const BLADE_COUNT = 120000;
+		const isMobile = window.innerWidth < 768;
+		const isTablet = window.innerWidth >= 768 && window.innerWidth < 1200;
+		const mem = navigator.deviceMemory || 8;
+		const cores = navigator.hardwareConcurrency || 4;
+		const isCoarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+
+		const res = window.innerWidth * window.innerHeight;
+		const tiers = [8000, 16000, 28000, 44000, 65000];
+		let currentTier = 3;
+
+		if (sessionStorage.getItem('grass_tier')) {
+			currentTier = parseInt(sessionStorage.getItem('grass_tier'), 10);
+		} else {
+			if (isMobile) {
+				currentTier = (cores <= 4 || mem <= 4) ? 0 : 1;
+			} else if (isTablet || isCoarse) {
+				currentTier = (cores >= 8 && mem >= 8) ? 3 : 2;
+			} else {
+				if (cores >= 8 && mem >= 8 && res > 1920 * 1080) {
+					currentTier = 4;
+				} else if (cores <= 4 || mem <= 4) {
+					currentTier = 2;
+				} else {
+					currentTier = 3;
+				}
+			}
+		}
+
+		let BLADE_COUNT = tiers[currentTier];
+		let bladeData, bendState, bladeBound;
+		let computeInit, computeUpdate, grassMat, grass;
+		const dummy = new THREE.Object3D();
 		const FIELD_SIZE = 30;
 		const BACKGROUND_HEX = '#000000';
 		const GROUND_HEX = '#000000';
@@ -2340,10 +2014,14 @@
 		camera.position.set(0, 8, 18);
 		camera.lookAt(0, 0, 0);
 
+		function getAdaptiveDPR() {
+			const maxDPRs = [0.85, 1.0, 1.1, 1.25, 1.35];
+			const limit = maxDPRs[currentTier] || 1.0;
+			return Math.min(window.devicePixelRatio || 1, limit);
+		}
+
 		const renderer = new THREE.WebGPURenderer({ antialias: true });
-		const isMobile = window.innerWidth < 768;
-		const maxDPR = window.innerWidth < 1200 ? 1.5 : Math.min(devicePixelRatio, 2);
-		renderer.setPixelRatio(maxDPR);
+		renderer.setPixelRatio(getAdaptiveDPR());
 		renderer.setSize(innerWidth, innerHeight);
 		renderer.toneMapping = THREE.ACESFilmicToneMapping;
 		renderer.toneMappingExposure = 1.0;
@@ -2351,9 +2029,6 @@
 		await renderer.init();
 
 		// ─── GPU Buffers ────────────────────────────────────────────────────
-		const bladeData = instancedArray(BLADE_COUNT, 'vec4');
-		const bendState = instancedArray(BLADE_COUNT, 'vec4');
-		const bladeBound = instancedArray(BLADE_COUNT, 'float');
 
 		// ─── Uniforms ───────────────────────────────────────────────────────
 		const mouseWorld = uniform(new THREE.Vector3(99999, 0, 99999));
@@ -2405,15 +2080,30 @@
 
 		const noise2D = Fn(([x, z]) => mx_noise_float(vec3(x, float(0), z)).mul(0.5).add(0.5));
 
+
+		function buildGrass(count) {
+			if (grass) {
+				scene.remove(grass);
+				grass.geometry.dispose();
+				grass.material.dispose();
+			}
+			BLADE_COUNT = count;
+			const side = Math.ceil(Math.sqrt(BLADE_COUNT));
+			const sideF = float(side);
+			
+			bladeData = instancedArray(BLADE_COUNT, 'vec4');
+			bendState = instancedArray(BLADE_COUNT, 'vec4');
+			bladeBound = instancedArray(BLADE_COUNT, 'float');
+
 		// ─── Compute Init ──────────────────────────────────────────────────
-		const computeInit = Fn(() => {
+		computeInit = Fn(() => {
 			const blade = bladeData.element(instanceIndex);
-			const col = instanceIndex.mod(283);
-			const row = instanceIndex.div(283);
+			const col = instanceIndex.mod(side);
+			const row = instanceIndex.div(side);
 			const jx = hash(instanceIndex).sub(0.5);
 			const jz = hash(instanceIndex.add(7919)).sub(0.5);
-			const wx = col.toFloat().add(jx).div(float(283)).sub(0.5).mul(FIELD_SIZE);
-			const wz = row.toFloat().add(jz).div(float(283)).sub(0.5).mul(FIELD_SIZE);
+			const wx = col.toFloat().add(jx).div(sideF).sub(0.5).mul(FIELD_SIZE);
+			const wz = row.toFloat().add(jz).div(sideF).sub(0.5).mul(FIELD_SIZE);
 			blade.x.assign(wx);
 			blade.y.assign(wz);
 			blade.z.assign(hash(instanceIndex.add(1337)).mul(PI.mul(2)));
@@ -2429,7 +2119,7 @@
 		})().compute(BLADE_COUNT);
 
 		// ─── Compute Update ────────────────────────────────────────────────
-		const computeUpdate = Fn(() => {
+		computeUpdate = Fn(() => {
 			const blade = bladeData.element(instanceIndex);
 			const bend = bendState.element(instanceIndex);
 			const bx = blade.x;
@@ -2501,7 +2191,7 @@
 		}
 
 		// ─── Grass Material ────────────────────────────────────────────────
-		const grassMat = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide, fog: true });
+		grassMat = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide, fog: true });
 
 		grassMat.positionNode = Fn(() => {
 			const blade = bladeData.element(instanceIndex);
@@ -2561,12 +2251,16 @@
 
 		// ─── Instances ─────────────────────────────────────────────────────
 		const bladeGeo = createBladeGeometry();
-		const grass = new THREE.InstancedMesh(bladeGeo, grassMat, BLADE_COUNT);
+		grass = new THREE.InstancedMesh(bladeGeo, grassMat, BLADE_COUNT);
 		grass.frustumCulled = false;
 		scene.add(grass);
-		const dummy = new THREE.Object3D();
+		
 		for (let i = 0; i < BLADE_COUNT; i++) grass.setMatrixAt(i, dummy.matrix);
 		grass.instanceMatrix.needsUpdate = true;
+
+
+		}
+		buildGrass(BLADE_COUNT);
 
 		// ─── Ground ────────────────────────────────────────────────────────
 		const groundMat = new THREE.MeshBasicNodeMaterial();
@@ -2631,13 +2325,17 @@
 		window.addEventListener('mouseleave', () => mouseWorld.value.set(99999, 0, 99999));
 
 		let resizeTimeout;
+		let lastWidth = window.innerWidth;
+		let lastHeight = window.innerHeight;
 		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(() => {
+				if (window.innerWidth === lastWidth && window.innerHeight === lastHeight) return;
+				lastWidth = window.innerWidth;
+				lastHeight = window.innerHeight;
 				camera.aspect = innerWidth / innerHeight;
 				camera.updateProjectionMatrix();
-				const dpr = window.innerWidth < 1200 ? 1.5 : Math.min(devicePixelRatio, 2);
-				renderer.setPixelRatio(dpr);
+				renderer.setPixelRatio(getAdaptiveDPR());
 				renderer.setSize(innerWidth, innerHeight);
 			}, 100);
 		});
@@ -3421,20 +3119,24 @@
 			});
 		})();
 
+		const sharedCam = { params: {} };
+
 		function lerpCam(scrollT) {
 			// Snap to nearest keyframe if very close (within 0.5% of scroll range)
 			const snapThreshold = 0.005;
 			for (let j = 0; j < cameraPath.length; j++) {
 				if (Math.abs(cameraPath[j][0] - scrollT) < snapThreshold) {
 					const kf = cameraPath[j];
-					return {
-						px: kf[1], py: kf[2], pz: kf[3],
-						lx: kf[4], ly: kf[5], lz: kf[6],
-						fd: kf[7], af: kf[8], dofOn: kf[9],
-						fl: kf[10], bk: kf[11],
-						afSpd: kf[12], afMin: kf[13], afMax: kf[14],
-						params: { ...stageParams[j] },
-					};
+					sharedCam.px = kf[1]; sharedCam.py = kf[2]; sharedCam.pz = kf[3];
+					sharedCam.lx = kf[4]; sharedCam.ly = kf[5]; sharedCam.lz = kf[6];
+					sharedCam.fd = kf[7]; sharedCam.af = kf[8]; sharedCam.dofOn = kf[9];
+					sharedCam.fl = kf[10]; sharedCam.bk = kf[11];
+					sharedCam.afSpd = kf[12]; sharedCam.afMin = kf[13]; sharedCam.afMax = kf[14];
+					for (let i = 0; i < stageParamKeys.length; i++) {
+						const k = stageParamKeys[i];
+						sharedCam.params[k] = stageParams[j][k];
+					}
+					return sharedCam;
 				}
 			}
 
@@ -3451,28 +3153,27 @@
 			// Interpolate per-stage params
 			const iB = Math.min(i + 1, cameraPath.length - 1);
 			const pA = stageParams[i], pB = stageParams[iB];
-			const lerpedParams = {};
-			stageParamKeys.forEach(k => {
-				lerpedParams[k] = pA[k] + (pB[k] - pA[k]) * ease;
-			});
+			for (let idx = 0; idx < stageParamKeys.length; idx++) {
+				const k = stageParamKeys[idx];
+				sharedCam.params[k] = pA[k] + (pB[k] - pA[k]) * ease;
+			}
 
-			return {
-				px: a[1] + (b[1] - a[1]) * ease,
-				py: a[2] + (b[2] - a[2]) * ease,
-				pz: a[3] + (b[3] - a[3]) * ease,
-				lx: a[4] + (b[4] - a[4]) * ease,
-				ly: a[5] + (b[5] - a[5]) * ease,
-				lz: a[6] + (b[6] - a[6]) * ease,
-				fd: a[7] + (b[7] - a[7]) * ease,
-				af: a[8] + (b[8] - a[8]) * ease,
-				dofOn: a[9] + (b[9] - a[9]) * ease,
-				fl: a[10] + (b[10] - a[10]) * ease,
-				bk: a[11] + (b[11] - a[11]) * ease,
-				afSpd: a[12] + (b[12] - a[12]) * ease,
-				afMin: a[13] + (b[13] - a[13]) * ease,
-				afMax: a[14] + (b[14] - a[14]) * ease,
-				params: lerpedParams,
-			};
+			sharedCam.px = a[1] + (b[1] - a[1]) * ease;
+			sharedCam.py = a[2] + (b[2] - a[2]) * ease;
+			sharedCam.pz = a[3] + (b[3] - a[3]) * ease;
+			sharedCam.lx = a[4] + (b[4] - a[4]) * ease;
+			sharedCam.ly = a[5] + (b[5] - a[5]) * ease;
+			sharedCam.lz = a[6] + (b[6] - a[6]) * ease;
+			sharedCam.fd = a[7] + (b[7] - a[7]) * ease;
+			sharedCam.af = a[8] + (b[8] - a[8]) * ease;
+			sharedCam.dofOn = a[9] + (b[9] - a[9]) * ease;
+			sharedCam.fl = a[10] + (b[10] - a[10]) * ease;
+			sharedCam.bk = a[11] + (b[11] - a[11]) * ease;
+			sharedCam.afSpd = a[12] + (b[12] - a[12]) * ease;
+			sharedCam.afMin = a[13] + (b[13] - a[13]) * ease;
+			sharedCam.afMax = a[14] + (b[14] - a[14]) * ease;
+			
+			return sharedCam;
 		}
 
 		let currentScrollT = 0;
@@ -3647,7 +3348,7 @@
 			scrollCheck();
 
 			let lastScrollY = window.scrollY;
-			const loopCta = () => {
+			window._loopCta = () => {
 				if (ctaRevealed) {
 					const scrollY = window.scrollY;
 					const scrollVelocity = scrollY - lastScrollY;
@@ -3667,9 +3368,9 @@
 						}
 					}
 				}
-				requestAnimationFrame(loopCta);
+				
 			};
-			requestAnimationFrame(loopCta);
+			
 
 			if (window.innerWidth > 768) {
 				floatingCta.addEventListener('mousemove', (e) => {
@@ -3728,8 +3429,15 @@
 		const _siteFooter = document.querySelector('.site-footer');
 		const _scrollHint = document.querySelector('.scroll-hint');
 
+		let _lastNavVisible = false;
+		let _lastHintOp = -1;
+		let _lastFooterTransform = null;
+		let _lastProgressW = null;
+
 		function animate() {
 			const dt = Math.min(clock.getDelta(), 0.05);
+
+			if (window._loopCta) window._loopCta();
 
 			if (_scrollDirty) {
 				targetScrollT = getScrollProgress();
@@ -3744,14 +3452,17 @@
 			let cam;
 			if (override >= 0 && override < cameraPath.length) {
 				const kf = cameraPath[override];
-				cam = {
-					px: kf[1], py: kf[2], pz: kf[3],
-					lx: kf[4], ly: kf[5], lz: kf[6],
-					fd: kf[7], af: kf[8], dofOn: kf[9],
-					fl: kf[10], bk: kf[11],
-					afSpd: kf[12], afMin: kf[13], afMax: kf[14],
-					params: stageParams[override],
-				};
+				sharedCam.px = kf[1]; sharedCam.py = kf[2]; sharedCam.pz = kf[3];
+				sharedCam.lx = kf[4]; sharedCam.ly = kf[5]; sharedCam.lz = kf[6];
+				sharedCam.fd = kf[7]; sharedCam.af = kf[8]; sharedCam.dofOn = kf[9];
+				sharedCam.fl = kf[10]; sharedCam.bk = kf[11];
+				sharedCam.afSpd = kf[12]; sharedCam.afMin = kf[13]; sharedCam.afMax = kf[14];
+				
+				for (let i = 0; i < stageParamKeys.length; i++) {
+					const k = stageParamKeys[i];
+					sharedCam.params[k] = stageParams[override][k];
+				}
+				cam = sharedCam;
 			} else {
 				cam = lerpCam(currentScrollT);
 			}
@@ -3763,21 +3474,41 @@
 			if (_siteFooter) {
 				const footerTop = _siteFooter.getBoundingClientRect().top;
 				if (footerTop < window.innerHeight) {
-					renderer.domElement.style.transform = `translateY(-${window.innerHeight - footerTop}px)`;
+					const t = `translateY(-${window.innerHeight - footerTop}px)`;
+					if (_lastFooterTransform !== t) {
+						renderer.domElement.style.transform = t;
+						_lastFooterTransform = t;
+					}
 				} else {
-					renderer.domElement.style.transform = '';
+					if (_lastFooterTransform !== '') {
+						renderer.domElement.style.transform = '';
+						_lastFooterTransform = '';
+					}
 				}
 			}
 
 			// Progress bar
-			progressBar.style.width = (currentScrollT * 100) + '%';
+			const pW = (currentScrollT * 100).toFixed(1) + '%';
+			if (_lastProgressW !== pW) {
+				progressBar.style.width = pW;
+				_lastProgressW = pW;
+			}
 
 		// Nav visibility
-		navFloat.classList.toggle('visible', currentScrollT > 0.08);
+		const navVisible = currentScrollT > 0.08;
+		if (_lastNavVisible !== navVisible) {
+			navFloat.classList.toggle('visible', navVisible);
+			_lastNavVisible = navVisible;
+		}
 
 		// Fade out scroll hint on scroll (cached element)
 		if (_scrollHint) {
-			_scrollHint.style.opacity = Math.max(0, 1 - currentScrollT * 15);
+			const op = Math.max(0, 1 - currentScrollT * 15);
+			// Only update if not already fully hidden or if it changed enough
+			if (op !== _lastHintOp && (_lastHintOp > 0 || op > 0)) {
+				_scrollHint.style.opacity = op;
+				_lastHintOp = op;
+			}
 		}
 
 			// Camera sphere — always push grass away from camera base
@@ -3906,11 +3637,80 @@
 				fpsLast = fpsNow;
 			}
 
-			renderer.compute(computeUpdate);
-			postProcessing.render();
+			if (isTestingPerformance && fpsNow - testStartTime > 2000) {
+				const duration = (fpsNow - testStartTime) / 1000;
+				const avgFps = testFrames / duration;
+				let targetTier = currentTier;
+				if (avgFps < 35 && targetTier >= 2) {
+					targetTier -= 2;
+				} else if (avgFps < 35 && targetTier === 1) {
+					targetTier = 0;
+				} else if (avgFps < 45 && targetTier >= 1) {
+					targetTier -= 1;
+				}
+
+				if (targetTier < currentTier && adjustmentsMade < 2) {
+					currentTier = targetTier;
+					adjustmentsMade++;
+					testFrames = 0;
+					testStartTime = fpsNow;
+					buildGrass(tiers[currentTier]);
+					renderer.setPixelRatio(getAdaptiveDPR());
+					renderer.setSize(window.innerWidth, window.innerHeight);
+					renderer.computeAsync(computeInit);
+				} else {
+					isTestingPerformance = false;
+					sessionStorage.setItem('grass_tier', currentTier);
+				}
+			}
+			if (isTestingPerformance) testFrames++;
+
+			if (fpsNow - lastGrassRenderTime >= grassRenderInterval) {
+				renderer.compute(computeUpdate);
+				postProcessing.render();
+				lastGrassRenderTime = fpsNow - ((fpsNow - lastGrassRenderTime) % grassRenderInterval);
+			}
 		}
 
+		let testFrames = 0;
+		let testStartTime = performance.now();
+		let adjustmentsMade = 0;
+		let isTestingPerformance = !sessionStorage.getItem('grass_tier');
+
+		let lastGrassRenderTime = performance.now();
+		const grassRenderInterval = 1000 / 45; // ~22.22ms
+
+		let isTabVisible = !document.hidden;
+		let isCanvasInViewport = true;
+		let isAnimating = true;
+
+		function updateAnimationState() {
+			const shouldAnimate = isTabVisible && isCanvasInViewport;
+			if (shouldAnimate !== isAnimating) {
+				isAnimating = shouldAnimate;
+				if (shouldAnimate) {
+					clock.getDelta(); // reset delta to prevent large jump
+					fpsLast = performance.now();
+					renderer.setAnimationLoop(animate);
+				} else {
+					renderer.setAnimationLoop(null);
+				}
+			}
+		}
+
+		document.addEventListener('visibilitychange', () => {
+			isTabVisible = !document.hidden;
+			updateAnimationState();
+		});
+
+		const canvasObserver = new IntersectionObserver((entries) => {
+			isCanvasInViewport = entries[0].isIntersecting;
+			updateAnimationState();
+		});
+		canvasObserver.observe(renderer.domElement);
+
 		renderer.setAnimationLoop(animate);
+
 	</script>
 
 	

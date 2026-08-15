@@ -5,6 +5,8 @@ import crypto from "crypto";
 import fs from "fs";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { createServer as createViteServer } from "vite";
+import { initializeApp, applicationDefault, cert } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
 // Load environment variables
 dotenv.config();
@@ -99,25 +101,47 @@ function getAuthenticatedUser(req: express.Request): any | null {
   }
 }
 
-// Server-side Persistent User Store
-const USERS_FILE = path.join(process.cwd(), "users.json");
 
-function readUsers(): Record<string, any> {
-  try {
-    if (fs.existsSync(USERS_FILE)) {
-      return JSON.parse(fs.readFileSync(USERS_FILE, "utf-8"));
+// Initialize Firebase Admin
+let db: FirebaseFirestore.Firestore;
+try {
+  let credential = applicationDefault();
+  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+    try {
+      const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+      credential = cert(serviceAccount);
+    } catch (e) {
+      console.warn("Failed to parse FIREBASE_SERVICE_ACCOUNT as JSON. Falling back to applicationDefault().");
     }
-  } catch (err) {
-    console.error("Error reading users file:", err);
   }
-  return {};
+
+  const firebaseApp = initializeApp({
+    credential,
+    projectId: "optical-fold-818qq"
+  });
+  db = getFirestore(firebaseApp);
+  db.settings({ databaseId: "ai-studio-crestivawebstudi-64161a69-50b8-4cb3-bf43-a31d0e9ea07d" });
+  console.log("Firebase Admin initialized successfully.");
+} catch (e) {
+  console.error("Error initializing Firebase Admin:", e);
 }
 
-function writeUsers(users: Record<string, any>) {
+// Helper methods mapping to Firestore
+async function readUser(email: string): Promise<any | null> {
   try {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+    const doc = await db.collection("users").doc(email).get();
+    return doc.exists ? doc.data() : null;
   } catch (err) {
-    console.error("Error writing users file:", err);
+    console.error("Error reading user from Firestore:", err);
+    return null;
+  }
+}
+
+async function writeUser(email: string, userData: any) {
+  try {
+    await db.collection("users").doc(email).set(userData, { merge: true });
+  } catch (err) {
+    console.error("Error writing user to Firestore:", err);
   }
 }
 
@@ -191,22 +215,21 @@ function generateOtp(): string {
 }
 
 // 1. Auth Register Endpoint
-app.post("/api/auth/register", (req, res) => {
+app.post("/api/auth/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "Missing required fields." });
     }
     const cleanEmail = email.trim().toLowerCase();
-    const users = readUsers();
+    const user = await readUser(cleanEmail);
     
-    if (users[cleanEmail] && users[cleanEmail].verified === true) {
+    if (user && user.verified === true) {
       return res.status(400).json({ error: "An account with this email already exists." });
     }
     
     // Create or update unverified user
-    users[cleanEmail] = { name: name.trim(), password, verified: false };
-    writeUsers(users);
+    await writeUser(cleanEmail, { name: name.trim(), password, verified: false });
 
     // Generate and store OTP
     const otp = generateOtp();
@@ -240,15 +263,14 @@ Expires in: 5 minutes
 });
 
 // 2. Auth Login Endpoint
-app.post("/api/auth/login", (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ error: "Missing email or password." });
     }
     const cleanEmail = email.trim().toLowerCase();
-    const users = readUsers();
-    const user = users[cleanEmail];
+    const user = await readUser(cleanEmail);
     if (!user || user.password !== password) {
       return res.status(401).json({ error: "Incorrect email or password." });
     }
@@ -289,15 +311,14 @@ Expires in: 5 minutes
 });
 
 // 2b. Verify OTP Endpoint
-app.post("/api/auth/verify-otp", (req, res) => {
+app.post("/api/auth/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
     if (!email || !otp) {
       return res.status(400).json({ error: "Missing email or verification code." });
     }
     const cleanEmail = email.trim().toLowerCase();
-    const users = readUsers();
-    const user = users[cleanEmail];
+    const user = await readUser(cleanEmail);
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
@@ -327,8 +348,7 @@ app.post("/api/auth/verify-otp", (req, res) => {
 
     // Success! Verify user
     user.verified = true;
-    users[cleanEmail] = user;
-    writeUsers(users);
+    await writeUser(cleanEmail, user);
 
     delete activeOtps[cleanEmail];
 
@@ -347,15 +367,14 @@ app.post("/api/auth/verify-otp", (req, res) => {
 });
 
 // 2c. Resend OTP Endpoint
-app.post("/api/auth/resend-otp", (req, res) => {
+app.post("/api/auth/resend-otp", async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
       return res.status(400).json({ error: "Email is required." });
     }
     const cleanEmail = email.trim().toLowerCase();
-    const users = readUsers();
-    const user = users[cleanEmail];
+    const user = await readUser(cleanEmail);
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
@@ -407,8 +426,7 @@ app.post("/api/payment/create-order", async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "Your session expired. Please sign in again." });
     }
-    const users = readUsers();
-    const dbUser = users[user.email];
+    const dbUser = await readUser(user.email);
     if (!dbUser || dbUser.verified !== true) {
       return res.status(403).json({ error: "Your email is unverified. Please verify your email first." });
     }
@@ -508,6 +526,20 @@ app.post("/api/payment/create-order", async (req, res) => {
       }
     }
 
+    try {
+      await db.collection("orders").doc(orderId).set({
+        email: user.email,
+        packageId,
+        percentage,
+        totalPrice,
+        amountDue,
+        status: "created",
+        createdAt: new Date().toISOString()
+      });
+    } catch (err) {
+      console.error("Failed to save initial order to Firestore:", err);
+    }
+
     return res.json({
       success: true,
       orderId,
@@ -525,14 +557,13 @@ app.post("/api/payment/create-order", async (req, res) => {
 });
 
 // 4. Secure Payment Verification Endpoint
-app.post("/api/payment/verify", (req, res) => {
+app.post("/api/payment/verify", async (req, res) => {
   try {
     const user = getAuthenticatedUser(req);
     if (!user) {
       return res.status(401).json({ error: "Your session expired. Please sign in again." });
     }
-    const users = readUsers();
-    const dbUser = users[user.email];
+    const dbUser = await readUser(user.email);
     if (!dbUser || dbUser.verified !== true) {
       return res.status(403).json({ error: "Your email is unverified. Please verify your email first." });
     }
@@ -556,6 +587,17 @@ app.post("/api/payment/verify", (req, res) => {
       }
     }
 
+    try {
+      await db.collection("orders").doc(razorpay_order_id).set({
+        email: user.email,
+        paymentId: razorpay_payment_id,
+        orderId: razorpay_order_id,
+        verifiedAt: new Date().toISOString()
+      }, { merge: true });
+    } catch (err) {
+      console.error("Failed to save order to Firestore:", err);
+    }
+
     return res.json({
       success: true,
       message: "Payment verified successfully.",
@@ -571,6 +613,31 @@ app.post("/api/payment/verify", (req, res) => {
 // 5. Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", geminiConfigured: !!ai });
+});
+
+// 6. Lead Submission Endpoint
+app.post("/api/leads", async (req, res) => {
+  try {
+    const { name, email, phone, business_name, message } = req.body;
+    
+    if (!name || !phone || !business_name) {
+      return res.status(400).json({ error: "Missing required fields." });
+    }
+
+    await db.collection("leads").add({
+      name,
+      email: email || "",
+      phone,
+      business_name,
+      message: message || "",
+      createdAt: new Date().toISOString()
+    });
+
+    return res.json({ success: true, message: "Lead submitted successfully." });
+  } catch (err: any) {
+    console.error("Lead submission error:", err);
+    return res.status(500).json({ error: "Internal server error during lead submission." });
+  }
 });
 
 // 2. Chat agent route
@@ -632,87 +699,6 @@ app.post("/api/agent", async (req, res) => {
   } catch (error: any) {
     console.error("Gemini API error:", error);
     return res.status(500).json({ error: error.message || "Internal server error during AI generation." });
-  }
-});
-
-// 3. Simulated Website Audit Analyzer route
-app.post("/api/audit", async (req, res) => {
-  try {
-    const { businessName, websiteLink, businessType, whatsappNumber, mainProblem } = req.body;
-
-    if (!businessName || !businessType) {
-      return res.status(400).json({ error: "Business name and business type are required." });
-    }
-
-    // Perform an intelligent, simulated audit report using Gemini if available to generate highly customized feedback!
-    let recommendation = "";
-    let scoreMobile = 78;
-    let scoreCTA = 70;
-    let scoreTrust = 65;
-    let scoreSpeed = 82;
-    let overallScore = 73;
-
-    if (ai) {
-      try {
-        const auditPrompt = `
-Generate a quick local business website audit for:
-Business Name: ${businessName}
-Business Type: ${businessType}
-Website (optional): ${websiteLink || "No current website"}
-Primary Issue: ${mainProblem || "Needs more customers/trust"}
-
-Generate exactly 3 bullet points with custom actionable advice for this industry. Keep it extremely direct, encouraging, and highly specific to ${businessType}.
-Do not write introductory or concluding fluff. Just return the 3 bullets in markdown.
-`;
-        const response = await ai.models.generateContent({
-          model: "gemini-3.5-flash",
-          contents: auditPrompt,
-          config: {
-            systemInstruction: "You are an elite web conversion and local SEO strategist. Keep answers short and actionable.",
-          }
-        });
-        recommendation = response.text || "";
-      } catch (err) {
-        console.error("AI audit content generation failed:", err);
-      }
-    }
-
-    if (!recommendation) {
-      // Custom static recommendations if Gemini API failed or key is absent
-      recommendation = `* **Unclear Call-to-Action**: Visitors cannot easily locate a WhatsApp button to ask about packages or appointments instantly. Adding floating CTAs will double conversions.\n* **Missing Local Trust Badges**: There are no clear client results, doctor credentials, or parent testimonials highlighted on the hero screen.\n* **Slow Mobile Render**: The structural layout is heavy, which means mobile customers on 4G connections drop off before the pages load fully.`;
-    }
-
-    // Generate smart scores based on the input
-    if (websiteLink && websiteLink.includes(".")) {
-      scoreMobile = Math.floor(Math.random() * 15) + 65; // 65-80
-      scoreCTA = Math.floor(Math.random() * 15) + 55; // 55-70
-      scoreTrust = Math.floor(Math.random() * 20) + 50; // 50-70
-      scoreSpeed = Math.floor(Math.random() * 15) + 70; // 70-85
-    } else {
-      // No website scenario
-      scoreMobile = 20;
-      scoreCTA = 10;
-      scoreTrust = 15;
-      scoreSpeed = 0;
-      overallScore = 11;
-    }
-
-    overallScore = Math.round((scoreMobile + scoreCTA + scoreTrust + scoreSpeed) / 4);
-
-    return res.json({
-      overallScore,
-      scoreMobile,
-      scoreCTA,
-      scoreTrust,
-      scoreSpeed,
-      recommendation,
-      businessName,
-      businessType,
-      whatsappNumber
-    });
-  } catch (error: any) {
-    console.error("Audit API error:", error);
-    return res.status(500).json({ error: "Failed to compile website audit analysis." });
   }
 });
 

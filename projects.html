@@ -110,7 +110,7 @@
             transition: width 0.3s, height 0.3s;
         }
         .cursor-ring {
-            width: 32px; height: 32px;
+            width: 20px; height: 20px;
             border: 1px solid rgba(196, 168, 130, 0.4);
             transition: width 0.3s, height 0.3s, background 0.3s;
         }
@@ -1101,11 +1101,11 @@
                     const y = e.clientY - rect.top - rect.height/2;
                     
                     if (el.classList.contains('magnetic-card')) {
-                        cursorRing.style.width = '80px'; cursorRing.style.height = '80px';
+                        cursorRing.style.width = '20px'; cursorRing.style.height = '20px';
                         cursorRing.style.background = 'rgba(196, 168, 130, 0.1)';
                     } else {
                         el.style.transform = `translate(${x * (strength/100)}px, ${y * (strength/100)}px)`;
-                        cursorRing.style.width = '60px'; cursorRing.style.height = '60px';
+                        cursorRing.style.width = '20px'; cursorRing.style.height = '20px';
                         cursorRing.style.background = 'rgba(196, 168, 130, 0.1)';
                     }
                 });
@@ -1113,7 +1113,7 @@
                     if (!el.classList.contains('magnetic-card')) {
                         el.style.transform = `translate(0px, 0px)`;
                     }
-                    cursorRing.style.width = '32px'; cursorRing.style.height = '32px';
+                    cursorRing.style.width = '20px'; cursorRing.style.height = '20px';
                     cursorRing.style.background = 'transparent';
                 });
             });

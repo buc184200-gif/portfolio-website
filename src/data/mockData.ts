@@ -425,7 +425,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "How do we get started?",
-    answer: "It's super simple! Just select 'Get Free Demo on WhatsApp' or fill out our Contact/Audit form. We will have a 5-minute chat on WhatsApp to understand your business goals, prepare a completely free wireframe demo preview for you, and if you like our approach, we'll kick off development!"
+    answer: "It's super simple! Just select 'Get Free Demo on WhatsApp' or fill out our Contact form. We will have a 5-minute chat on WhatsApp to understand your business goals, prepare a completely free wireframe demo preview for you, and if you like our approach, we'll kick off development!"
   }
 ];
 

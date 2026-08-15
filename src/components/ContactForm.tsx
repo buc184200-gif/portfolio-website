@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { siteConfig, getWhatsAppLink } from "../data/siteConfig";
 import { Send, MessageSquare, ShieldCheck, Mail, MapPin } from "lucide-react";
 
-const SUPABASE_URL = "https://fjtjloenjkzhnzbrzabb.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_jYZBb0lUodq9cR5sJeFPaA_r2gPM0cr";
-
 export const ContactForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,13 +27,10 @@ export const ContactForm: React.FC = () => {
     try {
       const fullMessage = `Type: ${businessType}\nPackage: ${websiteType}\nBudget: ${budget}\nNotes: ${message || "N/A"}`;
       
-      const response = await fetch(`${SUPABASE_URL}leads`, {
+      const response = await fetch("/api/leads", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`,
-          "Prefer": "return=minimal"
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           name: name.trim(),
