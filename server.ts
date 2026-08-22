@@ -776,10 +776,16 @@ async function startServer() {
     app.get("/see-more", (req, res) => {
       res.sendFile(path.join(distPath, "see-more.html"));
     });
-    app.get("/projects", (req, res) => {
-      res.sendFile(path.join(distPath, "projects.html"));
+    
+    app.get("/privacy-policy", (req, res) => {
+      res.sendFile(path.join(distPath, "privacy-policy.html"));
     });
-    app.get("/demo", (req, res) => {
+
+    app.get("/terms", (req, res) => {
+      res.sendFile(path.join(distPath, "terms.html"));
+    });
+    
+    app.get("/demo.html", (req, res) => {
       res.sendFile(path.join(distPath, "demo.html"));
     });
     

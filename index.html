@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Crestiva Web Studio | Premium AI Web Design & Development</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
     <meta name="description" content="Crestiva Web Studio crafts premium, custom-designed websites using advanced AI and modern web technologies for businesses that demand excellence." />
     <link rel="canonical" href="https://crestivawebstudio.online/" />
     <meta name="robots" content="index, follow" />
@@ -1742,7 +1743,7 @@
 	<div class="progress-bar" id="progressBar"></div>
 	<div class="page-transition-overlay" id="pageTransitionOverlay" style="display: none;"></div>
 	
-	<a href="/see-more.html" class="floating-cta-btn" id="floatingCta">
+	<a href="/see-more" class="floating-cta-btn" id="floatingCta">
 		<span class="cta-text">See More</span>
 		<span class="cta-arrow">↓</span>
 		<div class="cta-glow"></div>
@@ -1808,16 +1809,16 @@
 
 	</div>
 
-	<button class="settings-gear" id="settingsGear" aria-label="Settings">
+	<button class="settings-gear" id="settingsGear" aria-label="Settings" style="display: none !important;">
 		<svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
 	</button>
-	<div class="settings-panel" id="settingsPanel"></div>
+	<div class="settings-panel" id="settingsPanel" style="display: none !important; pointer-events: none !important;"></div>
 
 	<main id="scroll-container">
 		<section class="section hero" id="heroSection" data-stage="0">
-			<span class="hero-tag" data-reveal data-delay="1">Crafting Digital Experiences</span>
+			<span class="hero-tag" data-reveal data-delay="1">Premium Web Design & Development</span>
 			<h1 data-reveal data-delay="2">Crestiva<br><em>Web</em> Studio</h1>
-			<p class="hero-sub" data-reveal data-delay="3">Where creativity meets cutting-edge technology. We are a premier web studio dedicated to building immersive digital portfolios and experiences.</p>
+			<p class="hero-sub" data-reveal data-delay="3">We design and develop custom, high-performance websites for businesses. Combining stunning visual design, thoughtful UX, and modern AI-assisted workflows, we build digital experiences that drive real conversion.</p>
 
 			<div class="scroll-hint" data-reveal data-delay="4">
 				<span>Explore</span>
@@ -1898,14 +1899,14 @@
 			</div>
 			<div class="sf-col">
 				<div class="sf-col-title">Explore</div>
-				<a href="javascript:void(0)">Work</a>
-				<a href="javascript:void(0)">Services</a>
+				<a href="/demo.html" title="Interactive Web Design Demos">Interactive Demos</a>
+				<a href="/see-more" title="Web Design & Development Services">Services &amp; Pricing</a>
 				<a href="javascript:void(0)">Agency</a>
-				<a href="javascript:void(0)">Clients</a>
+				<a href="/see-more#about" title="About Crestiva Web Studio">About Us</a>
 			</div>
 			<div class="sf-col">
 				<div class="sf-col-title">Resources</div>
-				<a href="javascript:void(0)">Case Studies</a>
+				<a href="/demo.html" title="Design Concepts">Design Concepts</a>
 				<a href="javascript:void(0)">Playbook</a>
 				<a href="javascript:void(0)">Research</a>
 				<a href="javascript:void(0)">Blog</a>
@@ -1920,6 +1921,7 @@
 		</div>
 		<div class="sf-bottom">
 			<span class="sf-copy">© 2026 Crestiva Web Studio. All rights reserved.</span>
+			
 			<div class="sf-socials">
 				<a href="javascript:void(0)">Twitter</a>
 				<a href="javascript:void(0)">GitHub</a>
@@ -2072,7 +2074,7 @@
 		const focusDistanceU = uniform(31.83);
 		const focalLengthU = uniform(10.0);
 		const bokehScaleU = uniform(12.5);
-		let dofEnabled = true;
+		let dofEnabled = false;
 
 		// Mouse-world distance for auto-focus
 		let mouseFocusDist = 10.0;
@@ -2294,7 +2296,7 @@
 		const dofOutput = dof(sceneColor, sceneViewZ, focusDistanceU, focalLengthU, bokehScaleU);
 
 		// Start with DoF ON (except mobile)
-		postProcessing.outputNode = isMobile ? sceneColor : dofOutput;
+		postProcessing.outputNode = sceneColor;
 		if (isMobile) dofEnabled = false;
 		postProcessing.needsUpdate = true;
 
@@ -2983,7 +2985,7 @@
 		let windBurst = 0;
 		let _baseWindSpeed = 1.3;
 		let _baseWindAmp = 0.21;
-		let globalDofEnabled = !isMobile;
+		let globalDofEnabled = false;
 
 		// ─── Scroll-Driven Camera (one keyframe per section) ───────────────
 		// [scrollProgress, posX, posY, posZ, lookX, lookY, lookZ]
@@ -3082,13 +3084,13 @@
 		// [scroll, posX, posY, posZ, lookX, lookY, lookZ, focusDist, autoFocus, dofOn, focalLen, bokehScale, afSpeed, afMin, afMax]
 		//  0       1     2     3     4      5      6      7          8          9      10        11          12       13     14
 		const cameraPath = [
-			[0.00, -2.8,  7.2, 19.6,  0.5, 1.5,  0.4, 22.0, 1, 1, 10.0, 12.5, 5.0, 1.0, 40.0],  // Hero
-			[0.14,  0,    2.2, 14.0,  0,  -2.0,   0,   15.0, 1, 1,  8.0, 10.0, 5.0, 1.0, 30.0],  // Manifesto
-			[0.28,  7.5, 10.9, 15.8,  0,   0.0,   0.7, 10.0, 1, 1,  6.0,  8.0, 5.0, 0.5, 20.0],  // Pillars
-			[0.43, -8.0,  6.8, 21.6,  0,   0.2,   0,    7.0, 1, 1,  5.0, 10.0, 5.0, 0.5, 15.0],  // Stats
-			[0.57, -1.0,  5.3, 25.0, -1.2, 3.0,   0,    5.0, 1, 1,  4.0, 14.0, 6.0, 1.1, 21.5],  // Quote
-			[0.78, -1.6,  2.4,  0.0, -1.2, -2.0,   0.0, 16.4, 1, 0, 20.0, 18.0, 19.0, 2.8, 12.5],  // CTA
-			[1.00,  0,   15.0,  0.0, -5,   3.0,  -5,    9.8, 1, 1, 13.8,  0.0, 17.5, 1.2,  9.0],  // Footer
+			[0.00, -2.8,  7.2, 19.6,  0.5, 1.5,  0.4, 22.0, 0, 0,  6.0,  5.0, 5.0, 1.0, 40.0],  // Hero
+			[0.14,  0,    2.2, 14.0,  0,  -2.0,   0,   15.0, 0, 0,  5.0,  4.0, 5.0, 1.0, 30.0],  // Manifesto
+			[0.28,  7.5, 10.9, 15.8,  0,   0.0,   0.7, 15.0, 0, 0,  4.0,  3.0, 5.0, 0.5, 20.0],  // Pillars
+			[0.43, -8.0,  6.8, 21.6,  0,   0.2,   0,   18.0, 0, 0,  4.0,  4.0, 5.0, 0.5, 15.0],  // Stats
+			[0.57, -1.0,  5.3, 25.0, -1.2, 3.0,   0,   12.0, 0, 0,  3.0,  5.0, 6.0, 1.1, 21.5],  // Quote
+			[0.78, -1.6,  2.4,  0.0, -1.2, -2.0,   0.0, 16.4, 0, 0,  6.0,  5.0, 19.0, 2.8, 12.5],  // CTA
+			[1.00,  0,   15.0,  0.0, -5,   3.0,  -5,   15.0, 0, 0,  6.0,  0.0, 17.5, 1.2,  9.0],  // Footer
 		];
 
 		// Per-stage params (each stage gets its own copy, starts as defaults)
@@ -3777,7 +3779,7 @@ function saveUsers(users) {
 }
 
 function openAuthModal(mode) {
-    window.location.href = '/see-more.html?auth=' + mode;
+    window.location.href = '/see-more?auth=' + mode;
 }
 
 function closeAuthModal(e) {

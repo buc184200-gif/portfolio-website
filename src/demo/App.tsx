@@ -227,10 +227,10 @@ const Hero = memo(() => {
 
 const SelectedWorksComponent = () => {
   const projects = [
-    { title: "Automotive Motion", span: "md:col-span-7" },
-    { title: "Urban Architecture", span: "md:col-span-5" },
-    { title: "Human Perspective", span: "md:col-span-5" },
-    { title: "Brand Identity", span: "md:col-span-7" }
+    { title: "Interactive Concept", span: "md:col-span-7" },
+    { title: "Design Layout Demo", span: "md:col-span-5" },
+    { title: "Web Experience Concept", span: "md:col-span-5" },
+    { title: "UI Prototype", span: "md:col-span-7" }
   ];
 
   return (
@@ -286,10 +286,10 @@ const SelectedWorksComponent = () => {
 
 const JournalComponent = () => {
   const entries = [
-    { title: "The Future of Interaction Design", readTime: "5 min read", date: "Oct 12, 2026" },
-    { title: "Building Scalable Design Systems", readTime: "8 min read", date: "Sep 28, 2026" },
-    { title: "Motion as Meaning", readTime: "4 min read", date: "Sep 15, 2026" },
-    { title: "Typography in Digital Spaces", readTime: "6 min read", date: "Aug 30, 2026" }
+    { title: "Design Philosophy Concept", readTime: "Example Data", date: "Demo Format" },
+    { title: "Architecture Demo", readTime: "Example Data", date: "Demo Format" },
+    { title: "Animation Concept", readTime: "Example Data", date: "Demo Format" },
+    { title: "Typography Showcase", readTime: "Example Data", date: "Demo Format" }
   ];
 
   return (

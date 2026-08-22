@@ -17,8 +17,9 @@ export default defineConfig(() => {
         input: {
           main: path.resolve(__dirname, 'index.html'),
           seemore: path.resolve(__dirname, 'see-more.html'),
-          projects: path.resolve(__dirname, 'projects.html'),
-          demo: path.resolve(__dirname, 'demo.html')
+                    demo: path.resolve(__dirname, 'demo.html'),
+          privacy: path.resolve(__dirname, 'privacy-policy.html'),
+          terms: path.resolve(__dirname, 'terms.html')
         },
         external: [
           'three/webgpu',
