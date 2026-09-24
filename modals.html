@@ -17,45 +17,6 @@
 </div>
 
 
-<!-- Payment Modal -->
-<div class="payment-overlay" id="paymentOverlay" onclick="closePaymentModal(event)">
-    <div class="payment-modal" onclick="event.stopPropagation()">
-        <button class="payment-close" onclick="closePaymentModal(event)">&times;</button>
-        <h3>Order Summary</h3>
-        <div id="paymentErrorMsg" class="payment-error"></div>
-        <div class="payment-summary" id="paymentSummary">
-            <!-- Dynamic -->
-        </div>
-        <div class="payment-options">
-            <p>Select Payment Option:</p>
-            <label><input type="radio" name="pay_option" value="25" onchange="updatePayAmount()" checked> 25% Advance</label>
-            <label><input type="radio" name="pay_option" value="50" onchange="updatePayAmount()"> 50% Advance</label>
-            <label><input type="radio" name="pay_option" value="100" onchange="updatePayAmount()"> Full Payment (100%)</label>
-        </div>
-        <div class="payment-total">
-            Project Total: <span id="payTotalAmount">₹0</span><br>
-            Amount Due: <span id="payDueAmount" style="color:#d4af37; font-size:20px; font-weight:600;">₹0</span>
-        </div>
-        <button id="razorpayBtn" class="plan-btn gold-btn" style="width:100%; border:none; margin:0;" onclick="initiateRazorpay()">Proceed to Pay</button>
-    </div>
-</div>
-
-<!-- Payment Success Modal -->
-<div class="payment-success-overlay" id="paymentSuccessOverlay">
-    <div class="payment-success-modal">
-        <div class="success-check">✓</div>
-        <h3>Advance payment received successfully.</h3>
-        <p>Order ID: <span id="successOrderId" style="color:#d4af37;"></span></p>
-        <p>Package Name: <span id="successPackageName" style="color:#d4af37;"></span></p>
-        <p>Amount Paid: <span id="successAmountPaid" style="color:#d4af37;"></span></p>
-        <p>Remaining Balance: <span id="successRemainingBalance" style="color:#d4af37;"></span></p>
-        <p style="margin-top: 15px;">Our team will contact you shortly to begin the project.</p>
-        <button class="plan-btn outline-btn" style="width:100%; margin-top:20px; border-color:rgba(212,175,55,0.5); color:#d4af37;" onclick="document.getElementById('paymentSuccessOverlay').classList.remove('active')">Close</button>
-    </div>
-</div>
-</div>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const faqItems = document.querySelectorAll('.faq-item');

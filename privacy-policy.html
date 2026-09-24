@@ -85,196 +85,6 @@
             font-weight: 300;
         }
 
-        /* Cinematic Payment Gate Premium Styles */
-        .auth-modal-overlay {
-            background: radial-gradient(circle, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.97) 100%) !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .auth-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .auth-modal {
-            position: relative;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 440px;
-            width: 90%;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.04);
-            transform: scale(0.85);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .auth-modal-overlay.active .auth-modal {
-            transform: scale(1);
-            opacity: 1;
-        }
-        .border-sweep {
-            position: absolute;
-            top: 0; left: -150%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.05), transparent);
-            transform: skewX(-25deg);
-            pointer-events: none;
-            z-index: 1;
-        }
-        .verification-ring-svg {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 16px auto;
-            display: block;
-        }
-        .verification-ring-circle {
-            stroke: #d4af37;
-            stroke-width: 2.5;
-            stroke-dasharray: 251;
-            stroke-dashoffset: 251;
-            fill: none;
-            transform-origin: center;
-        }
-        .verification-ring-check {
-            stroke: #d4af37;
-            stroke-width: 3.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 40;
-            stroke-dashoffset: 40;
-            fill: none;
-        }
-        .draw-active .verification-ring-circle {
-            animation: drawRing 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        .draw-active .verification-ring-check {
-            animation: drawCheck 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
-        }
-        @keyframes drawRing {
-            to { stroke-dashoffset: 0; }
-        }
-        @keyframes drawCheck {
-            to { stroke-dashoffset: 0; }
-        }
-        .confirm-panel {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            animation: fadeInConfirm 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        @keyframes fadeInConfirm {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .confirm-title {
-            font-family: 'Playfair Display', serif;
-            color: #d4af37;
-            font-size: 24px;
-            margin-bottom: 6px;
-            text-align: center;
-            font-weight: 400;
-        }
-        .confirm-subtitle {
-            color: rgba(255, 255, 255, 0.55);
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .confirm-details {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-        }
-        .confirm-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
-        .confirm-row:last-child {
-            margin-bottom: 0;
-        }
-        .confirm-label {
-            color: rgba(255, 255, 255, 0.45);
-        }
-        .confirm-val {
-            color: #ffffff;
-            font-weight: 500;
-        }
-        .confirm-val.gold {
-            color: #d4af37;
-            font-weight: 600;
-        }
-        .confirm-divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.06);
-            margin: 12px 0;
-        }
-        .secure-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            color: rgba(212, 175, 55, 0.7);
-            font-size: 10px;
-            margin-top: 4px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-        .confirm-cta-btn {
-            position: relative;
-            background: #d4af37;
-            color: #0a0a0a;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            overflow: hidden;
-            transition: background 0.3s, transform 0.2s;
-            margin-bottom: 12px;
-            width: 100%;
-            text-align: center;
-        }
-        .confirm-cta-btn:hover {
-            background: #e5c158;
-        }
-        .confirm-cta-btn:disabled {
-            background: rgba(212, 175, 55, 0.4);
-            color: rgba(10, 10, 10, 0.6);
-            cursor: not-allowed;
-        }
-        .confirm-secondary-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: rgba(255, 255, 255, 0.6);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-        .confirm-secondary-btn:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            color: #fff;
-        }
-        .btn-gold-line {
-            position: absolute;
-            bottom: 0; left: -100%; width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, #ffffff, #d4af37, #ffffff, transparent);
-            display: none;
-        }
-
         :root {
             --c-bg: #0e0e0e;
             --c-surface: #1a1a1a;
@@ -1878,400 +1688,6 @@
         }
 
     
-/* --- Premium Auth Styles --- */
-.auth-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    pointer-events: auto;
-    margin-left: 16px;
-}
-
-.auth-btn {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--color-body, rgba(215, 230, 190, 0.7));
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
-}
-
-.auth-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-    transform: skewX(-20deg);
-    transition: all 0.6s ease;
-}
-
-.auth-btn:hover {
-    color: #fff;
-    border-color: rgba(212, 175, 55, 0.5);
-    background: rgba(212, 175, 55, 0.05);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-}
-.auth-btn:hover::before { left: 150%; }
-
-.auth-btn.primary {
-    color: #000;
-    background: linear-gradient(135deg, #d4af37, #c5a059);
-    border: none;
-}
-.auth-btn.primary:hover {
-    color: #000;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-    transform: translateY(-1px);
-}
-
-.profile-dropdown-wrapper {
-    position: relative;
-    display: none;
-    pointer-events: auto;
-    margin-left: 16px;
-}
-
-.profile-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 40px;
-    padding: 4px 12px 4px 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.profile-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(212, 175, 55, 0.6);
-}
-
-.profile-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37, #c5a059);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000;
-    font-weight: 600;
-    font-size: 12px;
-}
-
-.profile-name {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #fff;
-    text-transform: uppercase;
-}
-
-.profile-menu {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    background: rgba(10, 10, 10, 0.85);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 8px;
-    padding: 8px 0;
-    min-width: 180px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-}
-
-.profile-dropdown-wrapper.active .profile-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.profile-menu a {
-    display: block;
-    padding: 10px 20px;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: all 0.2s;
-    font-weight: 500;
-}
-
-.profile-menu a:hover {
-    color: #d4af37;
-    background: rgba(212, 175, 55, 0.05);
-    padding-left: 24px;
-}
-
-.auth-modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-}
-
-.auth-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.auth-modal {
-    background: rgba(15, 15, 15, 0.9);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    border-radius: 12px;
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
-    transform: translateY(20px) scale(0.95);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.auth-modal-overlay.active .auth-modal {
-    transform: translateY(0) scale(1);
-}
-
-.auth-modal-close {
-    position: absolute;
-    top: 20px; right: 20px;
-    background: transparent; border: none;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 20px; cursor: pointer;
-    transition: color 0.2s;
-}
-.auth-modal-close:hover { color: #fff; }
-
-.auth-modal h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    color: #d4af37;
-    margin-bottom: 8px;
-    font-weight: 400;
-}
-
-.auth-modal p {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 24px;
-}
-
-.auth-form-group {
-    margin-bottom: 16px;
-    position: relative;
-}
-
-.auth-form-group input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 14px 16px;
-    border-radius: 6px;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.3s;
-}
-
-.auth-form-group input:focus {
-    border-color: rgba(212, 175, 55, 0.5);
-    background: rgba(212, 175, 55, 0.02);
-}
-
-.auth-form-group label {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
-    pointer-events: none;
-    transition: all 0.3s;
-}
-
-.auth-form-group input:focus + label,
-.auth-form-group input:not(:placeholder-shown) + label {
-    top: -8px;
-    left: 12px;
-    font-size: 11px;
-    background: #0f0f0f;
-    padding: 0 4px;
-    color: #d4af37;
-}
-
-.auth-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.auth-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.auth-checkbox input {
-    appearance: none;
-    width: 16px; height: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    background: transparent;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
-}
-
-.auth-checkbox input:checked {
-    background: #d4af37;
-    border-color: #d4af37;
-}
-
-.auth-checkbox input:checked::after {
-    content: '✓';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    color: #000;
-    font-size: 10px;
-    font-weight: bold;
-}
-
-.auth-submit {
-    width: 100%;
-    background: linear-gradient(135deg, #d4af37, #c5a059);
-    border: none;
-    padding: 14px;
-    border-radius: 6px;
-    color: #000;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-}
-
-.auth-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-}
-
-.auth-switch {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.auth-switch span {
-    color: #d4af37;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-.auth-switch span:hover { color: #fff; }
-
-.success-message {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 15, 15, 0.95);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-    z-index: 10;
-}
-
-.success-message.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.success-icon {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    background: rgba(212, 175, 55, 0.1);
-    border: 2px solid #d4af37;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #d4af37;
-    font-size: 24px;
-    margin-bottom: 16px;
-    transform: scale(0.5);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.success-message.active .success-icon {
-    transform: scale(1);
-}
-
-
-@media (max-width: 768px) {
-    .nav-mobile-overlay .auth-container,
-    .mobile-nav .auth-container,
-    .nav-links .auth-container {
-        margin-left: 0;
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-    }
-    .nav-mobile-overlay .profile-dropdown-wrapper,
-    .mobile-nav .profile-dropdown-wrapper,
-    .nav-links .profile-dropdown-wrapper {
-        margin-left: 0;
-        /* display flex handled by js */
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .mobile-nav {
-        flex-wrap: wrap;
-    }
-    .mobile-nav .auth-container, .mobile-nav .profile-dropdown-wrapper {
-        order: 3;
-        flex-basis: 100%;
-    }
-}
-
-
 /* --- Quote Choice Modal --- */
 .quote-choice-overlay {
     position: fixed;
@@ -2671,7 +2087,7 @@
     <script src="https://unpkg.com/split-type"></script>
     <script src="/src/awwwards.js" type="module"></script>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
 
     <script type="application/ld+json">
     {
@@ -2735,10 +2151,7 @@
             <a href="/privacy-policy" class="nav-link"><span class="nav-idx">04</span>Privacy Policy</a>
             <a href="/terms" class="nav-link"><span class="nav-idx">05</span>Terms</a>
         </div>
-        <div class="auth-container" id="authContainer">
-            <button class="auth-btn magnetic" data-magnetic-strength="10" onclick="window.location.href='/see-more'">Sign In</button>
-            <button class="auth-btn primary magnetic" data-magnetic-strength="10" onclick="window.location.href='/see-more'">Sign Up</button>
-        </div>
+        
     </nav>
 
     <div class="content-wrap" style="display: block; padding: 40px 5% 80px; max-width: 1200px; margin: 0 auto; color: var(--c-text); position: relative; z-index: 10; width: 100%; box-sizing: border-box;">
@@ -2747,49 +2160,63 @@
         
         <div class="legal-text" style="font-family: var(--font-sans); line-height: 1.8; opacity: 0.85; font-size: 1.05rem;">
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">1. Introduction</h2>
-            <p style="margin-bottom: 25px;">Welcome to Crestiva Web Studio. We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our website and services.</p>
+            <p style="margin-bottom: 25px;">Welcome to Crestiva Web Studio ("Crestiva", "we", "us", or "our"). We respect your privacy and are committed to protecting your personal information. This Privacy Policy outlines what information we may collect from you, how it is used, and how it is protected when you visit our website or communicate with us.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">2. Information We Collect</h2>
-            <p style="margin-bottom: 25px;">We collect information you provide directly to us, such as your name, email address, phone number, and project details when you request a quote or contact us.</p>
-            
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">3. How We Use Your Information</h2>
-            <p style="margin-bottom: 25px;">We use your information to communicate with you about your projects, provide our services, and send important updates related to your web development plans.</p>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">2. Information We May Collect</h2>
+            <p style="margin-bottom: 25px;">We collect information that you voluntarily submit to us when inquiring about our services or requesting project discussions. This information may include:</p>
+            <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
+                <li style="margin-bottom: 10px;">Your name and contact details (such as email address and phone number).</li>
+                <li style="margin-bottom: 10px;">Business name, website URL, and current online presence details.</li>
+                <li style="margin-bottom: 10px;">Project specifications, design preferences, and estimated budget selections.</li>
+                <li style="margin-bottom: 10px;">Country-level location information: We may process country-level IP-derived location data to personalize regional package pricing and display approximate local currency values. We do not collect or store precise GPS coordinates, physical street addresses, or raw visitor IP addresses.</li>
+                <li style="margin-bottom: 10px;">Any other details or communications you provide through our contact forms, email, or direct messaging channels.</li>
+            </ul>
+
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">3. How We Use Information</h2>
+            <p style="margin-bottom: 25px;">We use collected information solely for genuine business purposes, including:</p>
+            <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
+                <li style="margin-bottom: 10px;">Responding promptly to your inquiries and consultation requests.</li>
+                <li style="margin-bottom: 10px;">Discussing, estimating, and scoping website design and development projects.</li>
+                <li style="margin-bottom: 10px;">Delivering, developing, and optimizing approved client deliverables.</li>
+                <li style="margin-bottom: 10px;">Sending project-related communications, invoices, updates, and deliverables.</li>
+                <li style="margin-bottom: 10px;">Improving our studio communication, client service delivery, and website experience.</li>
+            </ul>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">4. Contact Forms and Communications</h2>
-            <p style="margin-bottom: 25px;">When you use our contact forms or reach out via email/WhatsApp, we store your contact details securely in order to respond to your inquiries and support your project effectively.</p>
+            <p style="margin-bottom: 25px;">When you submit an inquiry through our website contact form or initiate contact via email or WhatsApp, your submitted information is used exclusively to respond to your request, coordinate project discussions, and manage client communication. We do not use your contact information for unsolicited marketing or sell it to mailing lists.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Payment Information</h2>
-            <p style="margin-bottom: 25px;">Crestiva requires a 25% advance payment when a customer purchases an applicable website plan/service. Razorpay is intended to be used as the payment processor. The current integration uses Razorpay TEST MODE for development/testing. Live payment processing will be enabled after the production backend is implemented. When live payments are enabled, Razorpay will process payment transactions through its payment infrastructure. Crestiva does not claim to store sensitive payment credentials such as complete card numbers, CVVs, UPI PINs, or banking passwords.</p>
-            
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Payments</h2>
+            <p style="margin-bottom: 25px;">Crestiva Web Studio may require a 25% advance before work begins on applicable services and projects. Payments are arranged directly with the client and are not processed through a website payment gateway. There is no live payment gateway or customer checkout on this website, and we do not collect or store credit card numbers, banking credentials, or payment account secrets through the site.</p>
+
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">6. Third-Party Services</h2>
-            <p style="margin-bottom: 25px;">Our website uses third-party services like Supabase for database storage and authentication, and Razorpay for payment processing (currently in test mode). These services have their own privacy policies governing their data handling practices. Firebase is also configured for applet infrastructure.</p>
+            <p style="margin-bottom: 25px;">We only reference third-party tools and platforms that are directly relevant to our website's delivery and communication. When you click external links (such as WhatsApp for direct communication or Instagram for our portfolio updates), their respective privacy policies apply. We do not integrate invasive third-party ad networks or marketing trackers.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Cookies and Tracking</h2>
-            <p style="margin-bottom: 25px;">We may use essential session data to maintain your login state and preferences. We do not implement invasive third-party tracking cookies.</p>
+            <p style="margin-bottom: 25px;">We do not use invasive third-party advertising cookies, behavioral tracker scripts, or cross-site tracking mechanisms. Any standard technical cookies or server logging used are strictly for basic website functionality, reliability, and security.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">8. Local Storage / Session Data</h2>
-            <p style="margin-bottom: 25px;">We use standard browser local storage and session data to manage your user session and save custom quote configurations during your active visit.</p>
+            <p style="margin-bottom: 25px;">Our website may use standard browser local storage or session storage solely to temporarily preserve your interactive UI preferences (such as regional pricing country selections and custom website builder configurations) on your local device. This data remains on your device and is not used for external advertising or tracking.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">9. Data Sharing</h2>
-            <p style="margin-bottom: 25px;">We do not sell, rent, or trade your personal data to any third parties for marketing purposes. Your data is strictly shared with the necessary third-party infrastructure (e.g., Supabase, Firebase, Razorpay) required to deliver our service.</p>
+            <p style="margin-bottom: 25px;">Crestiva Web Studio does not sell, rent, trade, or lease your personal information to third parties. Information may only be shared where reasonably necessary to provide agreed client services, operate essential communications, or fulfill legal obligations.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">10. Data Security</h2>
-            <p style="margin-bottom: 25px;">We implement standard security measures to protect your information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.</p>
+            <p style="margin-bottom: 25px;">We implement reasonable technical and organizational precautions to protect your personal information against unauthorized access, alteration, or disclosure. However, no method of transmission over the Internet or electronic storage is completely infallible, and absolute security cannot be guaranteed.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">11. Data Retention</h2>
-            <p style="margin-bottom: 25px;">We retain your data only for as long as is necessary to provide you with our services, fulfill project agreements, and comply with our legal obligations.</p>
+            <p style="margin-bottom: 25px;">We retain submitted contact and project information only for as long as reasonably necessary to fulfill inquiry responses, deliver ongoing client projects, maintain administrative records, and satisfy legal or contractual requirements.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">12. User Rights</h2>
-            <p style="margin-bottom: 25px;">You have the right to access, update, or delete your personal information stored with us. Contact us to exercise these rights.</p>
+            <p style="margin-bottom: 25px;">You have the right to request access to, correction of, or deletion of the personal information you have provided to us. To submit a request or inquire about your data, please contact us directly using the contact details below.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">13. Children's Privacy</h2>
-            <p style="margin-bottom: 25px;">Our services are not directed to individuals under the age of 18, and we do not knowingly collect personal information from children.</p>
+            <p style="margin-bottom: 25px;">Our website and professional services are intended for businesses and adults, and are not directed to individuals under the age of 18. We do not knowingly collect personal information from children.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">14. Changes to This Privacy Policy</h2>
-            <p style="margin-bottom: 25px;">We may update this policy periodically. We will post any changes on this page, and your continued use of our services indicates acceptance of the updated policy.</p>
-            
+            <p style="margin-bottom: 25px;">Crestiva Web Studio reserves the right to update or revise this Privacy Policy periodically. Any modifications will be posted directly on this page with an updated revision date. Your continued use of our website or services signifies your acceptance of any updates.</p>
+
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">15. Contact Us</h2>
-            <p style="margin-bottom: 25px;">If you have questions about this Privacy Policy, please contact us at: <strong>crestivawebstudio@gmail.com</strong></p>
+            <p style="margin-bottom: 25px;">If you have any questions, concerns, or requests regarding this Privacy Policy or how your data is handled, please contact us at: <strong>crestivawebstudio@gmail.com</strong></p>
         </div>
     </div>
 
