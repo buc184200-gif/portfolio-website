@@ -1,7 +1,6 @@
-
+    
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { createClient } from '@supabase/supabase-js';
 
         const container = document.getElementById('three-container');
         const morphNameEl = document.getElementById('morph-name');
@@ -362,7 +361,7 @@
             startMorph(next);
         }, 5000);
 
-        if (dots && dots.length > 0) dots.forEach(dot => {
+        dots.forEach(dot => {
             dot.addEventListener('click', () => {
                 const idx = parseInt(dot.dataset.idx);
                 clearInterval(autoMorphInterval);
@@ -377,7 +376,7 @@
         function updateUI(idx) {
             if (morphNameEl) morphNameEl.textContent = shapeNames[idx];
             if (morphCounterEl) morphCounterEl.textContent = `0${idx + 1} / 0${shapes.length}`;
-            if (dots && dots.length > 0) dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            if (dots) dots.forEach((d, i) => d.classList.toggle('active', i === idx));
         }
 
         // SCROLL INTERACTION
@@ -507,3 +506,30 @@
 
         animate();
     
+
+const blurLayer = document.querySelector('.layer-blur');
+if (blurLayer) {
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let smoothX = mouseX, smoothY = mouseY;
+    let lastBlurX = '', lastBlurY = '';
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animateBlur() {
+        smoothX += (mouseX - smoothX) * 0.1;
+        smoothY += (mouseY - smoothY) * 0.1;
+        const newX = (smoothX / window.innerWidth * 100).toFixed(1) + '%';
+        const newY = (smoothY / window.innerHeight * 100).toFixed(1) + '%';
+        if (newX !== lastBlurX || newY !== lastBlurY) {
+            lastBlurX = newX;
+            lastBlurY = newY;
+            blurLayer.style.setProperty('--x', newX);
+            blurLayer.style.setProperty('--y', newY);
+        }
+        requestAnimationFrame(animateBlur);
+    }
+    animateBlur();
+}

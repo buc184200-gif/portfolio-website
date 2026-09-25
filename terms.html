@@ -85,196 +85,6 @@
             font-weight: 300;
         }
 
-        /* Cinematic Payment Gate Premium Styles */
-        .auth-modal-overlay {
-            background: radial-gradient(circle, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.97) 100%) !important;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .auth-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .auth-modal {
-            position: relative;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 440px;
-            width: 90%;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.04);
-            transform: scale(0.85);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .auth-modal-overlay.active .auth-modal {
-            transform: scale(1);
-            opacity: 1;
-        }
-        .border-sweep {
-            position: absolute;
-            top: 0; left: -150%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.05), transparent);
-            transform: skewX(-25deg);
-            pointer-events: none;
-            z-index: 1;
-        }
-        .verification-ring-svg {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 16px auto;
-            display: block;
-        }
-        .verification-ring-circle {
-            stroke: #d4af37;
-            stroke-width: 2.5;
-            stroke-dasharray: 251;
-            stroke-dashoffset: 251;
-            fill: none;
-            transform-origin: center;
-        }
-        .verification-ring-check {
-            stroke: #d4af37;
-            stroke-width: 3.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 40;
-            stroke-dashoffset: 40;
-            fill: none;
-        }
-        .draw-active .verification-ring-circle {
-            animation: drawRing 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        .draw-active .verification-ring-check {
-            animation: drawCheck 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
-        }
-        @keyframes drawRing {
-            to { stroke-dashoffset: 0; }
-        }
-        @keyframes drawCheck {
-            to { stroke-dashoffset: 0; }
-        }
-        .confirm-panel {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            animation: fadeInConfirm 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        @keyframes fadeInConfirm {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .confirm-title {
-            font-family: 'Playfair Display', serif;
-            color: #d4af37;
-            font-size: 24px;
-            margin-bottom: 6px;
-            text-align: center;
-            font-weight: 400;
-        }
-        .confirm-subtitle {
-            color: rgba(255, 255, 255, 0.55);
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .confirm-details {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-        }
-        .confirm-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
-        .confirm-row:last-child {
-            margin-bottom: 0;
-        }
-        .confirm-label {
-            color: rgba(255, 255, 255, 0.45);
-        }
-        .confirm-val {
-            color: #ffffff;
-            font-weight: 500;
-        }
-        .confirm-val.gold {
-            color: #d4af37;
-            font-weight: 600;
-        }
-        .confirm-divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.06);
-            margin: 12px 0;
-        }
-        .secure-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            color: rgba(212, 175, 55, 0.7);
-            font-size: 10px;
-            margin-top: 4px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-        .confirm-cta-btn {
-            position: relative;
-            background: #d4af37;
-            color: #0a0a0a;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            overflow: hidden;
-            transition: background 0.3s, transform 0.2s;
-            margin-bottom: 12px;
-            width: 100%;
-            text-align: center;
-        }
-        .confirm-cta-btn:hover {
-            background: #e5c158;
-        }
-        .confirm-cta-btn:disabled {
-            background: rgba(212, 175, 55, 0.4);
-            color: rgba(10, 10, 10, 0.6);
-            cursor: not-allowed;
-        }
-        .confirm-secondary-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: rgba(255, 255, 255, 0.6);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-        .confirm-secondary-btn:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            color: #fff;
-        }
-        .btn-gold-line {
-            position: absolute;
-            bottom: 0; left: -100%; width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, #ffffff, #d4af37, #ffffff, transparent);
-            display: none;
-        }
-
         :root {
             --c-bg: #0e0e0e;
             --c-surface: #1a1a1a;
@@ -1878,400 +1688,6 @@
         }
 
     
-/* --- Premium Auth Styles --- */
-.auth-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    pointer-events: auto;
-    margin-left: 16px;
-}
-
-.auth-btn {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--color-body, rgba(215, 230, 190, 0.7));
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
-}
-
-.auth-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-    transform: skewX(-20deg);
-    transition: all 0.6s ease;
-}
-
-.auth-btn:hover {
-    color: #fff;
-    border-color: rgba(212, 175, 55, 0.5);
-    background: rgba(212, 175, 55, 0.05);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-}
-.auth-btn:hover::before { left: 150%; }
-
-.auth-btn.primary {
-    color: #000;
-    background: linear-gradient(135deg, #d4af37, #c5a059);
-    border: none;
-}
-.auth-btn.primary:hover {
-    color: #000;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-    transform: translateY(-1px);
-}
-
-.profile-dropdown-wrapper {
-    position: relative;
-    display: none;
-    pointer-events: auto;
-    margin-left: 16px;
-}
-
-.profile-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 40px;
-    padding: 4px 12px 4px 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.profile-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(212, 175, 55, 0.6);
-}
-
-.profile-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37, #c5a059);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000;
-    font-weight: 600;
-    font-size: 12px;
-}
-
-.profile-name {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #fff;
-    text-transform: uppercase;
-}
-
-.profile-menu {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    background: rgba(10, 10, 10, 0.85);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 8px;
-    padding: 8px 0;
-    min-width: 180px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-}
-
-.profile-dropdown-wrapper.active .profile-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.profile-menu a {
-    display: block;
-    padding: 10px 20px;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: all 0.2s;
-    font-weight: 500;
-}
-
-.profile-menu a:hover {
-    color: #d4af37;
-    background: rgba(212, 175, 55, 0.05);
-    padding-left: 24px;
-}
-
-.auth-modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-}
-
-.auth-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.auth-modal {
-    background: rgba(15, 15, 15, 0.9);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    border-radius: 12px;
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
-    transform: translateY(20px) scale(0.95);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.auth-modal-overlay.active .auth-modal {
-    transform: translateY(0) scale(1);
-}
-
-.auth-modal-close {
-    position: absolute;
-    top: 20px; right: 20px;
-    background: transparent; border: none;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 20px; cursor: pointer;
-    transition: color 0.2s;
-}
-.auth-modal-close:hover { color: #fff; }
-
-.auth-modal h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    color: #d4af37;
-    margin-bottom: 8px;
-    font-weight: 400;
-}
-
-.auth-modal p {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 24px;
-}
-
-.auth-form-group {
-    margin-bottom: 16px;
-    position: relative;
-}
-
-.auth-form-group input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 14px 16px;
-    border-radius: 6px;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.3s;
-}
-
-.auth-form-group input:focus {
-    border-color: rgba(212, 175, 55, 0.5);
-    background: rgba(212, 175, 55, 0.02);
-}
-
-.auth-form-group label {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
-    pointer-events: none;
-    transition: all 0.3s;
-}
-
-.auth-form-group input:focus + label,
-.auth-form-group input:not(:placeholder-shown) + label {
-    top: -8px;
-    left: 12px;
-    font-size: 11px;
-    background: #0f0f0f;
-    padding: 0 4px;
-    color: #d4af37;
-}
-
-.auth-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.auth-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.auth-checkbox input {
-    appearance: none;
-    width: 16px; height: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    background: transparent;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
-}
-
-.auth-checkbox input:checked {
-    background: #d4af37;
-    border-color: #d4af37;
-}
-
-.auth-checkbox input:checked::after {
-    content: '✓';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    color: #000;
-    font-size: 10px;
-    font-weight: bold;
-}
-
-.auth-submit {
-    width: 100%;
-    background: linear-gradient(135deg, #d4af37, #c5a059);
-    border: none;
-    padding: 14px;
-    border-radius: 6px;
-    color: #000;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-}
-
-.auth-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-}
-
-.auth-switch {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.auth-switch span {
-    color: #d4af37;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-.auth-switch span:hover { color: #fff; }
-
-.success-message {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 15, 15, 0.95);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-    z-index: 10;
-}
-
-.success-message.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.success-icon {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    background: rgba(212, 175, 55, 0.1);
-    border: 2px solid #d4af37;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #d4af37;
-    font-size: 24px;
-    margin-bottom: 16px;
-    transform: scale(0.5);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.success-message.active .success-icon {
-    transform: scale(1);
-}
-
-
-@media (max-width: 768px) {
-    .nav-mobile-overlay .auth-container,
-    .mobile-nav .auth-container,
-    .nav-links .auth-container {
-        margin-left: 0;
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-    }
-    .nav-mobile-overlay .profile-dropdown-wrapper,
-    .mobile-nav .profile-dropdown-wrapper,
-    .nav-links .profile-dropdown-wrapper {
-        margin-left: 0;
-        /* display flex handled by js */
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .mobile-nav {
-        flex-wrap: wrap;
-    }
-    .mobile-nav .auth-container, .mobile-nav .profile-dropdown-wrapper {
-        order: 3;
-        flex-basis: 100%;
-    }
-}
-
-
 /* --- Quote Choice Modal --- */
 .quote-choice-overlay {
     position: fixed;
@@ -2671,7 +2087,7 @@
     <script src="https://unpkg.com/split-type"></script>
     <script src="/src/awwwards.js" type="module"></script>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
 
     <script type="application/ld+json">
     {
@@ -2735,63 +2151,58 @@
             <a href="/privacy-policy" class="nav-link"><span class="nav-idx">04</span>Privacy Policy</a>
             <a href="/terms" class="nav-link"><span class="nav-idx">05</span>Terms</a>
         </div>
-        <div class="auth-container" id="authContainer">
-            <button class="auth-btn magnetic" data-magnetic-strength="10" onclick="window.location.href='/see-more'">Sign In</button>
-            <button class="auth-btn primary magnetic" data-magnetic-strength="10" onclick="window.location.href='/see-more'">Sign Up</button>
-        </div>
+        
     </nav>
 
-    <div class="content-wrap" style="padding: 40px 5% 80px; max-width: 1200px; margin: 0 auto; color: var(--c-text); position: relative; z-index: 10; width: 100%; box-sizing: border-box;">
+    <div class="content-wrap" style="display: block; padding: 40px 5% 80px; max-width: 1200px; margin: 0 auto; color: var(--c-text); position: relative; z-index: 10; width: 100%; box-sizing: border-box;">
         <h1 class="section-heading" style="text-align: left; font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 30px; line-height: 1.1; letter-spacing: -0.02em;">Crestiva Web Studio Terms of Service</h1>
         
         
         <div class="legal-text" style="font-family: var(--font-sans); line-height: 1.8; opacity: 0.85; font-size: 1.05rem;">
-            
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">1. Introduction</h2>
-            <p style="margin-bottom: 25px;">By accessing and using the Crestiva Web Studio website and services, you agree to comply with and be bound by the following Terms of Service. Please read them carefully.</p>
+            <p style="margin-bottom: 25px;">By accessing, browsing, or using the Crestiva Web Studio website and services, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you must refrain from using our website and services.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">2. Services and Deliverables</h2>
-            <p style="margin-bottom: 25px;">Crestiva Web Studio provides custom web design, development, and optimization services. Project scope, timelines, and deliverables will be formally agreed upon in writing prior to project commencement.</p>
-            
+            <p style="margin-bottom: 25px;">Crestiva Web Studio provides custom website design, web development, performance optimization, and related digital services. Specific project deliverables, scope, and technical requirements are formally defined and agreed upon in writing prior to project commencement.</p>
+
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">3. Project Scope and Timelines</h2>
-            <p style="margin-bottom: 25px;">We strive to deliver projects within the agreed-upon timeframe. However, timelines are contingent upon the client's timely submission of required materials and approvals. Any changes to the scope may affect delivery dates.</p>
+            <p style="margin-bottom: 25px;">We work diligently to complete deliverables within agreed project timelines. However, delivery schedules depend heavily on timely client communication, prompt submission of required assets and content, and timely review approvals. Changes in project scope or delays in client approvals may adjust the project delivery schedule accordingly.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">4. Payment Terms</h2>
-            <p style="margin-bottom: 25px;">A 25% advance payment is required before work begins for applicable website plans/services. The remaining balance is handled according to the agreed project terms. Official payment agreements will be coordinated securely.</p>
-            
+            <p style="margin-bottom: 25px;">A 25% advance payment may be required before work begins on applicable projects and services. Client payment arrangements are coordinated directly with the client and are not processed through a website payment gateway. The remaining balance is handled according to the individual client or project agreement.</p>
+
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Client Responsibilities</h2>
-            <p style="margin-bottom: 25px;">Clients are responsible for providing accurate information, content, assets, approvals, credentials, and other materials reasonably required to complete their project in a timely manner.</p>
+            <p style="margin-bottom: 25px;">Clients are responsible for providing accurate and complete information, text copy, branding assets, images, account credentials, and approvals reasonably required for project execution in a timely manner. Delays in providing necessary materials may delay project completion.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">6. Cancellation and Refund Policy</h2>
             <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
-                <li style="margin-bottom: 10px;">A 25% advance payment is required before work begins for applicable website plans/services.</li>
-                <li style="margin-bottom: 10px;">Once the project has been approved and work has begun, the advance payment is non-refundable.</li>
-                <li style="margin-bottom: 10px;">Payments made for completed work, approved deliverables, or services already provided are non-refundable.</li>
-                <li style="margin-bottom: 10px;">The client should review and approve the project scope, requirements, and payment terms before work begins.</li>
-                <li style="margin-bottom: 10px;">Any exceptions to the no-refund policy may only be made at the sole discretion of Crestiva Web Studio and must be agreed upon in writing.</li>
+                <li style="margin-bottom: 10px;">A 25% advance payment may be required before work commences on applicable website plans and services.</li>
+                <li style="margin-bottom: 10px;">Once project work has begun, the 25% advance payment is strictly non-refundable.</li>
+                <li style="margin-bottom: 10px;">Payments for completed work, approved milestones, deliverables already produced, or services already rendered are non-refundable.</li>
+                <li style="margin-bottom: 10px;">Clients are advised to carefully review and approve the project scope, specifications, and terms before work commences.</li>
+                <li style="margin-bottom: 10px;">Any exception to this policy is solely at Crestiva Web Studio’s discretion and must be confirmed in writing.</li>
             </ul>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Revisions and Changes</h2>
-            <p style="margin-bottom: 25px;">Project agreements typically include a specified number of revision rounds. Additional revisions or significant changes outside the original scope will be billed at an agreed-upon hourly rate.</p>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Revisions and Scope Changes</h2>
+            <p style="margin-bottom: 25px;">Project agreements specify the number of revision rounds included with the agreed deliverable. Additional revisions, scope additions, or major design/functionality alterations requested outside the original written agreement are handled through a separate fixed additional quote agreed upon with the client before execution.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">8. Intellectual Property</h2>
-            <p style="margin-bottom: 25px;">Upon full payment, ownership of the final client deliverables transfers according to the agreed project terms. However, this transfer does not include third-party assets, open-source libraries, pre-existing Crestiva components, reusable internal tools, and other materials Crestiva does not exclusively own. Unless a client agreement specifically states otherwise, Crestiva retains the right to showcase completed work in its portfolio and marketing materials.</p>
-            
+            <p style="margin-bottom: 25px;">Upon receipt of full payment according to the agreed project terms, ownership of final customized website deliverables transfers to the client. This transfer excludes third-party tools, open-source libraries, pre-existing Crestiva components, framework code, and reusable internal methodologies. Unless agreed otherwise in writing, Crestiva Web Studio retains the right to display completed work within our portfolio, case studies, and marketing materials.</p>
+
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">9. Third-Party Services</h2>
-            <p style="margin-bottom: 25px;">Our projects may incorporate third-party services such as Supabase, Razorpay, WhatsApp integrations, and various Email APIs. You agree to be bound by the terms and conditions of these third-party providers when utilizing their tools through our deliverables.</p>
+            <p style="margin-bottom: 25px;">Client projects may incorporate third-party services, APIs, hosting providers, or platforms (such as domain registrars, external hosting environments, or communication APIs). Clients are subject to the independent terms and conditions of those external providers. Crestiva Web Studio is not liable for changes, outages, or policies enacted by third-party services.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">10. Website Availability</h2>
-            <p style="margin-bottom: 25px;">We cannot guarantee that our website or the websites we host/deploy for you will be continuously available or uninterrupted. We are not liable for downtime caused by external hosting providers or uncontrollable circumstances.</p>
+            <p style="margin-bottom: 25px;">While we design and build robust web solutions, Crestiva Web Studio cannot guarantee uninterrupted or error-free availability of websites. We are not liable for downtime, server disruptions, or network outages caused by third-party hosting companies, DNS providers, or uncontrollable external factors.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">11. Limitation of Liability</h2>
-            <p style="margin-bottom: 25px;">Crestiva Web Studio shall not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use our services, websites, or associated third-party tools.</p>
-            
+            <p style="margin-bottom: 25px;">To the maximum extent permitted by applicable law, Crestiva Web Studio and its founders, partners, and contractors shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or business opportunities, arising from or related to the use or inability to use our deliverables, websites, or services.</p>
+
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">12. Changes to These Terms</h2>
-            <p style="margin-bottom: 25px;">We reserve the right to modify these Terms of Service at any time. Continued use of our services after such changes constitutes your acceptance of the revised terms.</p>
+            <p style="margin-bottom: 25px;">Crestiva Web Studio reserves the right to modify or replace these Terms of Service at any time. Any changes will be posted on this page. Your continued engagement with our website or services following any updates signifies your acceptance of the revised terms.</p>
 
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">13. Contact Us</h2>
-            <p style="margin-bottom: 25px;">If you have any questions or concerns about these Terms, please contact us at: <strong>crestivawebstudio@gmail.com</strong></p>
-
+            <p style="margin-bottom: 25px;">If you have any questions, feedback, or concerns regarding these Terms of Service, please contact us at: <strong>crestivawebstudio@gmail.com</strong></p>
         </div>
     </div>
 
@@ -2885,11 +2296,10 @@
             }
         });
     </script>
-</body>
-</html>
-
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script type="module" src="/shared-bg.js"></script>
+</body>
+</html>

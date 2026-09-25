@@ -9,21 +9,94 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Lazy load non-critical sections
 const SelectedWorks = React.lazy(() => Promise.resolve({ default: memo(SelectedWorksComponent) }));
-const Journal = React.lazy(() => Promise.resolve({ default: memo(JournalComponent) }));
 const ParallaxGallery = React.lazy(() => Promise.resolve({ default: memo(ParallaxGalleryComponent) }));
 const Stats = React.lazy(() => Promise.resolve({ default: memo(StatsComponent) }));
 const Footer = React.lazy(() => Promise.resolve({ default: memo(FooterComponent) }));
 
+const demoCategories = {
+  gym: [
+    { name: "Gym Demo 1", category: "Gym", preview: "/demo-previews/gym-demo-1.webp", liveUrl: "https://buc-gym-demo-1.netlify.app" },
+    { name: "Gym Demo 2", category: "Gym", preview: "/demo-previews/gym-demo-2.webp", liveUrl: "https://buc-gym-demo-2.netlify.app" },
+    { name: "Gym Demo 3", category: "Gym", preview: "/demo-previews/gym-demo-3.webp", liveUrl: "https://buc-gym-demo-3.netlify.app" },
+    { name: "Venom Gym", category: "Gym", preview: "/demo-previews/venom-gym.webp", liveUrl: "https://buc-venom-gym.netlify.app" }
+  ],
+  clinic: [
+    { name: "Clinic Demo 1", category: "Clinic", preview: "/demo-previews/clinic-demo-1.webp", liveUrl: "https://buc-clinic-demo-1.netlify.app" },
+    { name: "Clinic Demo 2", category: "Clinic", preview: "/demo-previews/clinic-demo-2.webp", liveUrl: "https://buc-clinic-demo-2.netlify.app" },
+    { name: "Clinic Demo 3", category: "Clinic", preview: "/demo-previews/clinic-demo-3.webp", liveUrl: "https://buc-clinic-demo-3.netlify.app" },
+    { name: "Clinic Demo 4", category: "Clinic", preview: "/demo-previews/clinic-demo-4.webp", liveUrl: "https://buc-clinic-demo-4.netlify.app" }
+  ],
+  restaurant: [
+    { name: "Restaurant Demo 1", category: "Restaurant", preview: "/demo-previews/restaurant-demo-1.webp", liveUrl: "https://buc-restaurant-demo-1.netlify.app" },
+    { name: "Restaurant Demo 2", category: "Restaurant", preview: "/demo-previews/restaurant-demo-2.webp", liveUrl: "https://buc-restaurant-demo-2.netlify.app" },
+    { name: "Restaurant Demo 3", category: "Restaurant", preview: "/demo-previews/restaurant-demo-3.webp", liveUrl: "https://buc-restaurant-demo-3.netlify.app" },
+    { name: "Restaurant Demo 4", category: "Restaurant", preview: "/demo-previews/restaurant-demo-4.webp", liveUrl: "https://buc-restaurant-demo-4.netlify.app" }
+  ],
+  coaching: [
+    { name: "Coaching Demo 1", category: "Coaching", preview: "/demo-previews/coaching-demo-1.webp", liveUrl: "https://buc-coaching-demo-1.netlify.app" },
+    { name: "Coaching Demo 2", category: "Coaching", preview: "/demo-previews/coaching-demo-2.webp", liveUrl: "https://buc-coaching-demo-2.netlify.app" },
+    { name: "Coaching Demo 3", category: "Coaching", preview: "/demo-previews/coaching-demo-3.webp", liveUrl: "https://buc-coaching-demo-3.netlify.app" },
+    { name: "Coaching Demo 4", category: "Coaching", preview: "/demo-previews/coaching-demo-4.webp", liveUrl: "https://buc-coaching-demo-4.netlify.app" }
+  ],
+  ecommerce: [
+    { name: "E-commerce Demo 1", category: "E-commerce", preview: "/demo-previews/ecommerce-demo-1.webp", liveUrl: "https://sarthak-ecommerce-demo-1-app.netlify.app" },
+    { name: "E-commerce Demo 2", category: "E-commerce", preview: "/demo-previews/ecommerce-demo-2.webp", liveUrl: "https://sarthak-ecommerce-demo-2-app.netlify.app" },
+    { name: "E-commerce Demo 3", category: "E-commerce", preview: "/demo-previews/ecommerce-demo-3.webp", liveUrl: "https://sarthak-ecommerce-demo-3-app.netlify.app" },
+    { name: "E-commerce Demo 4", category: "E-commerce", preview: "/demo-previews/ecommerce-demo-4.webp", liveUrl: "https://sarthak-ecommerce-demo-4-app.netlify.app" }
+  ]
+};
+
+const CategoryNav = memo(({ activeCategory }: { activeCategory: string }) => {
+  const categories = [
+    { id: "gym", label: "GYM", href: "/demo.html" },
+    { id: "clinic", label: "CLINIC", href: "/clinic-demos.html" },
+    { id: "restaurant", label: "RESTAURANT", href: "/restaurant-demos.html" },
+    { id: "coaching", label: "COACHING", href: "/coaching-demos.html" },
+    { id: "ecommerce", label: "E-COMMERCE", href: "/ecommerce-demos.html" }
+  ];
+
+  return (
+    <div className="flex justify-center mt-12 mb-8 px-6">
+      <div className="inline-flex flex-wrap justify-center gap-2 md:gap-3 rounded-full backdrop-blur-sm border border-stroke bg-surface p-2">
+        {categories.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <a 
+              key={cat.id} 
+              href={cat.href}
+              className={`text-xs sm:text-sm rounded-full px-5 py-2 transition-all duration-300 ${isActive ? 'bg-text-primary text-bg font-medium shadow-md scale-105' : 'text-muted hover:text-text-primary hover:bg-stroke/50'}`}
+            >
+              {cat.label}
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  );
+});
+
 export default function App() {
+  const [activeCategory, setActiveCategory] = useState("gym");
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path.includes("clinic")) setActiveCategory("clinic");
+    else if (path.includes("restaurant")) setActiveCategory("restaurant");
+    else if (path.includes("coaching")) setActiveCategory("coaching");
+    else if (path.includes("ecommerce")) setActiveCategory("ecommerce");
+    else setActiveCategory("gym");
+  }, []);
+
+  const currentDemos = demoCategories[activeCategory as keyof typeof demoCategories] || demoCategories.gym;
+
   return (
     <BrowserRouter>
       <div>
         <Navbar />
         <Hero />
+        <CategoryNav activeCategory={activeCategory} />
         <Suspense fallback={null}>
-          <SelectedWorks />
-          <Journal />
-          <ParallaxGallery />
+          <ParallaxGallery demos={currentDemos} categoryName={activeCategory} />
           <Stats />
           <Footer />
         </Suspense>
@@ -31,6 +104,7 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
 
 const Navbar = memo(() => {
   const [scrolled, setScrolled] = useState(false);
@@ -225,187 +299,95 @@ const Hero = memo(() => {
   );
 });
 
-const SelectedWorksComponent = () => {
-  const projects = [
-    { title: "Interactive Concept", span: "md:col-span-7" },
-    { title: "Design Layout Demo", span: "md:col-span-5" },
-    { title: "Web Experience Concept", span: "md:col-span-5" },
-    { title: "UI Prototype", span: "md:col-span-7" }
-  ];
 
-  return (
-    <section id="work" className="bg-bg py-12 md:py-16">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
-        >
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-px bg-stroke" />
-              <span className="text-xs text-muted uppercase tracking-[0.3em]">Selected Work</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
-              Recent <span className="font-display italic">projects</span>
-            </h2>
-            <p className="text-muted max-w-sm">
-              A showcase of our recent digital creations, from concept to launch.
-            </p>
-          </div>
-          
-          <button className="hidden md:inline-flex group relative items-center gap-2 rounded-full px-6 py-3 border border-stroke text-sm hover:border-transparent transition-all">
-            <span className="absolute -inset-[2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-            <div className="absolute inset-0 bg-bg rounded-full opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-            View all work <span>→</span>
-          </button>
-        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6">
-          {projects.map((p, i) => (
-            <div key={i} className={`group relative overflow-hidden rounded-3xl bg-surface border border-stroke aspect-[4/3] md:aspect-auto md:min-h-[400px] ${p.span}`}>
-              <div className="absolute inset-0 bg-neutral-800 transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '4px 4px' }} />
-              
-              <div className="absolute inset-0 bg-bg/70 opacity-0 group-hover:opacity-100 backdrop-blur-lg transition-opacity duration-500 flex items-center justify-center">
-                <div className="relative rounded-full bg-white text-bg px-6 py-3 flex items-center gap-2">
-                  <span className="absolute -inset-[2px] rounded-full accent-gradient -z-10 animate-gradient-shift" />
-                  <span className="text-sm font-medium">View — <span className="font-display italic text-lg">{p.title}</span></span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
 
-const JournalComponent = () => {
-  const entries = [
-    { title: "Design Philosophy Concept", readTime: "Example Data", date: "Demo Format" },
-    { title: "Architecture Demo", readTime: "Example Data", date: "Demo Format" },
-    { title: "Animation Concept", readTime: "Example Data", date: "Demo Format" },
-    { title: "Typography Showcase", readTime: "Example Data", date: "Demo Format" }
-  ];
 
-  return (
-    <section className="bg-bg py-16 md:py-24">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
-        >
-          <div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-px bg-stroke" />
-              <span className="text-xs text-muted uppercase tracking-[0.3em]">Journal</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
-              Studio <span className="font-display italic">insights</span>
-            </h2>
-            <p className="text-muted max-w-sm">
-              Exploring web development, creative design, and digital strategies.
-            </p>
-          </div>
-          <button className="hidden md:inline-flex group relative items-center gap-2 rounded-full px-6 py-3 border border-stroke text-sm hover:border-transparent transition-all">
-            <span className="absolute -inset-[2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-            <div className="absolute inset-0 bg-bg rounded-full opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-            View all <span>→</span>
-          </button>
-        </motion.div>
-
-        <div className="flex flex-col gap-4">
-          {entries.map((entry, i) => (
-            <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-[40px] sm:rounded-full bg-surface/30 hover:bg-surface border border-stroke transition-colors cursor-pointer group">
-              <div className="w-16 h-16 rounded-full bg-neutral-800 shrink-0" />
-              <div className="flex-1">
-                <h3 className="text-lg font-medium group-hover:text-white transition-colors">{entry.title}</h3>
-                <div className="flex items-center gap-3 text-sm text-muted mt-1">
-                  <span>{entry.readTime}</span>
-                  <span className="w-1 h-1 rounded-full bg-stroke" />
-                  <span>{entry.date}</span>
-                </div>
-              </div>
-              <div className="w-10 h-10 rounded-full border border-stroke flex items-center justify-center sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                ↗
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ParallaxGalleryComponent = () => {
+const ParallaxGalleryComponent = ({ demos, categoryName }: { demos: any[], categoryName: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   useEffect(() => {
-    if (!containerRef.current || !contentRef.current || isMobile) return;
+    if (!containerRef.current || !gridRef.current || isMobile) return;
     
-    const pinTrigger = ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      pin: contentRef.current,
-      pinSpacing: false,
-    });
-
     const cols = gsap.utils.toArray('.parallax-col');
     cols.forEach((col: any, i) => {
       gsap.to(col, {
-        yPercent: i % 2 === 0 ? -30 : -60,
+        yPercent: i % 2 === 0 ? -10 : -25, // Gentle parallax that won't overlap heading or footer
         ease: "none",
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: gridRef.current,
           start: "top bottom",
           end: "bottom top",
           scrub: true
         }
       });
     });
-
-    return () => pinTrigger.kill();
   }, [isMobile]);
 
-  return (
-    <section ref={containerRef} className="relative min-h-[300vh] bg-bg overflow-hidden">
-      <div ref={contentRef} className="absolute inset-0 h-screen z-10 pointer-events-none flex items-center justify-center text-center px-4">
-        <div>
-          <div className="text-xs text-muted uppercase tracking-[0.3em] mb-4">Recent Work</div>
-          <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-6">
-            Project <span className="font-display italic">demos</span>
-          </h2>
-          <p className="text-muted max-w-md mx-auto mb-8 pointer-events-auto">
-            A curated collection of our recent web projects and interactive experiences.
-          </p>
-          <button className="pointer-events-auto rounded-full px-8 py-4 bg-text-primary text-bg font-medium hover:scale-105 transition-transform">
-            Follow on Dribbble
-          </button>
-        </div>
-      </div>
+  const leftDemos = demos.filter((_, i) => i % 2 === 0);
+  const rightDemos = demos.filter((_, i) => i % 2 !== 0);
 
-      <div className="absolute inset-0 z-20 pointer-events-none">
-        <div className="max-w-[1400px] mx-auto h-full grid grid-cols-2 gap-12 md:gap-40 px-6">
-          <div className="parallax-col flex flex-col justify-start gap-32 pt-[20vh] items-end pointer-events-auto">
-            {[1,2,3].map(i => (
-              <div key={i} className="w-full max-w-[320px] aspect-square bg-surface border border-stroke rounded-3xl transform rotate-[-2deg] hover:rotate-0 transition-transform cursor-pointer" />
+  const titleMap: Record<string, string> = {
+    gym: "Gym Websites",
+    clinic: "Clinic Websites",
+    restaurant: "Restaurant Websites",
+    coaching: "Coaching Websites",
+    ecommerce: "E-Commerce Websites"
+  };
+
+  const title = titleMap[categoryName] || "Project demos";
+
+  return (
+    <section ref={containerRef} className="relative bg-bg overflow-hidden" id="work">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="flex flex-col items-center justify-center text-center px-4 pt-16 pb-12 md:pt-24 md:pb-24 z-10 relative"
+      >
+        <div className="text-xs text-muted uppercase tracking-[0.3em] mb-4">Recent Work</div>
+        <h2 className="text-5xl md:text-7xl font-light tracking-tight mb-6">
+          {title}
+        </h2>
+        <p className="text-muted max-w-md mx-auto pointer-events-auto">
+          A curated collection of our recent web projects and interactive experiences.
+        </p>
+      </motion.div>
+
+      <div ref={gridRef} className="relative z-20 pb-24 md:pb-40">
+        <div className="hidden md:grid max-w-[1400px] mx-auto grid-cols-2 gap-12 md:gap-24 lg:gap-40 px-6">
+          <div className="parallax-col flex flex-col justify-start gap-24 lg:gap-32 items-end pointer-events-auto">
+            {leftDemos.map((p, i) => (
+              <a key={i} href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="block w-full max-w-[500px] lg:max-w-[600px] aspect-video bg-surface border border-stroke rounded-3xl transform rotate-[-2deg] hover:rotate-0 transition-transform cursor-pointer overflow-hidden group">
+                <img src={p.preview} alt={p.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-neutral-800/10 group-hover:bg-transparent transition-colors duration-700" />
+                <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '4px 4px' }} />
+              </a>
             ))}
           </div>
-          <div className="parallax-col flex flex-col justify-start gap-32 pt-[60vh] items-start pointer-events-auto">
-            {[4,5,6].map(i => (
-              <div key={i} className="w-full max-w-[320px] aspect-square bg-surface border border-stroke rounded-3xl transform rotate-[2deg] hover:rotate-0 transition-transform cursor-pointer" />
+          <div className="parallax-col flex flex-col justify-start gap-24 lg:gap-32 pt-16 lg:pt-32 items-start pointer-events-auto">
+            {rightDemos.map((p, i) => (
+              <a key={i} href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="block w-full max-w-[500px] lg:max-w-[600px] aspect-video bg-surface border border-stroke rounded-3xl transform rotate-[2deg] hover:rotate-0 transition-transform cursor-pointer overflow-hidden group">
+                <img src={p.preview} alt={p.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-neutral-800/10 group-hover:bg-transparent transition-colors duration-700" />
+                <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '4px 4px' }} />
+              </a>
             ))}
           </div>
+        </div>
+        
+        {/* Mobile View */}
+        <div className="md:hidden flex flex-col gap-8 px-6 pointer-events-auto max-w-[500px] mx-auto">
+           {demos.map((p, i) => (
+              <a key={i} href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="block w-full aspect-video bg-surface border border-stroke rounded-3xl overflow-hidden group relative transform transition-transform cursor-pointer">
+                <img src={p.preview} alt={p.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-neutral-800/10 group-hover:bg-transparent transition-colors duration-700" />
+                <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '4px 4px' }} />
+              </a>
+           ))}
         </div>
       </div>
     </section>

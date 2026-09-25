@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import crypto from "crypto";
 import fs from "fs";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { createServer as createViteServer } from "vite";
@@ -63,44 +62,6 @@ If asked about yourself or the studio, represent yourself proudly as our officia
 
 // API Routes
 
-// JWT Secret and Utilities for Secure Authentication Gate
-const JWT_SECRET = process.env.JWT_SECRET || "crestiva_super_secret_key_123_abc";
-
-function signToken(payload: any): string {
-  const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url");
-  const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  const signature = crypto.createHmac("sha256", JWT_SECRET)
-    .update(`${header}.${data}`)
-    .digest("base64url");
-  return `${header}.${data}.${signature}`;
-}
-
-function verifyToken(token: string): any | null {
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    const [header, data, signature] = parts;
-    const expectedSig = crypto.createHmac("sha256", JWT_SECRET)
-      .update(`${header}.${data}`)
-      .digest("base64url");
-    if (signature !== expectedSig) return null;
-    return JSON.parse(Buffer.from(data, "base64url").toString("utf-8"));
-  } catch (err) {
-    return null;
-  }
-}
-
-function getAuthenticatedUser(req: express.Request): any | null {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
-    const token = authHeader.split(" ")[1];
-    return verifyToken(token);
-  } catch (err) {
-    return null;
-  }
-}
-
 
 // Initialize Firebase Admin
 let db: FirebaseFirestore.Firestore;
@@ -126,493 +87,80 @@ try {
   console.error("Error initializing Firebase Admin:", e);
 }
 
-// Helper methods mapping to Firestore
-async function readUser(email: string): Promise<any | null> {
-  try {
-    const doc = await db.collection("users").doc(email).get();
-    return doc.exists ? doc.data() : null;
-  } catch (err) {
-    console.error("Error reading user from Firestore:", err);
-    return null;
-  }
-}
 
-async function writeUser(email: string, userData: any) {
-  try {
-    await db.collection("users").doc(email).set(userData, { merge: true });
-  } catch (err) {
-    console.error("Error writing user to Firestore:", err);
-  }
-}
-
-// Trusted Server-Side Pricing Configurations
-const TRUSTED_PACKAGES: Record<string, number> = {
-  "Starter Package": 15499,
-  "Growth Package": 25999,
-  "Elite Package": 44399,
-};
-
-const CUSTOM_WEBSITE_TYPES: Record<string, number> = {
-  "Business Website": 9599,
-  "Coaching Institute": 18499,
-  "Gym Website": 18499,
-  "Clinic Website": 18499,
-  "Salon Website": 18499,
-  "Portfolio Website": 9599,
-  "Restaurant Website": 18499,
-  "E-commerce Store": 25000,
-  "Custom Solution": 44399,
-};
-
-const CUSTOM_PAGES: Record<string, number> = {
-  "1-5 Pages": 0,
-  "6-10 Pages": 5000,
-  "11-20 Pages": 12000,
-  "20+ Pages": 25000,
-};
-
-const CUSTOM_DESIGNS: Record<string, number> = {
-  "Standard": 0,
-  "Premium": 8000,
-  "Luxury": 20000,
-};
-
-const CUSTOM_FEATURES: Record<string, number> = {
-  "WhatsApp Integration": 1000,
-  "Contact Form": 1500,
-  "Blog System": 8000,
-  "Appointment Booking": 5000,
-  "AI Chat Assistant": 12000,
-  "Lead Generation Forms": 3000,
-  "Payment Gateway": 3000,
-  "E-commerce Store": 15000,
-  "Admin Dashboard": 10000,
-  "CRM Integration": 15000,
-  "Membership System": 18000,
-  "Multi-language Support": 10000,
-  "Google Maps Integration": 1500,
-  "Advanced SEO": 8000,
-  "Speed Optimization": 4000,
-  "Custom Animations": 6000,
-  "WebGL Effects": 25000,
-};
-
-const CUSTOM_ADDONS: Record<string, number> = {
-  "Google Analytics": 2000,
-  "Facebook Pixel": 2000,
-  "Conversion Tracking": 5000,
-  "Email Marketing Setup": 8000,
-};
-
-// In-Memory Double-Click / Duplicate Order Request Rate Limiter
-const activeOrderRequests = new Set<string>();
-
-// In-Memory OTP Store
-const activeOtps: Record<string, { otp: string; expiresAt: number; attempts: number; lastSentAt: number }> = {};
-
-function generateOtp(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-// 1. Auth Register Endpoint
-app.post("/api/auth/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: "Missing required fields." });
-    }
-    const cleanEmail = email.trim().toLowerCase();
-    const user = await readUser(cleanEmail);
-    
-    if (user && user.verified === true) {
-      return res.status(400).json({ error: "An account with this email already exists." });
-    }
-    
-    // Create or update unverified user
-    await writeUser(cleanEmail, { name: name.trim(), password, verified: false });
-
-    // Generate and store OTP
-    const otp = generateOtp();
-    activeOtps[cleanEmail] = {
-      otp,
-      expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes expiry
-      attempts: 0,
-      lastSentAt: Date.now()
-    };
-
-    console.log(`
-==================================================
-[OTP EMAIL VERIFICATION]
-To: ${cleanEmail}
-Subject: Verify your Crestiva account
-Your 6-digit verification code is: ${otp}
-Expires in: 5 minutes
-==================================================
-    `);
-
-    return res.json({ 
-      success: true, 
-      message: "Verification code sent to your email.", 
-      email: cleanEmail,
-      demoOtp: otp
-    });
-  } catch (err: any) {
-    console.error("Register API error:", err);
-    return res.status(500).json({ error: "Internal server error during registration." });
-  }
-});
-
-// 2. Auth Login Endpoint
-app.post("/api/auth/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ error: "Missing email or password." });
-    }
-    const cleanEmail = email.trim().toLowerCase();
-    const user = await readUser(cleanEmail);
-    if (!user || user.password !== password) {
-      return res.status(401).json({ error: "Incorrect email or password." });
-    }
-
-    if (user.verified !== true) {
-      const otp = generateOtp();
-      activeOtps[cleanEmail] = {
-        otp,
-        expiresAt: Date.now() + 5 * 60 * 1000,
-        attempts: 0,
-        lastSentAt: Date.now()
-      };
-
-      console.log(`
-==================================================
-[OTP EMAIL VERIFICATION - LOGIN TRIGGERED]
-To: ${cleanEmail}
-Subject: Verify your Crestiva account
-Your 6-digit verification code is: ${otp}
-Expires in: 5 minutes
-==================================================
-      `);
-
-      return res.status(403).json({ 
-        error: "Please verify your email address to continue.", 
-        unverified: true,
-        email: cleanEmail,
-        demoOtp: otp
-      });
-    }
-
-    const token = signToken({ email: cleanEmail, name: user.name });
-    return res.json({ success: true, token, name: user.name, email: cleanEmail });
-  } catch (err: any) {
-    console.error("Login API error:", err);
-    return res.status(500).json({ error: "Internal server error during login." });
-  }
-});
-
-// 2b. Verify OTP Endpoint
-app.post("/api/auth/verify-otp", async (req, res) => {
-  try {
-    const { email, otp } = req.body;
-    if (!email || !otp) {
-      return res.status(400).json({ error: "Missing email or verification code." });
-    }
-    const cleanEmail = email.trim().toLowerCase();
-    const user = await readUser(cleanEmail);
-    if (!user) {
-      return res.status(404).json({ error: "User not found." });
-    }
-
-    const otpData = activeOtps[cleanEmail];
-    if (!otpData) {
-      return res.status(400).json({ error: "No active verification code found. Please request a new one." });
-    }
-
-    if (Date.now() > otpData.expiresAt) {
-      delete activeOtps[cleanEmail];
-      return res.status(400).json({ error: "Verification code has expired. Please request a new one." });
-    }
-
-    if (otpData.attempts >= 3) {
-      delete activeOtps[cleanEmail];
-      return res.status(400).json({ error: "Too many incorrect attempts. Please request a new code." });
-    }
-
-    if (otpData.otp !== otp.trim()) {
-      otpData.attempts += 1;
-      const remaining = 3 - otpData.attempts;
-      return res.status(400).json({ 
-        error: `Invalid verification code. ${remaining} attempt(s) remaining.` 
-      });
-    }
-
-    // Success! Verify user
-    user.verified = true;
-    await writeUser(cleanEmail, user);
-
-    delete activeOtps[cleanEmail];
-
-    const token = signToken({ email: cleanEmail, name: user.name });
-    return res.json({ 
-      success: true, 
-      token, 
-      name: user.name, 
-      email: cleanEmail,
-      message: "Email address verified successfully!" 
-    });
-  } catch (err: any) {
-    console.error("Verify OTP error:", err);
-    return res.status(500).json({ error: "Internal server error during OTP verification." });
-  }
-});
-
-// 2c. Resend OTP Endpoint
-app.post("/api/auth/resend-otp", async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ error: "Email is required." });
-    }
-    const cleanEmail = email.trim().toLowerCase();
-    const user = await readUser(cleanEmail);
-    if (!user) {
-      return res.status(404).json({ error: "User not found." });
-    }
-
-    if (user.verified === true) {
-      return res.status(400).json({ error: "This account is already verified." });
-    }
-
-    // Cooldown check (30 seconds)
-    const existing = activeOtps[cleanEmail];
-    if (existing && (Date.now() - existing.lastSentAt < 30000)) {
-      const remainingSec = Math.ceil((30000 - (Date.now() - existing.lastSentAt)) / 1000);
-      return res.status(429).json({ error: `Please wait ${remainingSec} second(s) before requesting another code.` });
-    }
-
-    const otp = generateOtp();
-    activeOtps[cleanEmail] = {
-      otp,
-      expiresAt: Date.now() + 5 * 60 * 1000,
-      attempts: 0,
-      lastSentAt: Date.now()
-    };
-
-    console.log(`
-==================================================
-[OTP EMAIL VERIFICATION - RESENT]
-To: ${cleanEmail}
-Subject: Verify your Crestiva account
-Your 6-digit verification code is: ${otp}
-Expires in: 5 minutes
-==================================================
-    `);
-
-    return res.json({ 
-      success: true, 
-      message: "Verification code resent successfully.", 
-      demoOtp: otp 
-    });
-  } catch (err: any) {
-    console.error("Resend OTP error:", err);
-    return res.status(500).json({ error: "Internal server error during resending." });
-  }
-});
-
-// 3. Secure Create Order Endpoint (Strictly server-validated)
-app.post("/api/payment/create-order", async (req, res) => {
-  try {
-    const user = getAuthenticatedUser(req);
-    if (!user) {
-      return res.status(401).json({ error: "Your session expired. Please sign in again." });
-    }
-    const dbUser = await readUser(user.email);
-    if (!dbUser || dbUser.verified !== true) {
-      return res.status(403).json({ error: "Your email is unverified. Please verify your email first." });
-    }
-
-    const { packageId, payPercent, customDetails } = req.body;
-    if (!packageId || !payPercent) {
-      return res.status(400).json({ error: "Missing package ID or payment percentage." });
-    }
-
-    const percentage = parseInt(payPercent);
-    if (percentage !== 25 && percentage !== 50 && percentage !== 100) {
-      return res.status(400).json({ error: "Invalid payment percentage. Must be 25%, 50%, or 100%." });
-    }
-
-    // Rate-limit duplicate double-click requests
-    const requestKey = `${user.email}_${packageId}_${percentage}`;
-    if (activeOrderRequests.has(requestKey)) {
-      return res.status(409).json({ error: "Duplicate order request in progress. Please wait." });
-    }
-    activeOrderRequests.add(requestKey);
-    setTimeout(() => activeOrderRequests.delete(requestKey), 4000); // 4-second rate limit window
-
-    let totalPrice = 0;
-
-    if (TRUSTED_PACKAGES[packageId] !== undefined) {
-      // Standard predefined packages
-      totalPrice = TRUSTED_PACKAGES[packageId];
-    } else if (packageId === "Custom Quote") {
-      // Re-calculate custom quote on the server to ensure maximum security
-      if (!customDetails) {
-        return res.status(400).json({ error: "Missing custom details for custom quote pricing." });
-      }
-
-      const { websiteType, pages, designLevel, features, addons } = customDetails;
-      
-      const basePrice = CUSTOM_WEBSITE_TYPES[websiteType] || 0;
-      const pagesPrice = CUSTOM_PAGES[pages] || 0;
-      const designPrice = CUSTOM_DESIGNS[designLevel] || 0;
-
-      let featuresPrice = 0;
-      if (Array.isArray(features)) {
-        features.forEach((f: string) => {
-          featuresPrice += CUSTOM_FEATURES[f] || 0;
-        });
-      }
-
-      let addonsPrice = 0;
-      if (Array.isArray(addons)) {
-        addons.forEach((a: string) => {
-          addonsPrice += CUSTOM_ADDONS[a] || 0;
-        });
-      }
-
-      totalPrice = basePrice + pagesPrice + designPrice + featuresPrice + addonsPrice;
-    } else {
-      return res.status(400).json({ error: "Invalid package selection." });
-    }
-
-    if (totalPrice <= 0) {
-      return res.status(400).json({ error: "We could not prepare the checkout. Invalid pricing calculated." });
-    }
-
-    // Server-side payment amount calculation (completely shielded from browser tools modification)
-    const amountDue = Math.round(totalPrice * (percentage / 100));
-
-    // Razorpay Integration
-    const keyId = process.env.RAZORPAY_KEY_ID;
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
-
-    let orderId = `order_MOCK_${crypto.randomBytes(8).toString("hex")}`;
-
-    if (keyId && keySecret && keyId !== "rzp_test_DUMMY_KEY_123" && !keyId.includes("DUMMY")) {
-      try {
-        const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
-        const rpResponse = await fetch("https://api.razorpay.com/v1/orders", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Basic ${auth}`
-          },
-          body: JSON.stringify({
-            amount: amountDue * 100, // in paise
-            currency: "INR",
-            receipt: `receipt_${crypto.randomBytes(6).toString("hex")}`,
-          })
-        });
-
-        if (rpResponse.ok) {
-          const rpData: any = await rpResponse.json();
-          orderId = rpData.id;
-        } else {
-          const errText = await rpResponse.text();
-          console.error("Razorpay API error response:", errText);
-        }
-      } catch (err) {
-        console.error("Failed to create real Razorpay order, falling back to mock:", err);
-      }
-    }
-
-    try {
-      await db.collection("orders").doc(orderId).set({
-        email: user.email,
-        packageId,
-        percentage,
-        totalPrice,
-        amountDue,
-        status: "created",
-        createdAt: new Date().toISOString()
-      });
-    } catch (err) {
-      console.error("Failed to save initial order to Firestore:", err);
-    }
-
-    return res.json({
-      success: true,
-      orderId,
-      amount: amountDue,
-      totalPrice,
-      currency: "INR",
-      keyId: keyId || "rzp_test_DUMMY_KEY_123",
-      email: user.email,
-      name: user.name
-    });
-  } catch (err: any) {
-    console.error("Create order API error:", err);
-    return res.status(500).json({ error: "We could not prepare the checkout. No payment was taken." });
-  }
-});
-
-// 4. Secure Payment Verification Endpoint
-app.post("/api/payment/verify", async (req, res) => {
-  try {
-    const user = getAuthenticatedUser(req);
-    if (!user) {
-      return res.status(401).json({ error: "Your session expired. Please sign in again." });
-    }
-    const dbUser = await readUser(user.email);
-    if (!dbUser || dbUser.verified !== true) {
-      return res.status(403).json({ error: "Your email is unverified. Please verify your email first." });
-    }
-
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-    if (!razorpay_order_id || !razorpay_payment_id) {
-      return res.status(400).json({ error: "Missing transaction parameters." });
-    }
-
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
-
-    // HMAC Signature verification on the server
-    if (keySecret && keySecret !== "rzp_test_DUMMY_KEY_123" && !keySecret.includes("DUMMY") && razorpay_signature) {
-      const expectedSignature = crypto
-        .createHmac("sha256", keySecret)
-        .update(razorpay_order_id + "|" + razorpay_payment_id)
-        .digest("hex");
-
-      if (expectedSignature !== razorpay_signature) {
-        return res.status(400).json({ error: "Payment verification was unsuccessful. Please contact us before trying again." });
-      }
-    }
-
-    try {
-      await db.collection("orders").doc(razorpay_order_id).set({
-        email: user.email,
-        paymentId: razorpay_payment_id,
-        orderId: razorpay_order_id,
-        verifiedAt: new Date().toISOString()
-      }, { merge: true });
-    } catch (err) {
-      console.error("Failed to save order to Firestore:", err);
-    }
-
-    return res.json({
-      success: true,
-      message: "Payment verified successfully.",
-      paymentId: razorpay_payment_id,
-      orderId: razorpay_order_id
-    });
-  } catch (err: any) {
-    console.error("Verify payment API error:", err);
-    return res.status(500).json({ error: "Payment verification was unsuccessful. Please contact us before trying again." });
-  }
-});
-
-// 5. Health check
+// 3. Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", geminiConfigured: !!ai });
+});
+
+// 4. Country Detection Endpoint for Regional Pricing
+app.get("/api/geo/country", async (req, res) => {
+  try {
+    // Development-only country simulation
+    if (process.env.NODE_ENV !== "production") {
+      const sim = (req.query.sim_country as string) || (req.headers["x-sim-country"] as string);
+      if (sim && typeof sim === "string" && /^[a-zA-Z]{2}$/.test(sim.trim())) {
+        return res.json({ countryCode: sim.trim().toUpperCase(), simulated: true });
+      }
+    }
+
+    // Deployment infrastructure country headers (Cloudflare, Vercel, Netlify, Reverse Proxies)
+    const headerCountry =
+      (req.headers["cf-ipcountry"] as string) ||
+      (req.headers["x-vercel-ip-country"] as string) ||
+      (req.headers["x-country-code"] as string) ||
+      (req.headers["x-country"] as string) ||
+      (req.headers["geoip-country-code"] as string);
+
+    if (
+      headerCountry &&
+      typeof headerCountry === "string" &&
+      /^[a-zA-Z]{2}$/.test(headerCountry.trim()) &&
+      headerCountry.trim().toUpperCase() !== "XX"
+    ) {
+      return res.json({ countryCode: headerCountry.trim().toUpperCase() });
+    }
+
+    // Server-side IP lookup fallback if public IP
+    const rawIp =
+      (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() ||
+      req.socket.remoteAddress ||
+      "";
+    const cleanIp = rawIp.replace(/^::ffff:/, "").trim();
+
+    const isPrivate =
+      !cleanIp ||
+      cleanIp === "127.0.0.1" ||
+      cleanIp === "::1" ||
+      cleanIp.startsWith("10.") ||
+      cleanIp.startsWith("192.168.") ||
+      /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(cleanIp) ||
+      cleanIp.startsWith("fe80:");
+
+    if (!isPrivate) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 2000);
+        const geoRes = await fetch(`https://api.country.is/${cleanIp}`, {
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (geoRes.ok) {
+          const data: any = await geoRes.json();
+          if (data && data.country && /^[a-zA-Z]{2}$/.test(data.country)) {
+            return res.json({ countryCode: data.country.toUpperCase() });
+          }
+        }
+      } catch (err) {
+        // Fallback to safe default
+      }
+    }
+
+    // Safe fallback: US (International USD default)
+    return res.json({ countryCode: "US" });
+  } catch (err) {
+    return res.json({ countryCode: "US" });
+  }
 });
 
 // 6. Lead Submission Endpoint
@@ -773,6 +321,10 @@ async function startServer() {
     app.use("/src", express.static(path.join(process.cwd(), "src")));
 
     // Explicit routing for clean page URLs
+    app.get("/see-more.html", (req, res) => {
+      res.redirect(301, "/see-more");
+    });
+
     app.get("/see-more", (req, res) => {
       res.sendFile(path.join(distPath, "see-more.html"));
     });
@@ -787,6 +339,18 @@ async function startServer() {
     
     app.get("/demo.html", (req, res) => {
       res.sendFile(path.join(distPath, "demo.html"));
+    });
+    app.get("/clinic-demos.html", (req, res) => {
+      res.sendFile(path.join(distPath, "clinic-demos.html"));
+    });
+    app.get("/restaurant-demos.html", (req, res) => {
+      res.sendFile(path.join(distPath, "restaurant-demos.html"));
+    });
+    app.get("/coaching-demos.html", (req, res) => {
+      res.sendFile(path.join(distPath, "coaching-demos.html"));
+    });
+    app.get("/ecommerce-demos.html", (req, res) => {
+      res.sendFile(path.join(distPath, "ecommerce-demos.html"));
     });
     
     // Serve static files with explicit MIME type overrides to prevent application/octet-stream issues
