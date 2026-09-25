@@ -1,103 +1,52 @@
 export interface GeoResult {
   countryCode: string;
-  source: 'manual' | 'auto' | 'fallback' | 'dev_sim';
+  countryName?: string;
+  source: 'netlify_edge' | 'server' | 'auto' | 'fallback' | 'dev_sim';
 }
 
 const STORAGE_KEY = 'crestiva_pricing_country';
 
 /**
- * Get manually stored country preference if any
+ * Clean up any legacy manual country override stored from previous versions.
+ * Visitors must not be able to retain or use manual overrides.
  */
-export function getSavedCountryPreference(): GeoResult | null {
+export function purgeLegacyManualOverrides(): void {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-
-    // Handle both JSON object and raw string
-    if (raw.startsWith('{')) {
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed.countryCode === 'string' && /^[a-zA-Z]{2}$/.test(parsed.countryCode)) {
-        return {
-          countryCode: parsed.countryCode.toUpperCase(),
-          source: parsed.source === 'manual' ? 'manual' : 'auto',
-        };
-      }
-    } else if (/^[a-zA-Z]{2}$/.test(raw.trim())) {
-      return {
-        countryCode: raw.trim().toUpperCase(),
-        source: 'manual',
-      };
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem(STORAGE_KEY);
     }
   } catch (e) {
     // Ignore storage errors
   }
-  return null;
 }
 
 /**
- * Save manual country preference
- * Only manual selections are permanently persisted to localStorage.
- */
-export function saveManualCountry(countryCode: string): void {
-  try {
-    const code = countryCode.trim().toUpperCase();
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        countryCode: code,
-        source: 'manual',
-        updatedAt: Date.now(),
-      })
-    );
-  } catch (e) {
-    // Ignore storage quota errors
-  }
-}
-
-/**
- * Clear saved country preference
- */
-export function clearCountryPreference(): void {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch (e) {}
-}
-
-/**
- * Detect Country following strict priority rules:
- * 1. Previously saved manual preference
- * 2. Development simulation (?sim_country=XX)
- * 3. Server endpoint (/api/geo/country)
- * 4. Client-side privacy-friendly geo fallback (https://api.country.is/)
- * 5. Safe fallback ('US')
+ * Detect Country automatically following strict precedence:
+ * 1. Server / Netlify Edge endpoint (/api/geo/country) - utilizing Netlify context.geo.country.code
+ * 2. Privacy-friendly client IP lookup fallback (https://api.country.is/) - zero GPS or device permissions
+ * 3. Safe fallback ('US') - never default to India if unknown
+ *
+ * NOTE: navigator.geolocation is NEVER requested or used.
  */
 export async function detectCountry(): Promise<GeoResult> {
-  // Priority 1: User's previously saved manual preference
-  const saved = getSavedCountryPreference();
-  if (saved && saved.source === 'manual') {
-    return saved;
-  }
+  // Purge any old manual override from previous user sessions
+  purgeLegacyManualOverrides();
 
-  // Priority 2: Development-only country simulation
-  if (typeof window !== 'undefined' && window.location) {
-    const params = new URLSearchParams(window.location.search);
-    const simParam = params.get('sim_country');
-    if (simParam && /^[a-zA-Z]{2}$/.test(simParam.trim())) {
-      return {
-        countryCode: simParam.trim().toUpperCase(),
-        source: 'dev_sim',
-      };
-    }
-  }
-
-  // Priority 3: Server country detection endpoint
+  // 1. Primary: Netlify Edge / Server country detection endpoint
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2500);
 
-    const res = await fetch('/api/geo/country', {
+    const res = await fetch(`/api/geo/country?_t=${Date.now()}`, {
       signal: controller.signal,
-      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+      headers: { 
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache',
+      },
     });
     clearTimeout(timeoutId);
 
@@ -106,15 +55,16 @@ export async function detectCountry(): Promise<GeoResult> {
       if (data && typeof data.countryCode === 'string' && /^[a-zA-Z]{2}$/.test(data.countryCode)) {
         return {
           countryCode: data.countryCode.toUpperCase(),
-          source: data.simulated ? 'dev_sim' : 'auto',
+          countryName: data.countryName,
+          source: data.simulated ? 'dev_sim' : 'server',
         };
       }
     }
   } catch (err) {
-    // Server endpoint timed out or unavailable, try client-side fallback
+    // Server / edge endpoint timed out or unavailable, proceed to client fallback
   }
 
-  // Priority 4: Client-side privacy-friendly lookup (zero IP or GPS collected)
+  // 2. Secondary: Client-side privacy-friendly lookup (zero GPS / location permissions)
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
@@ -134,12 +84,14 @@ export async function detectCountry(): Promise<GeoResult> {
       }
     }
   } catch (err) {
-    // Client-side geo API also unavailable
+    // Client-side fallback unavailable
   }
 
-  // Priority 5: Safe Fallback (US / International USD)
+  // 3. Tertiary: Safe Fallback (US / International USD default)
+  // NEVER default to Indian pricing when detection fails
   return {
     countryCode: 'US',
+    countryName: 'United States',
     source: 'fallback',
   };
 }

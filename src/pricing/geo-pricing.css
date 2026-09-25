@@ -1,342 +1,101 @@
 /* ==========================================================================
-   CRESTIVA WEB STUDIO — GEO-PRICING SYSTEM STYLES
+   CRESTIVA WEB STUDIO — AUTOMATIC GEO-PRICING SYSTEM
    Dark Luxury Aesthetics with Obsidian & Champagne Gold Highlights
    ========================================================================== */
 
-/* --- Controls Container --- */
-.geo-pricing-controls {
+/* --- Non-Interactive Country Badge --- */
+.geo-pricing-badge-wrap {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin: 0 auto 3rem auto;
+  align-items: center;
+  margin: 0 auto 2.5rem auto;
   width: 100%;
-  max-width: 900px;
+  max-width: 600px;
   position: relative;
-  z-index: 20;
+  z-index: 15;
 }
 
-.geo-controls-inner {
-  display: flex;
-  flex-wrap: wrap;
+.geo-pricing-badge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 8px 14px;
-  background: rgba(18, 24, 18, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  border-radius: 40px;
+  gap: 10px;
+  padding: 8px 20px;
+  background: rgba(14, 20, 15, 0.72);
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 999px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  cursor: default;
+  user-select: none;
+  pointer-events: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* --- Segmented Toggle --- */
-.geo-segmented-toggle {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 30px;
-  padding: 3px;
-  gap: 4px;
-}
-
-.geo-toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 24px;
-  color: rgba(230, 240, 220, 0.7);
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  outline: none;
-  min-height: 38px;
-}
-
-.geo-toggle-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.geo-toggle-btn.active {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(18, 40, 25, 0.45));
-  border-color: rgba(212, 175, 55, 0.5);
-  color: #f5f8f0;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
-}
-
-.geo-toggle-btn:focus-visible {
-  outline: 2px solid #d4af37;
-  outline-offset: 2px;
-}
-
-.geo-flag {
-  font-size: 1.1rem;
+.geo-badge-flag {
+  font-size: 1.15rem;
   line-height: 1;
+  display: inline-block;
 }
 
-/* --- Country Selector Dropdown Trigger --- */
-.geo-country-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.geo-country-label {
-  font-size: 0.82rem;
-  color: rgba(200, 220, 190, 0.6);
-  font-weight: 400;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-}
-
-.geo-country-dropdown-wrapper {
-  position: relative;
-}
-
-.geo-country-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  background: rgba(10, 15, 10, 0.85);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 20px;
-  color: #f0f4ec;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.85rem;
+.geo-badge-text {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 0.88rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  min-height: 38px;
+  letter-spacing: 0.4px;
+  color: #e8ece2;
 }
 
-.geo-country-trigger:hover {
-  background: rgba(20, 30, 20, 0.95);
-  border-color: rgba(212, 175, 55, 0.6);
-  box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
-}
-
-.geo-country-trigger:focus-visible {
-  outline: 2px solid #d4af37;
-  outline-offset: 2px;
-}
-
-.geo-dropdown-arrow {
-  font-size: 0.7rem;
+.geo-badge-text strong {
   color: #d4af37;
-  transition: transform 0.25s ease;
+  font-weight: 600;
 }
 
-.geo-country-trigger[aria-expanded="true"] .geo-dropdown-arrow {
-  transform: rotate(180deg);
-}
-
-/* --- Country Dropdown Menu --- */
-.geo-country-menu {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 290px;
-  max-height: 340px;
-  background: rgba(12, 16, 12, 0.98);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 14px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.1);
-  z-index: 1000;
-  overflow: hidden;
-  flex-direction: column;
-}
-
-.geo-country-menu.active {
-  display: flex;
-  animation: geoDropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes geoDropdownFadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -6px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-.geo-search-wrap {
-  padding: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.geo-search-input {
-  width: 100%;
-  padding: 8px 12px;
-  background: rgba(25, 32, 25, 0.7);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 8px;
-  color: #f5f8f0;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.82rem;
-  outline: none;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-
-.geo-search-input:focus {
-  border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-}
-
-.geo-search-input::placeholder {
-  color: rgba(200, 220, 200, 0.4);
-}
-
-.geo-country-list {
-  overflow-y: auto;
-  max-height: 270px;
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.geo-country-list::-webkit-scrollbar {
-  width: 5px;
-}
-.geo-country-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-.geo-country-list::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
-  border-radius: 3px;
-}
-
-.geo-country-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  color: rgba(230, 240, 225, 0.85);
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.82rem;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.15s, color 0.15s;
-}
-
-.geo-country-item:hover,
-.geo-country-item:focus {
-  background: rgba(212, 175, 55, 0.15);
-  color: #fff;
-  outline: none;
-}
-
-.geo-item-flag {
-  font-size: 1rem;
-}
-
-.geo-item-name {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.geo-item-currency {
-  font-size: 0.72rem;
-  color: #d4af37;
-  font-family: monospace;
-  opacity: 0.85;
-}
-
-.geo-country-empty {
-  padding: 16px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.82rem;
-}
-
-/* --- Region Detected Hint --- */
-.geo-detected-hint {
-  font-size: 0.75rem;
-  color: rgba(200, 220, 190, 0.55);
-  margin-top: 10px;
-  letter-spacing: 0.3px;
-  text-align: center;
-}
-
-.geo-detected-hint strong {
-  color: rgba(212, 175, 55, 0.9);
-  font-weight: 500;
-}
-
-.geo-detected-hint a {
-  color: #d4af37;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-/* --- Price Card Structure Updates --- */
+/* --- Price Card Wrap & Typography Scaling --- */
 .plan-price-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 5.5rem;
+  min-height: 5.2rem;
   margin-bottom: 0.75rem;
   text-align: center;
   width: 100%;
 }
 
 .plan-price-label {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(212, 175, 55, 0.75);
+  color: rgba(212, 175, 55, 0.8);
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .plan-price-amount {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.8rem, 2.4vw, 2.4rem);
+  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
   font-weight: 600;
   color: #f8fcf0;
   letter-spacing: -0.5px;
   line-height: 1.15;
-  transition: opacity 250ms ease, transform 250ms ease;
+  transition: opacity 200ms ease, transform 200ms ease;
   will-change: opacity, transform;
+  white-space: nowrap;
 }
 
 .plan-price-amount.is-changing {
-  opacity: 0.2;
-  transform: translateY(-4px);
+  opacity: 0.25;
+  transform: translateY(-3px);
 }
 
 .plan-price-base {
-  font-size: 0.75rem;
-  color: rgba(212, 175, 55, 0.85);
+  font-size: 0.76rem;
+  color: rgba(212, 175, 55, 0.9);
   font-family: 'Inter', system-ui, sans-serif;
   letter-spacing: 0.3px;
-  margin-top: 4px;
+  margin-top: 5px;
   font-weight: 400;
 }
 
@@ -344,173 +103,123 @@
 .plan-badge {
   display: inline-block;
   align-self: center;
-  margin: -10px auto 14px auto;
+  margin: -8px auto 14px auto;
   padding: 4px 14px;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: rgba(212, 175, 55, 0.16);
+  border: 1px solid rgba(212, 175, 55, 0.55);
   border-radius: 20px;
-  color: #d4af37;
+  color: #f5eed6;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
 }
 
-/* --- Disclaimers --- */
-.pricing-disclaimers {
-  margin-top: 35px;
+.geo-pricing-privacy-note {
+  margin: 10px auto 0 auto;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.74rem;
+  color: rgba(220, 230, 215, 0.45);
+  letter-spacing: 0.25px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-width: 800px;
+  max-width: 480px;
+  line-height: 1.5;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* --- Pricing Disclaimers --- */
+.pricing-disclaimers {
+  margin-top: 2rem;
+  text-align: center;
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 .pricing-disclaimer-item {
-  font-size: 0.8rem;
-  color: rgba(200, 220, 190, 0.5);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: rgba(220, 230, 215, 0.55);
   line-height: 1.6;
-  margin: 0;
-  letter-spacing: 0.2px;
+  margin-bottom: 6px;
 }
 
-/* --- Accessibility & Reduced Motion --- */
-@media (prefers-reduced-motion: reduce) {
-  .plan-price-amount,
-  .geo-toggle-btn,
-  .geo-country-trigger,
-  .geo-country-menu.active {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-}
-
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-  .geo-controls-inner {
-    border-radius: 24px;
-    padding: 10px 12px;
-    width: 100%;
-  }
-
-  .geo-country-bar {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .geo-country-dropdown-wrapper {
-    flex: 1;
-    max-width: 240px;
-  }
-
-  .geo-country-trigger {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .geo-country-menu {
-    width: min(92vw, 300px);
-  }
-}
-
-@media (max-width: 480px) {
-  .geo-segmented-toggle {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .geo-toggle-btn {
-    flex: 1;
-    justify-content: center;
-    padding: 8px 12px;
-    font-size: 0.8rem;
-  }
-
-  .geo-country-bar {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .geo-country-dropdown-wrapper {
-    max-width: 100%;
-    width: 100%;
-  }
-}
-
-/* ==========================================================================
-   Custom Quote / Estimated Investment Styles
-   ========================================================================== */
-.quote-price {
-  font-size: clamp(1.6rem, 3.2vw, 2.1rem);
-  font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
-  color: var(--c-highlight, #f8fcf0);
-  font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: 0.6rem;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  word-break: normal;
-  overflow-wrap: break-word;
-}
-
-.quote-price.updating {
-  animation: quotePulse 0.4s ease;
-}
-
-@keyframes quotePulse {
-  0% {
-    transform: scale(1);
-    color: var(--c-highlight, #f8fcf0);
-  }
-  50% {
-    transform: scale(1.03);
-    color: #fff;
-  }
-  100% {
-    transform: scale(1);
-    color: var(--c-highlight, #f8fcf0);
-  }
-}
-
-.quote-price-base {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.85rem;
+#pricing-region-note {
   color: rgba(212, 175, 55, 0.85);
-  letter-spacing: 0.02em;
-  margin-top: -0.2rem;
-  margin-bottom: 1.2rem;
-  display: block;
-}
-
-.quote-approx-note {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.76rem;
-  color: rgba(240, 245, 235, 0.55);
-  font-style: italic;
-  line-height: 1.45;
-  margin-top: -0.5rem;
-  margin-bottom: 1.25rem;
-}
-
-.quote-details .quote-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  font-size: 0.92rem;
-  color: rgba(230, 240, 225, 0.8);
-}
-
-.quote-details .quote-row span:last-child {
   font-weight: 500;
-  color: #fff;
-  text-align: right;
-  white-space: nowrap;
+}
+
+/* --- Mobile Responsiveness (360px - 768px) --- */
+@media (max-width: 768px) {
+  .geo-pricing-badge-wrap {
+    margin-bottom: 2rem;
+    padding: 0 10px;
+  }
+
+  .geo-pricing-badge {
+    padding: 7px 16px;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .geo-badge-flag {
+    font-size: 1.05rem;
+  }
+
+  .geo-badge-text {
+    font-size: 0.82rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .plan-price-amount {
+    font-size: 1.85rem;
+  }
+
+  .plan-price-wrap {
+    min-height: 4.8rem;
+  }
+}
+
+/* Dedicated micro-mobile pass (360px - 400px devices) */
+@media (max-width: 400px) {
+  .geo-pricing-badge {
+    padding: 6px 14px;
+    gap: 7px;
+  }
+
+  .geo-badge-text {
+    font-size: 0.78rem;
+  }
+
+  .plan-price-amount {
+    font-size: 1.65rem;
+  }
+
+  .plan-price-base {
+    font-size: 0.72rem;
+  }
+}
+
+/* Touch feedback for buttons on mobile */
+@media (hover: none) {
+  .plan-btn:active {
+    transform: scale(0.98) !important;
+    opacity: 0.9;
+  }
+}
+
+/* Accessibility: Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .geo-pricing-badge,
+  .plan-price-amount,
+  .plan-btn,
+  .price-card {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

@@ -2077,6 +2077,15 @@
             padding-bottom: 25px;
         }
 
+        /* Accessibility: Respect Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 
     <!-- Awwwards Level Upgrades -->
@@ -2141,7 +2150,7 @@
             <img src="/crestiva-logo.svg" alt="Crestiva Web Studio Logo" class="nav-brand-img" referrerPolicy="no-referrer" />
             <span class="nav-brand-text">Crestiva</span>
         </a>
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" style="display: none;">
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links" id="nav-links">
@@ -2171,10 +2180,15 @@
             <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">4. Payment Terms</h2>
             <p style="margin-bottom: 25px;">A 25% advance payment may be required before work begins on applicable projects and services. Client payment arrangements are coordinated directly with the client and are not processed through a website payment gateway. The remaining balance is handled according to the individual client or project agreement.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Client Responsibilities</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Regional Pricing</h2>
+            <p style="margin-bottom: 20px;">Prices displayed on the Crestiva Web Studio website may vary by region and may be selected automatically using approximate country information associated with the visitor's network connection.</p>
+            <p style="margin-bottom: 20px;">Website pricing is indicative and does not by itself determine eligibility for a particular regional rate.</p>
+            <p style="margin-bottom: 25px;">Applicable pricing may be confirmed based on the client's actual business location, project requirements, and agreed project proposal before work begins.</p>
+
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">6. Client Responsibilities</h2>
             <p style="margin-bottom: 25px;">Clients are responsible for providing accurate and complete information, text copy, branding assets, images, account credentials, and approvals reasonably required for project execution in a timely manner. Delays in providing necessary materials may delay project completion.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">6. Cancellation and Refund Policy</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Cancellation and Refund Policy</h2>
             <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
                 <li style="margin-bottom: 10px;">A 25% advance payment may be required before work commences on applicable website plans and services.</li>
                 <li style="margin-bottom: 10px;">Once project work has begun, the 25% advance payment is strictly non-refundable.</li>
@@ -2183,25 +2197,25 @@
                 <li style="margin-bottom: 10px;">Any exception to this policy is solely at Crestiva Web Studio’s discretion and must be confirmed in writing.</li>
             </ul>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Revisions and Scope Changes</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">8. Revisions and Scope Changes</h2>
             <p style="margin-bottom: 25px;">Project agreements specify the number of revision rounds included with the agreed deliverable. Additional revisions, scope additions, or major design/functionality alterations requested outside the original written agreement are handled through a separate fixed additional quote agreed upon with the client before execution.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">8. Intellectual Property</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">9. Intellectual Property</h2>
             <p style="margin-bottom: 25px;">Upon receipt of full payment according to the agreed project terms, ownership of final customized website deliverables transfers to the client. This transfer excludes third-party tools, open-source libraries, pre-existing Crestiva components, framework code, and reusable internal methodologies. Unless agreed otherwise in writing, Crestiva Web Studio retains the right to display completed work within our portfolio, case studies, and marketing materials.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">9. Third-Party Services</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">10. Third-Party Services</h2>
             <p style="margin-bottom: 25px;">Client projects may incorporate third-party services, APIs, hosting providers, or platforms (such as domain registrars, external hosting environments, or communication APIs). Clients are subject to the independent terms and conditions of those external providers. Crestiva Web Studio is not liable for changes, outages, or policies enacted by third-party services.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">10. Website Availability</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">11. Website Availability</h2>
             <p style="margin-bottom: 25px;">While we design and build robust web solutions, Crestiva Web Studio cannot guarantee uninterrupted or error-free availability of websites. We are not liable for downtime, server disruptions, or network outages caused by third-party hosting companies, DNS providers, or uncontrollable external factors.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">11. Limitation of Liability</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">12. Limitation of Liability</h2>
             <p style="margin-bottom: 25px;">To the maximum extent permitted by applicable law, Crestiva Web Studio and its founders, partners, and contractors shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or business opportunities, arising from or related to the use or inability to use our deliverables, websites, or services.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">12. Changes to These Terms</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">13. Changes to These Terms</h2>
             <p style="margin-bottom: 25px;">Crestiva Web Studio reserves the right to modify or replace these Terms of Service at any time. Any changes will be posted on this page. Your continued engagement with our website or services following any updates signifies your acceptance of the revised terms.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">13. Contact Us</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">14. Contact Us</h2>
             <p style="margin-bottom: 25px;">If you have any questions, feedback, or concerns regarding these Terms of Service, please contact us at: <strong>crestivawebstudio@gmail.com</strong></p>
         </div>
     </div>
@@ -2220,15 +2234,34 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function initMobileNav() {
             const hamburger = document.getElementById('nav-hamburger');
             const navLinks = document.getElementById('nav-links');
             if(hamburger && navLinks) {
-                hamburger.addEventListener('click', () => {
+                hamburger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburger.classList.toggle('open');
                     navLinks.classList.toggle('open');
                 });
+                navLinks.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('open');
+                        navLinks.classList.remove('open');
+                    });
+                });
+                document.addEventListener('click', (e) => {
+                    if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                        hamburger.classList.remove('open');
+                        navLinks.classList.remove('open');
+                    }
+                });
             }
-        });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMobileNav);
+        } else {
+            initMobileNav();
+        }
     </script>
 
     <script>

@@ -6,6 +6,7 @@ export const ContactForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [businessCountry, setBusinessCountry] = useState("");
   const [businessType, setBusinessType] = useState("Coaching Institute");
   const [whatsapp, setWhatsapp] = useState("");
   const [websiteType, setWebsiteType] = useState("Business Website (₹8k-12k)");
@@ -18,14 +19,14 @@ export const ContactForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !businessName.trim() || !whatsapp.trim()) return;
+    if (!name.trim() || !businessName.trim() || !whatsapp.trim() || !businessCountry.trim()) return;
 
     setIsSubmitting(true);
     setSubmitError("");
     setSubmitSuccess(false);
 
     try {
-      const fullMessage = `Type: ${businessType}\nPackage: ${websiteType}\nBudget: ${budget}\nNotes: ${message || "N/A"}`;
+      const fullMessage = `Country: ${businessCountry}\nType: ${businessType}\nPackage: ${websiteType}\nBudget: ${budget}\nNotes: ${message || "N/A"}`;
       
       const response = await fetch("/api/leads", {
         method: "POST",
@@ -37,6 +38,7 @@ export const ContactForm: React.FC = () => {
           email: email.trim(),
           phone: whatsapp.trim(),
           business_name: businessName.trim(),
+          business_country: businessCountry.trim(),
           message: fullMessage
         })
       });
@@ -51,6 +53,7 @@ export const ContactForm: React.FC = () => {
       const formattedMessage = `Hi Khsuwant! I want to enquire about building a website.
 *Name:* ${name}
 *Business:* ${businessName} (${businessType})
+*Business Country:* ${businessCountry}
 *Contact WhatsApp:* ${whatsapp}
 *Selected Package:* ${websiteType}
 *Expected Budget:* ${budget}
@@ -204,6 +207,19 @@ export const ContactForm: React.FC = () => {
             </div>
           </div>
 
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Business Country *</label>
+            <input
+              type="text"
+              required
+              placeholder="e.g. United States, India, United Kingdom"
+              value={businessCountry}
+              onChange={(e) => setBusinessCountry(e.target.value)}
+              disabled={isSubmitting}
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors disabled:opacity-50"
+            />
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Business Type</label>
@@ -268,6 +284,10 @@ export const ContactForm: React.FC = () => {
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors resize-none disabled:opacity-50"
             />
           </div>
+
+          <p className="text-[11px] text-amber-200/80 text-center">
+            * Regional pricing is based on business location and is confirmed during consultation.
+          </p>
 
           <button
             type="submit"

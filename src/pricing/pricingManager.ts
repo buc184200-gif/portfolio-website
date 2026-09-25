@@ -15,17 +15,11 @@ import {
   calculatePackagePrice,
   CalculatedPrice,
 } from './currencyService';
-import {
-  detectCountry,
-  saveManualCountry,
-  getSavedCountryPreference,
-} from './geoService';
+import { detectCountry } from './geoService';
 
 export interface PricingState {
   country: CountryInfo;
   market: PricingMarket;
-  marketTab: 'IN' | 'INTL';
-  isManual: boolean;
   detectedCountryName: string;
   rates: Record<string, number>;
   prices: Record<PackageTier, CalculatedPrice>;
@@ -37,16 +31,13 @@ type StateListener = (state: PricingState) => void;
 class PricingManager {
   private state: PricingState;
   private listeners: Set<StateListener> = new Set();
-  private lastInternationalCountry: string = 'US';
 
   constructor() {
-    // Safe initial state: US International default avoids layout flash
+    // Safe initial state: US International default avoids layout flash and prevents accidental India price leak
     const initialCountry = getCountryData('US');
     this.state = {
       country: initialCountry,
       market: 'PREMIUM_INTERNATIONAL',
-      marketTab: 'INTL',
-      isManual: false,
       detectedCountryName: 'United States',
       rates: {},
       prices: this.computePrices(initialCountry, 'PREMIUM_INTERNATIONAL', {}),
@@ -72,26 +63,26 @@ class PricingManager {
     }
   }
 
-  private computePrices(
+  public computePrices(
     country: CountryInfo,
     market: PricingMarket,
     rates: Record<string, number>
   ): Record<PackageTier, CalculatedPrice> {
     const isIndia = market === 'INDIA' || country.code === 'IN';
 
-    let canonicalStarter = isIndia
+    const canonicalStarter = isIndia
       ? INDIA_FIXED_INR_PRICES.STARTER
       : market === 'PREMIUM_INTERNATIONAL'
       ? PREMIUM_INTERNATIONAL_USD_PRICES.STARTER
       : STANDARD_INTERNATIONAL_USD_PRICES.STARTER;
 
-    let canonicalGrowth = isIndia
+    const canonicalGrowth = isIndia
       ? INDIA_FIXED_INR_PRICES.GROWTH
       : market === 'PREMIUM_INTERNATIONAL'
       ? PREMIUM_INTERNATIONAL_USD_PRICES.GROWTH
       : STANDARD_INTERNATIONAL_USD_PRICES.GROWTH;
 
-    let canonicalElite = isIndia
+    const canonicalElite = isIndia
       ? INDIA_FIXED_INR_PRICES.ELITE
       : market === 'PREMIUM_INTERNATIONAL'
       ? PREMIUM_INTERNATIONAL_USD_PRICES.ELITE
@@ -126,30 +117,22 @@ class PricingManager {
   }
 
   /**
-   * Initialize Geo-Pricing System
+   * Automatically initialize Geo-Pricing System
    */
   public async init(): Promise<void> {
-    // 1. Fetch rates in background
+    // 1. Fetch exchange rates in background
     const ratesPromise = getExchangeRates();
 
-    // 2. Detect location according to strict precedence
+    // 2. Automatically detect visitor's country (via Netlify Edge / server endpoint)
     const geo = await detectCountry();
     const country = getCountryData(geo.countryCode);
     const market = getPricingMarket(country.code);
-    const marketTab: 'IN' | 'INTL' = country.code === 'IN' ? 'IN' : 'INTL';
-    const isManual = geo.source === 'manual';
-
-    if (country.code !== 'IN') {
-      this.lastInternationalCountry = country.code;
-    }
 
     const rates = await ratesPromise;
 
     this.state = {
       country,
       market,
-      marketTab,
-      isManual,
       detectedCountryName: country.name,
       rates,
       prices: this.computePrices(country, market, rates),
@@ -160,44 +143,22 @@ class PricingManager {
   }
 
   /**
-   * Set Country manually from selector or programmatically
+   * Programmatic update for detected country (used by automated tests / Edge triggers)
+   * Does NOT store to localStorage.
    */
-  public setCountry(countryCode: string, isManual: boolean = true): void {
+  public setDetectedCountry(countryCode: string): void {
     const country = getCountryData(countryCode);
     const market = getPricingMarket(country.code);
-    const marketTab: 'IN' | 'INTL' = country.code === 'IN' ? 'IN' : 'INTL';
-
-    if (isManual) {
-      saveManualCountry(country.code);
-    }
-
-    if (country.code !== 'IN') {
-      this.lastInternationalCountry = country.code;
-    }
 
     this.state = {
       ...this.state,
       country,
       market,
-      marketTab,
-      isManual,
+      detectedCountryName: country.name,
       prices: this.computePrices(country, market, this.state.rates),
     };
 
     this.notify();
-  }
-
-  /**
-   * Toggle between India and International tab
-   */
-  public setMarketTab(tab: 'IN' | 'INTL'): void {
-    if (tab === 'IN') {
-      this.setCountry('IN', true);
-    } else {
-      // Restore last selected international country or default to US
-      const targetCountry = this.lastInternationalCountry === 'IN' ? 'US' : this.lastInternationalCountry;
-      this.setCountry(targetCountry, true);
-    }
   }
 }
 

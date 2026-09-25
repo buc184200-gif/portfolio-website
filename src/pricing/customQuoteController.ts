@@ -251,7 +251,8 @@ export class CustomQuoteController {
       `*Features:* ${featuresText}\n` +
       `*Add-ons:* ${addonsText}\n` +
       `*Support Duration:* ${this.currentInputs.support}\n\n` +
-      `*Estimated Investment:* ${priceText}\n\n` +
+      `*Estimated Investment:* ${priceText}\n` +
+      `*Business Region:* ${state.country.name} (Confirmed based on business location)\n\n` +
       `Please contact me to discuss wireframes and next steps.`;
 
     const emailMsg =
@@ -262,7 +263,8 @@ export class CustomQuoteController {
       `Features: ${featuresText}\n` +
       `Add-ons: ${addonsText}\n` +
       `Support Duration: ${this.currentInputs.support}\n\n` +
-      `Estimated Investment: ${priceText}\n\n` +
+      `Estimated Investment: ${priceText}\n` +
+      `Business Region: ${state.country.name} (Confirmed based on business location)\n\n` +
       `Please contact me regarding this project.`;
 
     const waLink = document.getElementById('quoteWhatsappLink') as HTMLAnchorElement | null;

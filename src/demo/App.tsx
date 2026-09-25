@@ -8,7 +8,6 @@ import Hls from 'hls.js';
 gsap.registerPlugin(ScrollTrigger);
 
 // Lazy load non-critical sections
-const SelectedWorks = React.lazy(() => Promise.resolve({ default: memo(SelectedWorksComponent) }));
 const ParallaxGallery = React.lazy(() => Promise.resolve({ default: memo(ParallaxGalleryComponent) }));
 const Stats = React.lazy(() => Promise.resolve({ default: memo(StatsComponent) }));
 const Footer = React.lazy(() => Promise.resolve({ default: memo(FooterComponent) }));

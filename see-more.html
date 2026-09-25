@@ -141,6 +141,13 @@
             z-index: 0;
         }
 
+        @media (max-width: 768px) {
+            #three-container,
+            #three-container canvas {
+                pointer-events: none !important;
+            }
+        }
+
         .layer-blur {
             position: fixed;
             top: 0;
@@ -1648,11 +1655,14 @@
 
             /* Mobile Navigation */
             .nav {
+                position: relative;
+                z-index: 1000;
                 top: 15px;
                 padding: 12px 20px;
                 width: calc(100% - 30px);
-                left: 15px;
-                right: 15px;
+                margin: 0 15px;
+                left: auto;
+                right: auto;
                 background: rgba(10, 15, 10, 0.7);
                 backdrop-filter: blur(16px);
                 -webkit-backdrop-filter: blur(16px);
@@ -1676,7 +1686,7 @@
                 height: 20px;
                 background: transparent;
                 border: none;
-                z-index: 101;
+                z-index: 1001;
                 cursor: pointer;
             }
 
@@ -1688,29 +1698,42 @@
                 transition: 0.3s;
             }
 
+            .nav-hamburger.open span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            .nav-hamburger.open span:nth-child(2) {
+                opacity: 0;
+            }
+            .nav-hamburger.open span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+
             .nav-links {
                 position: absolute;
-                top: 60px;
+                top: calc(100% + 12px);
                 left: 0;
                 width: 100%;
-                background: rgba(15, 20, 15, 0.95);
+                background: rgba(15, 20, 15, 0.98);
                 border-radius: 20px;
-                padding: 30px 20px;
+                padding: 24px 20px;
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
                 align-items: center;
-                transform: translateY(-20px);
+                transform: translateY(-15px);
                 opacity: 0;
                 visibility: hidden;
-                transition: all 0.4s ease;
-                border: 1px solid rgba(140, 180, 120, 0.1);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+                pointer-events: none;
+                transition: all 0.3s ease;
+                border: 1px solid rgba(140, 180, 120, 0.15);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+                z-index: 1000;
             }
 
             .nav-links.open {
                 transform: translateY(0);
                 opacity: 1;
                 visibility: visible;
+                pointer-events: auto;
             }
 
             .nav-link {
@@ -2459,6 +2482,16 @@
         .faq-item.active .faq-answer {
             padding-bottom: 25px;
         }
+
+        /* Accessibility: Respect Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 
     <!-- Awwwards Level Upgrades -->
@@ -2533,7 +2566,7 @@
                         referrerPolicy="no-referrer" />
                     <span class="nav-brand-text">Crestiva</span>
                 </a>
-                <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" style="display: none;">
+                <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
                     <span></span><span></span><span></span>
                 </button>
                 <div class="nav-links" id="nav-links">
@@ -2635,42 +2668,13 @@
                 <section id="pricing" class="fade-in-section">
                     <h2 class="section-heading">Website <em>Packages</em></h2>
 
-                    <!-- Geo-Pricing Controls: Segmented Toggle (India | International) + Country Selector -->
-                    <div class="geo-pricing-controls" id="geo-pricing-controls">
-                        <div class="geo-controls-inner">
-                            <div class="geo-segmented-toggle" role="tablist" aria-label="Regional Pricing Market">
-                                <button type="button" class="geo-toggle-btn active" data-market="IN" id="toggle-india"
-                                    role="tab" aria-selected="true">
-                                    <span class="geo-flag">🇮🇳</span> <span class="geo-btn-text">India</span>
-                                </button>
-                                <button type="button" class="geo-toggle-btn" data-market="INTL" id="toggle-intl"
-                                    role="tab" aria-selected="false">
-                                    <span class="geo-flag">🌐</span> <span class="geo-btn-text">International</span>
-                                </button>
-                            </div>
-
-                            <div class="geo-country-bar" id="geo-country-bar" style="display: none;">
-                                <span class="geo-country-label">Pricing for:</span>
-                                <div class="geo-country-dropdown-wrapper">
-                                    <button type="button" class="geo-country-trigger" id="geo-country-trigger"
-                                        aria-haspopup="listbox" aria-expanded="false" aria-label="Select Country">
-                                        <span class="geo-current-flag" id="geo-current-flag">🇺🇸</span>
-                                        <span class="geo-current-name" id="geo-current-name">United States</span>
-                                        <span class="geo-dropdown-arrow">▾</span>
-                                    </button>
-
-                                    <div class="geo-country-menu" id="geo-country-menu" role="listbox" tabindex="-1">
-                                        <div class="geo-search-wrap">
-                                            <input type="text" class="geo-search-input" id="geo-country-search"
-                                                placeholder="Search country..." aria-label="Search country"
-                                                autocomplete="off" />
-                                        </div>
-                                        <div class="geo-country-list" id="geo-country-list"></div>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Automatic Country Pricing Badge (Non-Interactive) -->
+                    <div class="geo-pricing-badge-wrap" id="geo-pricing-badge-wrap">
+                        <div class="geo-pricing-badge" id="geo-pricing-badge" role="status" aria-live="polite">
+                            <span class="geo-badge-flag" id="geo-badge-flag">🌐</span>
+                            <span class="geo-badge-text" id="geo-pricing-label">Pricing for United States</span>
                         </div>
-                        <div class="geo-detected-hint" id="geo-detected-hint"></div>
+                        <p class="geo-pricing-privacy-note" id="geo-pricing-privacy-note">Pricing is shown based on your approximate country. We do not use precise GPS location.</p>
                     </div>
 
                     <div class="pricing-grid">
@@ -2678,7 +2682,7 @@
                             <div class="plan-name">Starter</div>
                             <div class="plan-price-wrap">
                                 <span class="plan-price-label">STARTING AT</span>
-                                <div class="plan-price-amount" id="price-amount-starter">₹75,000</div>
+                                <div class="plan-price-amount" id="price-amount-starter">$3,000</div>
                                 <div class="plan-price-base" id="price-base-starter" style="display: none;"></div>
                             </div>
                             <p class="plan-desc">Premium digital foundation for businesses ready to move beyond generic
@@ -2703,7 +2707,7 @@
                             <div class="plan-name">Growth</div>
                             <div class="plan-price-wrap">
                                 <span class="plan-price-label">STARTING AT</span>
-                                <div class="plan-price-amount" id="price-amount-growth">₹1,50,000</div>
+                                <div class="plan-price-amount" id="price-amount-growth">$7,000</div>
                                 <div class="plan-price-base" id="price-base-growth" style="display: none;"></div>
                             </div>
                             <p class="plan-desc">Conversion-focused website system for established businesses ready to
@@ -2729,7 +2733,7 @@
                             <div class="plan-name">Elite</div>
                             <div class="plan-price-wrap">
                                 <span class="plan-price-label">STARTING AT</span>
-                                <div class="plan-price-amount" id="price-amount-elite">₹2,50,000+</div>
+                                <div class="plan-price-amount" id="price-amount-elite">$12,500+</div>
                                 <div class="plan-price-base" id="price-base-elite" style="display: none;"></div>
                             </div>
                             <p class="plan-desc">High-end custom digital experience for businesses where
@@ -2753,6 +2757,9 @@
 
                     <!-- Commercial & Currency Disclaimers -->
                     <div class="pricing-disclaimers" id="pricing-disclaimers">
+                        <p class="pricing-disclaimer-item" id="pricing-region-note">
+                            * Regional pricing is based on business location and is confirmed during consultation.
+                        </p>
                         <p class="pricing-disclaimer-item" id="pricing-approx-note" style="display: none;">
                             * Local currency values are approximate. International project pricing is based in USD.
                         </p>
@@ -3209,6 +3216,10 @@
                                     <input type="text" id="contactPromo" placeholder="e.g. FIRSTWEB"
                                         style="text-transform: uppercase;">
                                 </div>
+                                <div class="form-group">
+                                    <label for="contactCountry">Business Country *</label>
+                                    <input type="text" id="contactCountry" required placeholder="e.g. United States, India, UK">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="contactMessage">Message *</label>
@@ -3221,6 +3232,7 @@
                                 style="width: 100%; border: none; cursor: pointer; padding: 16px;">
                                 Send Message
                             </button>
+                            <p class="pricing-consultation-note" style="font-size: 0.78rem; color: rgba(212, 175, 55, 0.75); text-align: center; margin-top: 14px; letter-spacing: 0.2px;">* Regional pricing is based on business location and is confirmed during consultation.</p>
                         </form>
 
                         <div class="contact-info-blocks">
@@ -3259,12 +3271,12 @@
         const morphCounterEl = document.getElementById('morph-counter');
         const dots = document.querySelectorAll('.dot-nav');
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth < 768 || /Mobi|Android|iPhone/i.test(navigator.userAgent));
+        const renderer = new THREE.WebGLRenderer({ antialias: !isMobileDevice, alpha: true, powerPreference: 'high-performance' });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.5 : 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 2.5;
-        renderer.powerPreference = 'high-performance';
         container.appendChild(renderer.domElement);
 
         const scene = new THREE.Scene();
@@ -3281,6 +3293,11 @@
         controls.autoRotateSpeed = 0.4;
         controls.enableZoom = false;
         controls.enablePan = false;
+        controls.enableRotate = !isMobileDevice; // Touch devices retain smooth native page scrolling
+        if (isMobileDevice) {
+            renderer.domElement.style.pointerEvents = 'none';
+            container.style.pointerEvents = 'none';
+        }
 
         // Lights
         const ambient = new THREE.AmbientLight(0xffeedd, 3);
@@ -3307,7 +3324,7 @@
         scene.add(bottomLight);
 
         // === SHAPE DEFINITIONS ===
-        const PARTICLE_COUNT = 25000;
+        const PARTICLE_COUNT = isMobileDevice ? 8000 : 25000;
         const shapes = [];
         const shapeNames = ['Dodeca', 'Heart', 'Diamond', 'Helix'];
 
@@ -3813,76 +3830,79 @@
 
 
 
-            // 3D Premium Pricing Cards Logic
-            const priceCards = document.querySelectorAll('.price-card');
+            // 3D Premium Pricing Cards Logic - Enabled only on desktop devices with fine pointer
+            const canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            if (canHover) {
+                const priceCards = document.querySelectorAll('.price-card');
 
-            priceCards.forEach(card => {
-                let rafId;
-                let currentRotateX = 0;
-                let currentRotateY = 0;
-                let targetRotateX = 0;
-                let targetRotateY = 0;
-                let isHovering = false;
+                priceCards.forEach(card => {
+                    let rafId;
+                    let currentRotateX = 0;
+                    let currentRotateY = 0;
+                    let targetRotateX = 0;
+                    let targetRotateY = 0;
+                    let isHovering = false;
 
-                const lerp = (start, end, factor) => start + (end - start) * factor;
+                    const lerp = (start, end, factor) => start + (end - start) * factor;
 
-                const updateTransform = () => {
-                    if (isHovering) {
-                        currentRotateX = lerp(currentRotateX, targetRotateX, 0.1);
-                        currentRotateY = lerp(currentRotateY, targetRotateY, 0.1);
+                    const updateTransform = () => {
+                        if (isHovering) {
+                            currentRotateX = lerp(currentRotateX, targetRotateX, 0.1);
+                            currentRotateY = lerp(currentRotateY, targetRotateY, 0.1);
 
-                        const baseScale = card.classList.contains('featured') ? 1.05 : 1;
+                            const baseScale = card.classList.contains('featured') ? 1.05 : 1;
 
-                        card.style.transform = `translateY(-10px) scale(${baseScale}) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+                            card.style.transform = `translateY(-10px) scale(${baseScale}) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
 
-                        rafId = requestAnimationFrame(updateTransform);
-                    }
-                };
+                            rafId = requestAnimationFrame(updateTransform);
+                        }
+                    };
 
-                card.addEventListener('mouseenter', () => {
-                    isHovering = true;
-                    // Disable CSS transition for transform so rAF is smooth
-                    card.style.transition = 'box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.6s ease';
-                    if (!rafId) {
-                        rafId = requestAnimationFrame(updateTransform);
-                    }
+                    card.addEventListener('mouseenter', () => {
+                        isHovering = true;
+                        // Disable CSS transition for transform so rAF is smooth
+                        card.style.transition = 'box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.6s ease';
+                        if (!rafId) {
+                            rafId = requestAnimationFrame(updateTransform);
+                        }
+                    });
+
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        // For radial gradient highlight
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+
+                        // Rotation logic
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        const percentX = (x - centerX) / centerX; // -1 to 1
+                        const percentY = (y - centerY) / centerY; // -1 to 1
+
+                        targetRotateY = percentX * 8;
+                        targetRotateX = percentY * -8;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        isHovering = false;
+                        cancelAnimationFrame(rafId);
+                        rafId = null;
+
+                        currentRotateX = 0;
+                        currentRotateY = 0;
+                        targetRotateX = 0;
+                        targetRotateY = 0;
+
+                        // Re-enable CSS transition for smooth return
+                        card.style.transition = '';
+                        card.style.transform = '';
+                    });
                 });
-
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    // For radial gradient highlight
-                    card.style.setProperty('--mouse-x', `${x}px`);
-                    card.style.setProperty('--mouse-y', `${y}px`);
-
-                    // Rotation logic
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const percentX = (x - centerX) / centerX; // -1 to 1
-                    const percentY = (y - centerY) / centerY; // -1 to 1
-
-                    targetRotateY = percentX * 8;
-                    targetRotateX = percentY * -8;
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    isHovering = false;
-                    cancelAnimationFrame(rafId);
-                    rafId = null;
-
-                    currentRotateX = 0;
-                    currentRotateY = 0;
-                    targetRotateX = 0;
-                    targetRotateY = 0;
-
-                    // Re-enable CSS transition for smooth return
-                    card.style.transition = '';
-                    card.style.transform = '';
-                });
-            });
+            }
 
             // Calculator Logic
             const calcType = document.getElementById('calc-type');
@@ -4038,253 +4058,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script type="module" src="/src/ai-concierge.js"></script>
 
-    
 
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-
-                        // Handle staggered animation for pricing cards if any exist within
-                        const cards = entry.target.querySelectorAll('.price-card');
-                        cards.forEach((card, index) => {
-                            setTimeout(() => {
-                                card.classList.add('animate-in');
-                            }, index * 150); // Stagger by 150ms
-                        });
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-in-section').forEach(el => {
-                observer.observe(el);
-            });
-
-
-
-            // 3D Premium Pricing Cards Logic
-            const priceCards = document.querySelectorAll('.price-card');
-
-            priceCards.forEach(card => {
-                let rafId;
-                let currentRotateX = 0;
-                let currentRotateY = 0;
-                let targetRotateX = 0;
-                let targetRotateY = 0;
-                let isHovering = false;
-
-                const lerp = (start, end, factor) => start + (end - start) * factor;
-
-                const updateTransform = () => {
-                    if (isHovering) {
-                        currentRotateX = lerp(currentRotateX, targetRotateX, 0.1);
-                        currentRotateY = lerp(currentRotateY, targetRotateY, 0.1);
-
-                        const baseScale = card.classList.contains('featured') ? 1.05 : 1;
-
-                        card.style.transform = `translateY(-10px) scale(${baseScale}) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
-
-                        rafId = requestAnimationFrame(updateTransform);
-                    }
-                };
-
-                card.addEventListener('mouseenter', () => {
-                    isHovering = true;
-                    // Disable CSS transition for transform so rAF is smooth
-                    card.style.transition = 'box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.6s ease';
-                    if (!rafId) {
-                        rafId = requestAnimationFrame(updateTransform);
-                    }
-                });
-
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    // For radial gradient highlight
-                    card.style.setProperty('--mouse-x', `${x}px`);
-                    card.style.setProperty('--mouse-y', `${y}px`);
-
-                    // Rotation logic
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const percentX = (x - centerX) / centerX; // -1 to 1
-                    const percentY = (y - centerY) / centerY; // -1 to 1
-
-                    targetRotateY = percentX * 8;
-                    targetRotateX = percentY * -8;
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    isHovering = false;
-                    cancelAnimationFrame(rafId);
-                    rafId = null;
-
-                    currentRotateX = 0;
-                    currentRotateY = 0;
-                    targetRotateX = 0;
-                    targetRotateY = 0;
-
-                    // Re-enable CSS transition for smooth return
-                    card.style.transition = '';
-                    card.style.transform = '';
-                });
-            });
-
-            // Calculator Logic
-            const calcType = document.getElementById('calc-type');
-            const calcPages = document.getElementById('calc-pages');
-            const pageCountVal = document.getElementById('page-count-val');
-            const calcAddons = document.querySelectorAll('.calc-addon');
-            const calcTotal = document.getElementById('calc-total');
-            const contactBtn = document.getElementById('calc-contact-btn');
-
-            if (calcType && calcPages && calcTotal && contactBtn && pageCountVal) {
-                function formatCurrency(num) {
-                    return '₹' + num.toLocaleString('en-IN');
-                }
-
-                function updateCalculator() {
-                    let total = parseInt(calcType.value);
-
-                    const pages = parseInt(calcPages.value);
-                    pageCountVal.textContent = pages;
-                    total += (pages * 1000);
-
-                    let selectedAddons = [];
-                    calcAddons.forEach(addon => {
-                        if (addon.checked) {
-                            total += parseInt(addon.value);
-                            selectedAddons.push(addon.parentElement.textContent.trim());
-                        }
-                    });
-
-                    // Range simulation for bespoke pricing
-                    const upperTotal = Math.floor(total * 1.25);
-                    calcTotal.textContent = formatCurrency(total) + (total > 44000 ? '+' : ' - ' + formatCurrency(upperTotal));
-
-                    // Add pop effect
-                    calcTotal.classList.remove('pop');
-                    void calcTotal.offsetWidth; // trigger reflow
-                    calcTotal.classList.add('pop');
-                    setTimeout(() => calcTotal.classList.remove('pop'), 300);
-
-                    // Update WhatsApp Message
-                    const baseText = calcType.options[calcType.selectedIndex].text;
-                    let msg = `Hello Crestiva Web Studio! I am interested in a website project. 
-
-*Base Plan*: ${baseText} 
-*Extra Pages*: ${pages}`;
-                    if (selectedAddons.length > 0) {
-                        msg += `
-*Add-ons*: ${selectedAddons.join(', ')}`;
-                    }
-                    msg += `
-*Estimated Budget*: ${calcTotal.textContent}`;
-
-                    contactBtn.href = 'https://wa.me/917037311050?text=' + encodeURIComponent(msg);
-                }
-
-                calcType.addEventListener('change', updateCalculator);
-                calcPages.addEventListener('input', updateCalculator);
-                calcAddons.forEach(a => a.addEventListener('change', updateCalculator));
-
-                updateCalculator();
-            }
-        });
-    </script>
-
-
-
-
-    <a href="/demo.html" class="cinematic-demo-btn is-active" id="demoBtn">
-        <div class="demo-shockwave fire"></div>
-        <div class="demo-glow fire"></div>
-        <div class="btn-inner" id="demoBtnInner">
-            <span class="demo-text">See Demo</span>
-        </div>
-    </a>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('demoBtn');
-            const inner = document.getElementById('demoBtnInner');
-            const shockwave = btn.querySelector('.demo-shockwave');
-            const glow = btn.querySelector('.demo-glow');
-
-            // 1. Magnetic Hover Effect
-            const magneticStrength = 25; // max px
-            const hoverRadius = 120;
-
-            document.addEventListener('mousemove', (e) => {
-                if (!btn.classList.contains('is-active')) return;
-
-                // Don't apply magnetism if hovering directly (handled by CSS scale)
-                if (btn.matches(':hover')) {
-                    btn.style.transform = '';
-                    return;
-                }
-
-                const rect = btn.getBoundingClientRect();
-                const btnX = rect.left + rect.width / 2;
-                const btnY = rect.top + rect.height / 2;
-
-                const distX = e.clientX - btnX;
-                const distY = e.clientY - btnY;
-                const distance = Math.sqrt(distX * distX + distY * distY);
-
-                if (distance < hoverRadius) {
-                    const pullX = (distX / hoverRadius) * magneticStrength;
-                    const pullY = (distY / hoverRadius) * magneticStrength;
-                    btn.style.transform = `translate(${pullX}px, ${pullY}px)`;
-                } else {
-                    btn.style.transform = '';
-                }
-            });
-
-            // 2. Click ripple & transition
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                // Create ripple inside inner container
-                const rect = inner.getBoundingClientRect();
-                const circle = document.createElement('span');
-                circle.classList.add('click-ripple');
-
-                const diameter = Math.max(rect.width, rect.height);
-                circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${e.clientX - rect.left - diameter / 2}px`;
-                circle.style.top = `${e.clientY - rect.top - diameter / 2}px`;
-
-                inner.appendChild(circle);
-
-                // Re-trigger glow burst
-                glow.classList.remove('fire');
-                void glow.offsetWidth; // reflow
-                glow.classList.add('fire');
-
-                // Smooth cinematic transition
-                document.body.style.transition = 'opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)';
-                document.body.style.opacity = '0';
-
-                setTimeout(() => {
-                    window.location.href = '/demo.html';
-
-                    // Recover state when user comes back
-                    setTimeout(() => {
-                        document.body.style.opacity = '1';
-                        circle.remove();
-                    }, 800);
-                }, 800);
-            });
-        });
-    </script>
 
     <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -4332,16 +4106,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const name = document.getElementById('contactName').value.trim();
             const email = document.getElementById('contactEmail').value.trim();
             const phone = document.getElementById('contactPhone').value.trim();
+            const country = (document.getElementById('contactCountry')?.value || '').trim();
             const business_name = document.getElementById('contactBusiness').value.trim();
             let message = document.getElementById('contactMessage').value.trim();
             const promo = document.getElementById('contactPromo').value.trim();
+
+            if (country) {
+                message = `[Business Country: ${country}]\n\n` + message;
+            }
 
             if (promo) {
                 message += `\n\n[Promo Code Entered: ${promo.toUpperCase()}]`;
             }
 
-            if (!name || !email || !phone || !message) {
-                errorMsg.textContent = 'Please fill out all required fields.';
+            if (!name || !email || !phone || !country || !message) {
+                errorMsg.textContent = 'Please fill out all required fields including Business Country.';
                 errorMsg.style.display = 'block';
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';
@@ -4411,7 +4190,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     <script>
+    function initMobileNav() {
+        // Mobile Navigation Hamburger Logic
+        const hamburger = document.getElementById('nav-hamburger');
+        const navLinks = document.getElementById('nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburger.classList.toggle('open');
+                navLinks.classList.toggle('open');
+            });
+
+            // Close mobile menu when any nav link is tapped
+            navLinks.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    navLinks.classList.remove('open');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('open');
+                    navLinks.classList.remove('open');
+                }
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileNav);
+    } else {
+        initMobileNav();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
@@ -4420,15 +4235,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Close all other items
                 faqItems.forEach(otherItem => {
-        otherItem.classList.remove('active');
-    const otherAnswer = otherItem.querySelector('.faq-answer');
-    otherAnswer.style.maxHeight = null;
+                    otherItem.classList.remove('active');
+                    const otherAnswer = otherItem.querySelector('.faq-answer');
+                    otherAnswer.style.maxHeight = null;
                 });
 
-    if (!isActive) {
-        item.classList.add('active');
-    const answer = item.querySelector('.faq-answer');
-    answer.style.maxHeight = answer.scrollHeight + 40 + "px"; // 40px for padding
+                if (!isActive) {
+                    item.classList.add('active');
+                    const answer = item.querySelector('.faq-answer');
+                    answer.style.maxHeight = answer.scrollHeight + 40 + "px"; // 40px for padding
                 }
             });
         });

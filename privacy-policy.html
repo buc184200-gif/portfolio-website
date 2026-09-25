@@ -2077,6 +2077,15 @@
             padding-bottom: 25px;
         }
 
+        /* Accessibility: Respect Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 
     <!-- Awwwards Level Upgrades -->
@@ -2141,7 +2150,7 @@
             <img src="/crestiva-logo.svg" alt="Crestiva Web Studio Logo" class="nav-brand-img" referrerPolicy="no-referrer" />
             <span class="nav-brand-text">Crestiva</span>
         </a>
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" style="display: none;">
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links" id="nav-links">
@@ -2166,56 +2175,69 @@
             <p style="margin-bottom: 25px;">We collect information that you voluntarily submit to us when inquiring about our services or requesting project discussions. This information may include:</p>
             <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
                 <li style="margin-bottom: 10px;">Your name and contact details (such as email address and phone number).</li>
-                <li style="margin-bottom: 10px;">Business name, website URL, and current online presence details.</li>
+                <li style="margin-bottom: 10px;">Business name, business country, website URL, and current online presence details.</li>
                 <li style="margin-bottom: 10px;">Project specifications, design preferences, and estimated budget selections.</li>
-                <li style="margin-bottom: 10px;">Country-level location information: We may process country-level IP-derived location data to personalize regional package pricing and display approximate local currency values. We do not collect or store precise GPS coordinates, physical street addresses, or raw visitor IP addresses.</li>
+                <li style="margin-bottom: 10px;">Country-level location information: Approximate country codes (e.g. IN, US, GB, AE, AU) provided through server/edge network context strictly to display regional pricing. We do not request or use browser GPS coordinates or physical street addresses.</li>
                 <li style="margin-bottom: 10px;">Any other details or communications you provide through our contact forms, email, or direct messaging channels.</li>
             </ul>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">3. How We Use Information</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">3. Approximate Location and Regional Pricing</h2>
+            <p style="margin-bottom: 20px;">To display region-appropriate pricing, Crestiva Web Studio may use approximate country-level information provided by our hosting infrastructure based on network request information such as an IP-derived country code.</p>
+            <p style="margin-bottom: 20px;">We do not request or use precise GPS location for regional pricing. Visitors are never prompted for device location access permissions to view pricing on our website.</p>
+            <p style="margin-bottom: 20px;">Crestiva uses this country-level information only to determine the pricing region shown on the website and does not intentionally store the visitor's raw IP address for this pricing purpose.</p>
+            <p style="margin-bottom: 20px;">Our hosting provider may process technical request information, including IP addresses, as necessary to deliver, secure, and operate the website infrastructure.</p>
+            <p style="margin-bottom: 25px;">Regional pricing displayed on the website is indicative and may be confirmed against the client's actual business location during consultation.</p>
+
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">4. How We Use Information</h2>
             <p style="margin-bottom: 25px;">We use collected information solely for genuine business purposes, including:</p>
             <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
                 <li style="margin-bottom: 10px;">Responding promptly to your inquiries and consultation requests.</li>
                 <li style="margin-bottom: 10px;">Discussing, estimating, and scoping website design and development projects.</li>
                 <li style="margin-bottom: 10px;">Delivering, developing, and optimizing approved client deliverables.</li>
-                <li style="margin-bottom: 10px;">Sending project-related communications, invoices, updates, and deliverables.</li>
+                <li style="margin-bottom: 10px;">Sending project-related communications, proposals, updates, and deliverables.</li>
                 <li style="margin-bottom: 10px;">Improving our studio communication, client service delivery, and website experience.</li>
             </ul>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">4. Contact Forms and Communications</h2>
-            <p style="margin-bottom: 25px;">When you submit an inquiry through our website contact form or initiate contact via email or WhatsApp, your submitted information is used exclusively to respond to your request, coordinate project discussions, and manage client communication. We do not use your contact information for unsolicited marketing or sell it to mailing lists.</p>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Contact Forms and Communications</h2>
+            <p style="margin-bottom: 25px;">When you submit an inquiry through our website contact form or initiate contact via email or WhatsApp, your submitted information (name, email, phone, business name, business country, and project message) is used exclusively to respond to your request, coordinate project discussions, and manage client communication. We do not use your contact information for unsolicited marketing or sell it to mailing lists.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">5. Payments</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">6. Payments</h2>
             <p style="margin-bottom: 25px;">Crestiva Web Studio may require a 25% advance before work begins on applicable services and projects. Payments are arranged directly with the client and are not processed through a website payment gateway. There is no live payment gateway or customer checkout on this website, and we do not collect or store credit card numbers, banking credentials, or payment account secrets through the site.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">6. Third-Party Services</h2>
-            <p style="margin-bottom: 25px;">We only reference third-party tools and platforms that are directly relevant to our website's delivery and communication. When you click external links (such as WhatsApp for direct communication or Instagram for our portfolio updates), their respective privacy policies apply. We do not integrate invasive third-party ad networks or marketing trackers.</p>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Third-Party Services</h2>
+            <p style="margin-bottom: 25px;">We only engage trusted infrastructure and communication platforms necessary to deliver our website and manage client discussions:</p>
+            <ul style="margin-bottom: 25px; padding-left: 20px; list-style-type: disc; line-height: 1.8;">
+                <li style="margin-bottom: 10px;"><strong>Netlify:</strong> Provides cloud hosting, edge function routing, and approximate country code detection for regional pricing.</li>
+                <li style="margin-bottom: 10px;"><strong>Supabase:</strong> Provides secure database storage for contact form inquiries submitted voluntarily by prospective clients.</li>
+                <li style="margin-bottom: 10px;"><strong>WhatsApp (Meta):</strong> Provides direct messaging when visitors choose to initiate project discussions via our WhatsApp links.</li>
+            </ul>
+            <p style="margin-bottom: 25px;">We do not integrate invasive third-party ad networks, tracking pixels, or cross-site behavioral analytics.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">7. Cookies and Tracking</h2>
-            <p style="margin-bottom: 25px;">We do not use invasive third-party advertising cookies, behavioral tracker scripts, or cross-site tracking mechanisms. Any standard technical cookies or server logging used are strictly for basic website functionality, reliability, and security.</p>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">8. Cookies and Tracking</h2>
+            <p style="margin-bottom: 25px;">We do not use advertising cookies, third-party profiling scripts, or behavioral tracking mechanisms. Any standard technical cookies or server logging used are strictly for basic website delivery, reliability, and security.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">8. Local Storage / Session Data</h2>
-            <p style="margin-bottom: 25px;">Our website may use standard browser local storage or session storage solely to temporarily preserve your interactive UI preferences (such as regional pricing country selections and custom website builder configurations) on your local device. This data remains on your device and is not used for external advertising or tracking.</p>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">9. Local Storage / Session Data</h2>
+            <p style="margin-bottom: 25px;">Our website may use standard browser local storage or session storage solely to temporarily preserve interactive UI states (such as custom quote calculator inputs) on your local device. We do not store manual pricing overrides or visitor tracking profiles in browser storage.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">9. Data Sharing</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">10. Data Sharing</h2>
             <p style="margin-bottom: 25px;">Crestiva Web Studio does not sell, rent, trade, or lease your personal information to third parties. Information may only be shared where reasonably necessary to provide agreed client services, operate essential communications, or fulfill legal obligations.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">10. Data Security</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">11. Data Security</h2>
             <p style="margin-bottom: 25px;">We implement reasonable technical and organizational precautions to protect your personal information against unauthorized access, alteration, or disclosure. However, no method of transmission over the Internet or electronic storage is completely infallible, and absolute security cannot be guaranteed.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">11. Data Retention</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">12. Data Retention</h2>
             <p style="margin-bottom: 25px;">We retain submitted contact and project information only for as long as reasonably necessary to fulfill inquiry responses, deliver ongoing client projects, maintain administrative records, and satisfy legal or contractual requirements.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">12. User Rights</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">13. User Rights</h2>
             <p style="margin-bottom: 25px;">You have the right to request access to, correction of, or deletion of the personal information you have provided to us. To submit a request or inquire about your data, please contact us directly using the contact details below.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">13. Children's Privacy</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">14. Children's Privacy</h2>
             <p style="margin-bottom: 25px;">Our website and professional services are intended for businesses and adults, and are not directed to individuals under the age of 18. We do not knowingly collect personal information from children.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">14. Changes to This Privacy Policy</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">15. Changes to This Privacy Policy</h2>
             <p style="margin-bottom: 25px;">Crestiva Web Studio reserves the right to update or revise this Privacy Policy periodically. Any modifications will be posted directly on this page with an updated revision date. Your continued use of our website or services signifies your acceptance of any updates.</p>
 
-            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">15. Contact Us</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 2rem; color: var(--c-highlight); margin: 40px 0 20px;">16. Contact Us</h2>
             <p style="margin-bottom: 25px;">If you have any questions, concerns, or requests regarding this Privacy Policy or how your data is handled, please contact us at: <strong>crestivawebstudio@gmail.com</strong></p>
         </div>
     </div>
@@ -2234,15 +2256,34 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function initMobileNav() {
             const hamburger = document.getElementById('nav-hamburger');
             const navLinks = document.getElementById('nav-links');
             if(hamburger && navLinks) {
-                hamburger.addEventListener('click', () => {
+                hamburger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburger.classList.toggle('open');
                     navLinks.classList.toggle('open');
                 });
+                navLinks.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('open');
+                        navLinks.classList.remove('open');
+                    });
+                });
+                document.addEventListener('click', (e) => {
+                    if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                        hamburger.classList.remove('open');
+                        navLinks.classList.remove('open');
+                    }
+                });
             }
-        });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMobileNav);
+        } else {
+            initMobileNav();
+        }
     </script>
 
     <script>

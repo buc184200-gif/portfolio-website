@@ -95,6 +95,11 @@ app.get("/api/health", (req, res) => {
 
 // 4. Country Detection Endpoint for Regional Pricing
 app.get("/api/geo/country", async (req, res) => {
+  res.set({
+    "Cache-Control": "private, no-cache, no-store, must-revalidate",
+    "Pragma": "no-cache",
+    "Expires": "0",
+  });
   try {
     // Development-only country simulation
     if (process.env.NODE_ENV !== "production") {
@@ -102,6 +107,20 @@ app.get("/api/geo/country", async (req, res) => {
       if (sim && typeof sim === "string" && /^[a-zA-Z]{2}$/.test(sim.trim())) {
         return res.json({ countryCode: sim.trim().toUpperCase(), simulated: true });
       }
+    }
+
+    // Netlify geo header
+    if (req.headers["x-nf-geo"]) {
+      try {
+        let raw = req.headers["x-nf-geo"] as string;
+        if (!raw.startsWith("{")) {
+          raw = Buffer.from(raw, "base64").toString("utf-8");
+        }
+        const parsed = JSON.parse(raw);
+        if (parsed?.country?.code && /^[a-zA-Z]{2}$/.test(parsed.country.code)) {
+          return res.json({ countryCode: parsed.country.code.toUpperCase(), source: "netlify_header" });
+        }
+      } catch {}
     }
 
     // Deployment infrastructure country headers (Cloudflare, Vercel, Netlify, Reverse Proxies)
@@ -308,6 +327,17 @@ app.post("/api/nvidia-agent", async (req, res) => {
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
     console.log("Running in DEVELOPMENT mode with Vite Middleware.");
+    
+    app.get("/see-more", (req, res) => {
+      res.sendFile(path.join(process.cwd(), "see-more.html"));
+    });
+    app.get("/privacy-policy", (req, res) => {
+      res.sendFile(path.join(process.cwd(), "privacy-policy.html"));
+    });
+    app.get("/terms", (req, res) => {
+      res.sendFile(path.join(process.cwd(), "terms.html"));
+    });
+
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
